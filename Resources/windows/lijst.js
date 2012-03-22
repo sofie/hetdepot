@@ -4,14 +4,19 @@
 		var mainWin = Titanium.UI.createWindow(commonStyle.windowNoLayout);
 		
 		var lblTitle = Titanium.UI.createLabel({
-			text : 'Evenementen',
+			text : 'Concerten',
 			color : '#fff',
-			font : {
-				fontSize : 24,
-				fontWeight:'bold'
-			}
+			font : FontLubalinTitle
 		});
 		mainWin.setTitleControl(lblTitle);
+		
+		var searchButton = Titanium.UI.createButton(commonStyle.searchButton);
+		searchButton.addEventListener('click', function() {
+			Uit.navGroup.open(Uit.ui.createSearchWindow({
+				animated : false
+			}));
+		});
+		mainWin.rightNavButton = searchButton;
 		//
 		// Evenementen
 		//
@@ -31,12 +36,13 @@
 						Titanium.API.info('Geen links');
 						var lblNoLinks = Titanium.UI.createLabel({
 							top : 70,
-							text : 'Er zijn nog geen links. Maak 1 aan.',
-							color : '#AC3724',
+							text : 'Er zijn nog geen concerten.',
+							color : '#D64027',
 							left : 30,
 							right : 30,
 							width : 300,
-							height : 'auto'
+							height : 'auto',
+							font:FontNormal
 						});
 						mainWindow.add(lblNoLinks);
 
@@ -46,13 +52,16 @@
 							Titanium.App.evNaam1 = list[i].evNaam;
 
 							var evenementNaam = list[i].evNaam;
+							var evenementDatum = list[i].evDate;
 							var evenementLocatie = list[i].evLocatie;
 							var evenementImg = list[i].evImage;
 
 							var row = Ti.UI.createTableViewRow({
-								height : 'auto'
+								height : 'auto',
+								rightImage : 'img/detail.png'
 							});
-
+							
+							//Image croppen in vierkant
 							var baseImage = Ti.UI.createImageView({
 								image : evenementImg,
 								width : 200,
@@ -83,26 +92,32 @@
 								left : 100,
 								top : 8,
 								width : 'auto',
-								height : 'auto',
+								height : 50,
 								textAlign : 'left',
-								font : {
-									fontSize : 16,
-									fontWeight : 'bold'
-								}
+								font : FontTitleSmall
 							});
-							var loc = Ti.UI.createLabel({
-								text : evenementLocatie,
+							var date = Ti.UI.createLabel({
+								text : evenementDatum,
 								bottom : 8,
 								left : 100,
 								width : 'auto',
 								height : 'auto',
 								textAlign : 'left',
-								font : {
-									fontSize : 13
-								}
+								font : FontSmall
+							});
+							
+							var loc = Ti.UI.createLabel({
+								text :'/ '+evenementLocatie,
+								bottom : 8,
+								left : 173,
+								width : 140,
+								height : 18,
+								textAlign : 'left',
+								font : FontSmall
 							});
 							row.add(imageView);
 							row.add(name);
+							row.add(date);
 							row.add(loc);
 
 							row.className = 'item' + i;
@@ -114,17 +129,18 @@
 							left : 0,
 							right : 5,
 							bottom : 0,
-							data : data
+							data : data,
+							backgroundImage:'/img/bg.png'
 						});
 						mainWin.add(listLinks);
 
 						//Open detail van window
 
 						listLinks.addEventListener('click', function(e) {
+							Titanium.App.Properties.setString('row',e.index);
 							Titanium.App.selectedIndex= e.index;
-							Titanium.API.info('Index from lijst:'+Titanium.App.selectedIndex);
 							
-							Uit.navGroup.open(Uit.ui.createDetailWindow());
+							Uit.navGroup.open(Uit.ui.createDetailWindow()/*,{animated:false}*/);
 							
 						});
 					}

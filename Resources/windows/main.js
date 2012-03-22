@@ -2,11 +2,15 @@
 	var navWindow;
 
 	Uit.ui.createApplicationMainWin = function() {
-		var mainWindow = Ti.UI.createWindow({
-			fullscreen : false,
-			title:'UiTinVlaanderen'
-
+		var mainWindow = Ti.UI.createWindow(commonStyle.windowNoLayout);
+		
+		var lblTitle = Titanium.UI.createLabel({
+			text : 'UiTinVlaanderen',
+			color : '#fff',
+			font : FontLubalinTitle
 		});
+		mainWindow.setTitleControl(lblTitle);
+		
 		navWindow = Ti.UI.createWindow();
 		Uit.navGroup = Ti.UI.iPhone.createNavigationGroup({
 			window : mainWindow
@@ -46,10 +50,8 @@
 					animated : false
 				});
 
-				var backButton = Titanium.UI.createButton({
-					title:'Back',
-					
-				});
+				var backButton = Titanium.UI.createButton(commonStyle.backButton);
+				
 				backButton.addEventListener('click', function() {
 					Uit.navGroup.close(iconWin, {
 						animated : false

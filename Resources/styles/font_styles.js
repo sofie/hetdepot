@@ -1,6 +1,11 @@
-var FontNormal = { fontSize : 15, fontFamily : 'Bree serif' };
-var FontSmall = { fontSize : 12, fontFamily : 'Bree serif' };
+var FontNormal = { fontSize : 13, fontFamily : 'Verdana' };
+var FontSmall = { fontSize : 11, fontFamily : 'Verdana' };
 
-var FontTitle = { fontFamily : 'Bree serif', fontSize: 24 };
+var FontLubalin = { fontSize : 14, fontFamily : 'LubalinGraph LT' };
+var FontLubalinTitle = { fontSize : 22, fontFamily : 'LubalinGraph LT' };
 
-var FontTextField = {	fontSize : 13, fontFamily : 'Bree Serif'};
+var FontTitle = { fontFamily : 'Impact', fontSize: 21 };
+var FontTitleSmall = { fontFamily : 'Impact', fontSize:18 };
+
+
+var FontTextField = {	fontSize : 13, fontFamily : 'Verdana'};

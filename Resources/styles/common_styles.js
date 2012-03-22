@@ -9,18 +9,23 @@ exports.commonStyles = function() {
 		windowNoLayout : {
 			width : '100%',
 			height : '100%',
-			//barImage : 'img/header.png'
+			barImage : 'img/header.png'
 		},
 
 		backButton : {
 			backgroundImage : "img/btn_back.png",
-			width : 57,
-			height : 35
+			width : 50,
+			height : 33
 		},
-		addButton : {
-			backgroundImage : "img/btn_add.png",
-			width : 37,
-			height : 35
+		searchButton : {
+			backgroundImage : "img/btn_search.png",
+			width : 50,
+			height : 33
+		},
+		zoekenButton : {
+			backgroundImage : "img/btn_zoeken.png",
+			width : 100,
+			height : 33
 		}
 	};
 };

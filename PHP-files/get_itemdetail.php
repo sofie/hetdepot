@@ -4,7 +4,7 @@ $conn = @new mysqli('localhost', 'root', 'root', 'uitinvlaanderen');
 
 if (!$conn -> connect_error) {
 	
-	$eId = $_POST['eId'] + 1;
+	$eId = $_POST['eId'];
 	
 	$qry = "SELECT eName, eImage, eDescription, eDateStart, eStartHour, ePrice
 			FROM tblEvenement

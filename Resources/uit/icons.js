@@ -6,17 +6,17 @@
 		height: iconHeight,
 		width: iconWidth,
 		list : [{
-			image : 'img/btn_ontdek.png',
+			image : 'img/icon_ontdek.png',
 			func : Uit.ui.createLijstWindow
 		}, {
-			image : 'img/btn_map.png',
+			image : 'img/icon_map.png',
 			func : Uit.ui.createMapWindow
 			
 		}, {
-			image : 'img/btn_star.png',
+			image : 'img/icon_star.png',
 			func : Uit.ui.createAanbevolenWindow
 		}, {
-			image : 'img/btn_settings.png',
+			image : 'img/icon_settings.png',
 			func : Uit.ui.createSettingsWindow
 		}]
 	};

@@ -56,7 +56,8 @@
 	<string>UIStatusBarStyleDefault</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>/fonts/Arial Narrow Bold.ttf</string>
+		<string>/fonts/itc-lubalin-graph-lt-demi.ttf</string>
+		<string>/fonts/Impact.ttf</string>
 	</array>
 </dict>
 </plist>
