@@ -2,14 +2,14 @@
 
 	Uit.ui.createLijstWindow = function() {
 		var mainWin = Titanium.UI.createWindow(commonStyle.windowNoLayout);
-		
+
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Concerten',
 			color : '#fff',
 			font : FontLubalinTitle
 		});
 		mainWin.setTitleControl(lblTitle);
-		
+
 		var searchButton = Titanium.UI.createButton(commonStyle.searchButton);
 		searchButton.addEventListener('click', function() {
 			Uit.navGroup.open(Uit.ui.createSearchWindow({
@@ -42,7 +42,7 @@
 							right : 30,
 							width : 300,
 							height : 'auto',
-							font:FontNormal
+							font : FontNormal
 						});
 						mainWindow.add(lblNoLinks);
 
@@ -50,7 +50,7 @@
 
 						for(var i = 0; i < list.length; i++) {
 							Titanium.App.evNaam1 = list[i].evNaam;
-
+							var evenementId = list[i].evId;
 							var evenementNaam = list[i].evNaam;
 							var evenementDatum = list[i].evDate;
 							var evenementLocatie = list[i].evLocatie;
@@ -60,17 +60,17 @@
 								height : 'auto',
 								rightImage : 'img/detail.png'
 							});
-							
+
 							//Image croppen in vierkant
 							var baseImage = Ti.UI.createImageView({
 								image : evenementImg,
 								width : 200,
-								height : 200
+								height : 'auto'
 							});
 
 							var cropView = Titanium.UI.createView({
 								width : 70,
-								height : 70,
+								height : 50,
 								backgroundColor : '#000'
 							});
 
@@ -105,9 +105,9 @@
 								textAlign : 'left',
 								font : FontSmall
 							});
-							
+
 							var loc = Ti.UI.createLabel({
-								text :'/ '+evenementLocatie,
+								text : '/ ' + evenementLocatie,
 								bottom : 8,
 								left : 173,
 								width : 140,
@@ -130,18 +130,17 @@
 							right : 5,
 							bottom : 0,
 							data : data,
-							backgroundImage:'/img/bg.png'
+							backgroundImage : '/img/bg.png'
 						});
 						mainWin.add(listLinks);
 
 						//Open detail van window
 
 						listLinks.addEventListener('click', function(e) {
-							Titanium.App.Properties.setString('row',e.index);
-							Titanium.App.selectedIndex= e.index;
-							
+							//selectedIndex is nu over heel de app beschikbaar
+							Titanium.App.selectedIndex = list[e.index].evId;
 							Uit.navGroup.open(Uit.ui.createDetailWindow()/*,{animated:false}*/);
-							
+
 						});
 					}
 

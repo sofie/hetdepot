@@ -27,16 +27,8 @@
 			var getReq = Titanium.Network.createHTTPClient();
 			getReq.open("GET", "http://localhost/uitinvlaanderen/get_itemdetail.php");
 			
-			var row = Titanium.App.Properties.getString('row');
-
-			Titanium.API.info('Index from detail:' + Titanium.App.selectedIndex);
-			Titanium.API.info('Properties: '+row);
-			Titanium.API.info('-------');
-			
-			
-			
 			var params = {
-				eId : Titanium.App.selectedIndex + 3
+				eId : Titanium.App.selectedIndex
 			};
 
 			getReq.timeout = 5000;
@@ -76,7 +68,7 @@
 
 						var cropView = Titanium.UI.createView({
 							width : 320,
-							height : 80,
+							height : 120,
 							backgroundColor : '#000'
 						});
 

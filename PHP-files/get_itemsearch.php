@@ -6,7 +6,8 @@ if (!$conn -> connect_error) {
 	
 	$eName = $_POST['eName'];
 	
-	$qry = "SELECT eName, eImage, eDescription, eDateStart, eStartHour, ePrice
+	$qry = "
+			SELECT eName, eImage, eDescription, eDateStart, eStartHour, ePrice
 			FROM tblEvenement
 			WHERE eName LIKE '%".$eName."%'";
 
@@ -25,7 +26,8 @@ if (!$conn -> connect_error) {
 				"evDescription" => $singleResult['eDescription'],
 				"evDate" => $singleResult['eDateStart'],
 				"evHour" => $singleResult['eStartHour'],
-				"evPrice" => $singleResult['ePrice']
+				"evPrice" => $singleResult['ePrice'],
+				"qry"=> $qry
 			);
 			$list[] = $response;
 		};

@@ -37,7 +37,7 @@
 			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
 			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
 		});
-		searchWin.add(searchBar);
+		
 		/*
 		var searchBar = Titanium.UI.createSearchBar({
 			barColor : '#fff',
@@ -48,9 +48,9 @@
 			hintText:'Zoek op naam',
 			font : FontTextField
 		});
-		
-		searchWin.add(searchBar);
 		*/
+		searchWin.add(searchBar);
+		
 		var btnSearch = Titanium.UI.createButton({
 			backgroundImage : "img/btn_zoeken.png",
 			width : 100,
@@ -63,8 +63,8 @@
 		btnSearch.addEventListener('click', function() {
 			getLinks();
 		});
+		
 		function getLinks() {
-
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
@@ -80,22 +80,32 @@
 					var search = JSON.parse(this.responseText);
 
 					//Er zijn nog geen linken in de databank
-					if(search.getItem == false) {
-						Titanium.API.info(this.responseText);
+					if(search.searchItem == false) {
+						
+						var viewBg = Titanium.UI.createView({
+							backgroundImage:'img/bg.png',
+							width:'100%',
+							height:'100%',
+							top:98
+						});
+						
+						//Titanium.API.info(this.responseText);
 						var lblNoConcert = Titanium.UI.createLabel({
 							text : 'Geen concert gevonden voor zoekterm "' + searchBar.value + '".',
-							top : 85,
-							left : 30,
+							top : 0,
+							left : 20,
 							right : 30,
+							textAlign:'left',
 							width : 'auto',
 							height : 'auto',
 							color : '#D64027',
 							font : FontLubalin
 						});
-						searchWin.add(lblNoConcert);
+						viewBg.add(lblNoConcert);
+						searchWin.add(viewBg);
 
 					} else {
-						Titanium.API.info(this.responseText);
+						//Titanium.API.info(this.responseText);
 
 						for(var i = 0; i < search.length; i++) {
 
@@ -103,6 +113,9 @@
 							var evenementDatum = search[i].evDate;
 							var evenementLocatie = search[i].evLocatie;
 							var evenementImg = search[i].evImage;
+							var evenementQry = search[i].qry;
+							
+							Titanium.API.info('Qry: '+evenementQry);
 
 							var row = Ti.UI.createTableViewRow({
 								height : 'auto',

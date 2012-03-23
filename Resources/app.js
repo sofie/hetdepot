@@ -13,7 +13,7 @@ Ti.include(
 	'windows/map.js',
 	'windows/settings.js',
 	
-	'windows/detailEvenement.js',
+	'windows/detail.js',
 	'windows/search.js',
 	
 	'uit/icons.js', 
