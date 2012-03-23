@@ -6,10 +6,7 @@ if (!$conn -> connect_error) {
 	
 	$eName = $_POST['eName'];
 	
-	$qry = "
-			SELECT eName, eImage, eDescription, eDateStart, eStartHour, ePrice
-			FROM tblEvenement
-			WHERE eName LIKE '%".$eName."%'";
+	$qry = "SELECT eId, eName, eImage, eDescription, eDateStart, eStartHour, ePrice FROM tblEvenement WHERE eName LIKE '%".$eName."%'";
 
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);
@@ -21,6 +18,7 @@ if (!$conn -> connect_error) {
 
 			$response = array(
 				"searchItem" => true, 
+				"evId" => $singleResult['eId'], 
 				"evNaam" => $singleResult['eName'], 
 				"evImage" => $singleResult['eImage'], 
 				"evDescription" => $singleResult['eDescription'],

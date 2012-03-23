@@ -1,3 +1,5 @@
+//Zoek window
+
 (function() {
 
 	Uit.ui.createSearchWindow = function() {
@@ -80,7 +82,7 @@
 					var search = JSON.parse(this.responseText);
 
 					//Er zijn nog geen linken in de databank
-					if(search.searchItem == false) {
+					if(search.searchItem === false) {
 						
 						var viewBg = Titanium.UI.createView({
 							backgroundImage:'img/bg.png',
@@ -105,21 +107,23 @@
 						searchWin.add(viewBg);
 
 					} else {
-						//Titanium.API.info(this.responseText);
+						Titanium.API.info(this.responseText);
+						for(var i = 0, j = search.length;i<j; i++) {
+						//for(var i = 0; i < search.length; i++) {
 
-						for(var i = 0; i < search.length; i++) {
-
-							var evenementNaam = search[i].evNaam;
-							var evenementDatum = search[i].evDate;
-							var evenementLocatie = search[i].evLocatie;
-							var evenementImg = search[i].evImage;
-							var evenementQry = search[i].qry;
+							var evenementNaam = search[i].evNaam,
+								evenementId = search[i].evId,
+								evenementDatum = search[i].evDate,
+								evenementLocatie = search[i].evLocatie,
+								evenementImg = search[i].evImage,
+								evenementQry = search[i].qry;
 							
 							Titanium.API.info('Qry: '+evenementQry);
 
 							var row = Ti.UI.createTableViewRow({
 								height : 'auto',
-								rightImage : 'img/detail.png'
+								rightImage : 'img/detail.png',
+								backgroundImage:'img/bg.png'
 							});
 
 							//Image croppen in vierkant
@@ -198,13 +202,13 @@
 						//Open detail van window
 
 						listLinks.addEventListener('click', function(e) {
-							Titanium.App.selectedIndex = e.index;
+							Titanium.App.selectedIndex = search[e.index].evId;
 							Uit.navGroup.open(Uit.ui.createDetailWindow()/*,{animated:false}*/);
 						});
 					}
 
-				} catch(E) {
-					alert(E);
+				} catch(e) {
+					Titanium.API.info(e);
 				}
 			}
 			getReq.onerror = function(e) {

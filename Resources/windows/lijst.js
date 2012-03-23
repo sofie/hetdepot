@@ -1,3 +1,5 @@
+//Window met alle items in lijst
+
 (function() {
 
 	Uit.ui.createLijstWindow = function() {
@@ -20,8 +22,8 @@
 		//
 		// Evenementen
 		//
-		getLinks();
-		function getLinks() {
+		getConcerts();
+		function getConcerts() {
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
@@ -32,7 +34,7 @@
 					var list = JSON.parse(this.responseText);
 
 					//Er zijn nog geen linken in de databank
-					if(list.getItem == false) {
+					if(list.getItem === false) {
 						Titanium.API.info('Geen links');
 						var lblNoLinks = Titanium.UI.createLabel({
 							top : 70,
@@ -44,21 +46,25 @@
 							height : 'auto',
 							font : FontNormal
 						});
-						mainWindow.add(lblNoLinks);
+						mainWin.add(lblNoLinks);
 
 					} else {
-
-						for(var i = 0; i < list.length; i++) {
+						for(var i = 0, j = list.length; i < j; i++) {
 							Titanium.App.evNaam1 = list[i].evNaam;
-							var evenementId = list[i].evId;
-							var evenementNaam = list[i].evNaam;
-							var evenementDatum = list[i].evDate;
-							var evenementLocatie = list[i].evLocatie;
-							var evenementImg = list[i].evImage;
+							var evenementId = list[i].evId, evenementColor = list[i].evColor,evenementNaam = list[i].evNaam, evenementDatum = list[i].evDate, evenementLocatie = list[i].evLocatie, evenementImg = list[i].evImage;
 
 							var row = Ti.UI.createTableViewRow({
 								height : 'auto',
-								rightImage : 'img/detail.png'
+								rightImage : 'img/detail.png',
+								backgroundImage : 'img/bg.png'
+							});
+							
+							var colorView = Titanium.UI.createView({
+								height:'100%',
+								width:4,
+								backgroundColor:'#'+evenementColor,
+								left:0,
+								top:0
 							});
 
 							//Image croppen in vierkant
@@ -83,7 +89,7 @@
 								image : croppedImage,
 								width : 90,
 								height : 90,
-								left : 0,
+								left : 4,
 								top : 0
 							});
 
@@ -115,22 +121,23 @@
 								textAlign : 'left',
 								font : FontSmall
 							});
+							row.add(colorView);
 							row.add(imageView);
 							row.add(name);
 							row.add(date);
 							row.add(loc);
 
-							row.className = 'item' + i;
-							data[i] = row;
+							data.push(row);
 						};
-
+						
 						var listLinks = Titanium.UI.createTableView({
 							top : 0,
 							left : 0,
-							right : 5,
+							right : 0,
 							bottom : 0,
 							data : data,
-							backgroundImage : '/img/bg.png'
+							backgroundImage : '/img/bg.png',
+							
 						});
 						mainWin.add(listLinks);
 
@@ -139,13 +146,15 @@
 						listLinks.addEventListener('click', function(e) {
 							//selectedIndex is nu over heel de app beschikbaar
 							Titanium.App.selectedIndex = list[e.index].evId;
-							Uit.navGroup.open(Uit.ui.createDetailWindow()/*,{animated:false}*/);
+							Uit.navGroup.open(Uit.ui.createDetailWindow(), {
+								animated : false
+							});
 
 						});
 					}
 
-				} catch(E) {
-					alert(E);
+				} catch(e) {
+					alert(e);
 				}
 			}
 			getReq.onerror = function(e) {

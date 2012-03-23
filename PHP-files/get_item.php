@@ -4,9 +4,10 @@ $conn = @new mysqli('localhost', 'root', 'root', 'uitinvlaanderen');
 
 if (!$conn -> connect_error) {
 	
-	$qry = "SELECT eId,eName, lName, eImage, eDateStart
+	$qry = "SELECT eId,eName, lName, eImage, eDateStart, cColor
 			FROM tblEvenement
-			INNER JOIN tblLocatie ON ( tblEvenement.lId = tblLocatie.lId )";
+			INNER JOIN tblLocatie ON ( tblEvenement.lId = tblLocatie.lId )
+			INNER JOIN tblCategory ON ( tblEvenement.eCategory = tblCategory.cId )";
 
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);
@@ -18,6 +19,7 @@ if (!$conn -> connect_error) {
 			$response = array(
 				"getItem" => true, 
 				"evId" => $singleResult['eId'], 
+				"evColor" => $singleResult['cColor'], 
 				"evNaam" => $singleResult['eName'], 
 				"evDate" => $singleResult['eDateStart'],
 				"evLocatie" => $singleResult['lName'], 

@@ -1,3 +1,5 @@
+//Window met 4 buttons
+
 (function() {
 	var navWindow;
 

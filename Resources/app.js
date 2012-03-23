@@ -1,10 +1,15 @@
-var Ti;
+var Uit = {
+    ui: {},
+    navGroup: undefined
+};
+
+
 Titanium.UI.setBackgroundImage('img/bg.png');
 
 Titanium.include('styles/font_styles.js');
 var commonStyle = require('styles/common_styles').commonStyles();
 
-Ti.include('uit/uit.js');
+//Ti.include('uit/uit.js');
 
 //windows & ui
 Ti.include(
@@ -14,9 +19,9 @@ Ti.include(
 	'windows/settings.js',
 	
 	'windows/detail.js',
-	'windows/search.js',
+	'windows/search2.js',
 	
-	'uit/icons.js', 
+	'windows/icons.js', 
 	'windows/main.js'
 );
 

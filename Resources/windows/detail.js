@@ -1,9 +1,9 @@
+//Detail window van geselecteerd item
+
 (function() {
 	Uit.ui.createDetailWindow = function() {
-		//
-		// Main window
-		//
-		var detailWin = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+		
+		var detailWin = Titanium.UI.createWindow(commonStyle.window);
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Detail',
@@ -21,6 +21,7 @@
 		});
 		detailWin.leftNavButton = backButton;
 
+		//Detail van geselecteerd concert ophalen
 		getLinks();
 		function getLinks() {
 
@@ -37,7 +38,7 @@
 					var detail = JSON.parse(this.responseText);
 
 					//Er zijn nog geen linken in de databank
-					if(detail.getItem == false) {
+					if(detail.getItem === false) {
 						Titanium.API.info(this.responseText);
 						var lblNoConcert = Titanium.UI.createLabel({
 							text : 'Er is iets misgegaan. Concert niet gevonden in databank.',
@@ -53,12 +54,13 @@
 
 					} else {
 
-						var evenementNaam = detail.evNaam;
-						var evenementImg = detail.evImage;
-						var evenementDescription = detail.evDescription;
-						var evenementDatum = detail.evDate;
-						var evenementUur = detail.evHour;
-						var evenementPrijs = detail.evPrice;
+						var evenementNaam = detail.evNaam,
+							evenementImg = detail.evImage,
+							evenementCat = detail.evCategorie,
+							evenementDescription = detail.evDescription,
+							evenementDatum = detail.evDate,
+							evenementUur = detail.evHour,
+							evenementPrijs = detail.evPrice;
 
 						var baseImage = Ti.UI.createImageView({
 							image : evenementImg,
@@ -85,10 +87,10 @@
 							top : 0
 						});
 
-						var viewOrange = Titanium.UI.createView({
+						var viewBlue = Titanium.UI.createView({
 							width : '100%',
 							right : 0,
-							top : 130,
+							top : 0,
 							backgroundColor : '#86B6CD',
 							height : 30
 						});
@@ -96,7 +98,7 @@
 						var name = Titanium.UI.createLabel({
 							text : evenementNaam,
 							left : 10,
-							top : 132,
+							top : -28,
 							width : 300,
 							height : 25,
 							textAlign : 'left',
@@ -104,10 +106,14 @@
 							color : '#fff'
 						});
 
+						var viewHorizontal = Titanium.UI.createLabel({
+							width:'100%',
+							height:30,
+							top:10
+						});
 						var date = Ti.UI.createLabel({
 							text : evenementDatum,
-							top : 170,
-							left : 10,
+							left : 30,
 							width : 'auto',
 							height : 'auto',
 							textAlign : 'left',
@@ -116,7 +122,6 @@
 
 						var hourLbl = Ti.UI.createLabel({
 							text : 'Doors:',
-							top : 169,
 							left : 125,
 							width : 'auto',
 							height : 'auto',
@@ -127,7 +132,6 @@
 
 						var hour = Ti.UI.createLabel({
 							text : evenementUur,
-							top : 170,
 							left : 170,
 							width : 'auto',
 							height : 'auto',
@@ -137,8 +141,7 @@
 
 						var priceLbl = Ti.UI.createLabel({
 							text : 'Prijs:',
-							top : 169,
-							left : 240,
+							left : 230,
 							width : 'auto',
 							height : 'auto',
 							textAlign : 'left',
@@ -148,17 +151,26 @@
 
 						var price = Ti.UI.createLabel({
 							text : '€' + evenementPrijs,
-							top : 170,
-							left : 275,
+							left : 265,
 							width : 'auto',
 							height : 'auto',
 							textAlign : 'left',
 							font : FontNormal
 						});
+						
+						var category = Ti.UI.createLabel({
+							text : evenementCat,
+							top : 10,
+							left : 30,
+							height : 'auto',
+							textAlign : 'left',
+							font : FontLubalin,
+							color:'#D63F27'
+						});
 
 						var description = Ti.UI.createLabel({
 							text : evenementDescription,
-							top : 195,
+							top : 15,
 							left : 30,
 							right : 25,
 							height : 'auto',
@@ -168,7 +180,7 @@
 
 						var link = Ti.UI.createLabel({
 							text : 'Tickets',
-							bottom : 30,
+							top : 25,
 							left : 30,
 							height : 'auto',
 							textAlign : 'left',
@@ -206,23 +218,24 @@
 
 						windowLink.add(webview);
 
-						
 
 						detailWin.add(imageView);
-						detailWin.add(viewOrange);
+						detailWin.add(viewBlue);
 						detailWin.add(name);
-						detailWin.add(date);
-						detailWin.add(hourLbl);
-						detailWin.add(hour);
-						detailWin.add(priceLbl);
-						detailWin.add(price);
+						detailWin.add(viewHorizontal);
+							viewHorizontal.add(date);
+							viewHorizontal.add(hourLbl);
+							viewHorizontal.add(hour);
+							viewHorizontal.add(priceLbl);
+							viewHorizontal.add(price);
+						detailWin.add(category);
 						detailWin.add(description);
 						detailWin.add(link);
 
 					}
 
-				} catch(E) {
-					alert(E);
+				} catch(e) {
+					alert(e);
 				}
 			}
 			getReq.onerror = function(e) {
