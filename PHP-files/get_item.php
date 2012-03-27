@@ -12,8 +12,10 @@ if (!$conn -> connect_error) {
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);
 
-	if ($num_rows = $result -> num_rows > 0) {
+
+	if (mysqli_num_rows($result) > 0) {
 		$list = array();
+		mysqli_data_seek($result,0);
 
 		while ($singleResult = mysqli_fetch_assoc($result)) {
 			$response = array(
