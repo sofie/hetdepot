@@ -73,7 +73,7 @@
 			getReq.open("GET", "http://localhost/uitinvlaanderen/get_itemsearch.php");
 
 			var params = {
-				eName : searchBar.value
+				eDateStart : searchBar.value
 			};
 
 			getReq.timeout = 5000;

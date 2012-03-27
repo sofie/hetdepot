@@ -20,6 +20,7 @@ Ti.include(
 	
 	'windows/detail.js',
 	'windows/search2.js',
+	'windows/search_date.js',
 	
 	'windows/icons.js', 
 	'windows/main.js'

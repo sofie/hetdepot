@@ -2,8 +2,8 @@
 
 (function() {
 
-	Uit.ui.createSearchWindow = function() {
-		var searchWin = Titanium.UI.createWindow({
+	Uit.ui.createSearchDateWindow = function() {
+		var searchDateWin = Titanium.UI.createWindow({
 			width : '100%',
 			height : '100%',
 			barImage : 'img/header.png',
@@ -15,24 +15,35 @@
 			color : '#fff',
 			font : FontLubalinTitle
 		});
-		searchWin.setTitleControl(lblTitle);
+		searchDateWin.setTitleControl(lblTitle);
 
 		//Backbutton
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
 
 		backButton.addEventListener('click', function() {
-			Uit.navGroup.close(searchWin, {
+			Uit.navGroup.close(searchDateWin, {
 				animated : false
 			});
 		});
-		searchWin.leftNavButton = backButton;
+		searchDateWin.leftNavButton = backButton;
 		
+		/*var calendarButton = Titanium.UI.createButton({
+			backgroundImage:'img/btn_calendar.png',
+			width:50,
+			height:33
+		});
+
+		calendarButton.addEventListener('click', function() {
+			
+		});
+		searchDateWin.rightNavButton = calendarButton;
 		
+		*/
 		//
 		// Evenementen
 		//
-		getConcertsByName();
-		function getConcertsByName() {
+		getConcertsByDate();
+		function getConcertsByDate() {
 			var data = [];
 			
 			var getReq = Titanium.Network.createHTTPClient();
@@ -55,7 +66,7 @@
 							height : 'auto',
 							font : FontNormal
 						});
-						searchWin.add(lblNoLinks);
+						searchDateWin.add(lblNoLinks);
 
 					} else {
 						for(var i = 0, j = list.length; i < j; i++) {
@@ -69,7 +80,7 @@
 								rightImage : 'img/detail.png',
 								backgroundImage : 'img/bg.png'
 							});
-							row.filter = list[i].evNaam;
+							row.filter = list[i].evDate;
 
 							//Image croppen in vierkant
 							var baseImage = Ti.UI.createImageView({
@@ -134,37 +145,21 @@
 						};
 
 						var searchBar = Titanium.UI.createSearchBar({
-							hintText : 'Zoek op naam...'
+							hintText : 'Zoek op datum'
 						});
-						
-						var lblTap = Titanium.UI.createLabel({
-							text:'Tik in het zoekveld om te zoeken.',
-							width:'auto',
-							left:20,
-							right:20,
-							height:40,
-							top:60,
-							font:FontNormal,
-							color:'#555'
-						});
-						searchWin.add(lblTap);
-						
 						searchBar.addEventListener('change', function(e) {
 							listLinks.setData(data);
-							listLinks.setBottom(0);
 						});
-						
 						var listLinks = Titanium.UI.createTableView({
 							search : searchBar,
 							filterAttribute : 'filter',
 							top : 0,
 							left : 0,
 							right : 0,
-							bottom :373,
-							backgroundImage : '/img/bg.png',
-							scrollable:false
+							bottom : 0,
+							backgroundImage : '/img/bg.png'
 						});
-						searchWin.add(listLinks);
+						searchDateWin.add(listLinks);
 
 						//Open detail van window
 
@@ -191,6 +186,6 @@
 		}
 
 		
-		return searchWin;
+		return searchDateWin;
 	};
 })();

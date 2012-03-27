@@ -7,7 +7,7 @@
 		var mainWindow = Ti.UI.createWindow(commonStyle.windowNoLayout);
 		
 		var lblTitle = Titanium.UI.createLabel({
-			text : 'UiTinVlaanderen',
+			text : 'Het Depot',
 			color : '#fff',
 			font : FontLubalinTitle
 		});

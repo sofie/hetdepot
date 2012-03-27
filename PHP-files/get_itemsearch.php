@@ -4,15 +4,17 @@ $conn = @new mysqli('localhost', 'root', 'root', 'uitinvlaanderen');
 
 if (!$conn -> connect_error) {
 	
-	$eName = $_POST['eName'];
+	$eDateStart = $_POST['eDateStart'];
 	
-	$qry = "SELECT eId, eName, eImage, eDescription, eDateStart, eStartHour, ePrice FROM tblEvenement WHERE eName LIKE '%".$eName."%'";
+	//$qry = "SELECT eId, eName, eImage, eDescription, eDateStart, eStartHour, ePrice FROM tblEvenement  WHERE eDateStart >= '".$eDateStart."' ORDER BY eDateStart";
+	$qry = "SELECT eId, eName, eImage, eDescription, eDateStart, eStartHour, ePrice FROM tblEvenement  WHERE eDateStart >= '2012-03-30' ORDER BY eDateStart";
 
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);
 
-	if ($num_rows = $result -> num_rows > 0) {
+	if (mysqli_num_rows($result) > 0) {
 		$list = array();
+		mysqli_data_seek($result,0);
 
 		while ($singleResult = mysqli_fetch_assoc($result)) {
 

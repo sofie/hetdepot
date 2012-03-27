@@ -2,8 +2,13 @@
 
 (function() {
 	Uit.ui.createDetailWindow = function() {
-		
-		var detailWin = Titanium.UI.createWindow(commonStyle.window);
+
+		var detailWin = Titanium.UI.createWindow({
+			width : '100%',
+			height : '100%',
+			barImage : 'img/header.png',
+			//layout : 'vertical'
+		});
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Detail',
@@ -27,7 +32,7 @@
 
 			var getReq = Titanium.Network.createHTTPClient();
 			getReq.open("GET", "http://localhost/uitinvlaanderen/get_itemdetail.php");
-			
+
 			var params = {
 				eId : Titanium.App.selectedIndex
 			};
@@ -53,14 +58,16 @@
 						detailWin.add(lblNoConcert);
 
 					} else {
+						var scrollView = Titanium.UI.createScrollView({
+							contentWidth : 'auto',
+							contentHeight : 'auto',
+							top : 0,
+							showVerticalScrollIndicator : true,
+							layout:'vertical'
+						});
+						
 
-						var evenementNaam = detail.evNaam,
-							evenementImg = detail.evImage,
-							evenementCat = detail.evCategorie,
-							evenementDescription = detail.evDescription,
-							evenementDatum = detail.evDate,
-							evenementUur = detail.evHour,
-							evenementPrijs = detail.evPrice;
+						var evenementNaam = detail.evNaam, evenementImg = detail.evImage, evenementCat = detail.evCategorie, evenementDescription = detail.evDescription, evenementDatum = detail.evDate, evenementUur = detail.evHour, evenementPrijs = detail.evPrice;
 
 						var baseImage = Ti.UI.createImageView({
 							image : evenementImg,
@@ -107,9 +114,9 @@
 						});
 
 						var viewHorizontal = Titanium.UI.createLabel({
-							width:'100%',
-							height:30,
-							top:10
+							width : '100%',
+							height : 30,
+							top : 10
 						});
 						var date = Ti.UI.createLabel({
 							text : evenementDatum,
@@ -157,7 +164,7 @@
 							textAlign : 'left',
 							font : FontNormal
 						});
-						
+
 						var category = Ti.UI.createLabel({
 							text : evenementCat,
 							top : 10,
@@ -165,7 +172,7 @@
 							height : 'auto',
 							textAlign : 'left',
 							font : FontLubalin,
-							color:'#D63F27'
+							color : '#D63F27'
 						});
 
 						var description = Ti.UI.createLabel({
@@ -186,13 +193,12 @@
 							textAlign : 'left',
 							font : FontLubalin
 						});
-						
+
 						link.addEventListener('click', function(e) {
 							windowLink.open({
 								modal : true
 							});
 						});
-						
 						//
 						//Webview window
 						//
@@ -218,19 +224,20 @@
 
 						windowLink.add(webview);
 
-
-						detailWin.add(imageView);
-						detailWin.add(viewBlue);
-						detailWin.add(name);
-						detailWin.add(viewHorizontal);
-							viewHorizontal.add(date);
-							viewHorizontal.add(hourLbl);
-							viewHorizontal.add(hour);
-							viewHorizontal.add(priceLbl);
-							viewHorizontal.add(price);
-						detailWin.add(category);
-						detailWin.add(description);
-						detailWin.add(link);
+						scrollView.add(imageView);
+						scrollView.add(viewBlue);
+						scrollView.add(name);
+						scrollView.add(viewHorizontal);
+						viewHorizontal.add(date);
+						viewHorizontal.add(hourLbl);
+						viewHorizontal.add(hour);
+						viewHorizontal.add(priceLbl);
+						viewHorizontal.add(price);
+						scrollView.add(category);
+						scrollView.add(description);
+						scrollView.add(link);
+						
+						detailWin.add(scrollView);
 
 					}
 
