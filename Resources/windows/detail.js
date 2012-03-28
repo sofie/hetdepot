@@ -2,12 +2,11 @@
 
 (function() {
 	Uit.ui.createDetailWindow = function() {
-
+		
 		var detailWin = Titanium.UI.createWindow({
 			width : '100%',
 			height : '100%',
-			barImage : 'img/header.png',
-			//layout : 'vertical'
+			barImage : 'img/header.png'
 		});
 
 		var lblTitle = Titanium.UI.createLabel({
@@ -20,9 +19,15 @@
 		//Backbutton
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
 		backButton.addEventListener('click', function() {
+			
+			//Zoekresultaten herladen
+			Ti.App.fireEvent('app:reloadSearch', {
+				action : 'Reload search'
+			});
 			Uit.navGroup.close(detailWin, {
 				animated : false
 			});
+			
 		});
 		detailWin.leftNavButton = backButton;
 
@@ -62,12 +67,12 @@
 							contentWidth : 'auto',
 							contentHeight : 'auto',
 							top : 0,
+							bottom : 10,
 							showVerticalScrollIndicator : true,
-							layout:'vertical'
+							layout : 'vertical'
 						});
-						
 
-						var evenementNaam = detail.evNaam, evenementImg = detail.evImage, evenementCat = detail.evCategorie, evenementDescription = detail.evDescription, evenementDatum = detail.evDate, evenementUur = detail.evHour, evenementPrijs = detail.evPrice;
+						var evenementNaam = detail.evNaam, evenementImg = detail.evImage, evenementDescription = detail.evDescription, evenementDatum = detail.evDate, evenementUur = detail.evHour, evenementPrijs = detail.evPrice;
 
 						var baseImage = Ti.UI.createImageView({
 							image : evenementImg,
@@ -165,16 +170,6 @@
 							font : FontNormal
 						});
 
-						var category = Ti.UI.createLabel({
-							text : evenementCat,
-							top : 10,
-							left : 30,
-							height : 'auto',
-							textAlign : 'left',
-							font : FontLubalin,
-							color : '#D63F27'
-						});
-
 						var description = Ti.UI.createLabel({
 							text : evenementDescription,
 							top : 15,
@@ -233,10 +228,9 @@
 						viewHorizontal.add(hour);
 						viewHorizontal.add(priceLbl);
 						viewHorizontal.add(price);
-						scrollView.add(category);
 						scrollView.add(description);
 						scrollView.add(link);
-						
+
 						detailWin.add(scrollView);
 
 					}

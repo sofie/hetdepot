@@ -1,16 +1,21 @@
-//Zoek window
+//Search window
 
 (function() {
 
 	Uit.ui.createSearchWindow = function() {
-		var searchWin = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+		var searchWin = Titanium.UI.createWindow({
+			width : '100%',
+			height : '100%',
+			barImage : 'img/header.png',
+			backgroundImage : 'img/bg.png'
+		});
 
-		var lblAddTitle = Titanium.UI.createLabel({
+		var lblTitle = Titanium.UI.createLabel({
 			text : 'Zoek concert',
 			color : '#fff',
 			font : FontLubalinTitle
 		});
-		searchWin.setTitleControl(lblAddTitle);
+		searchWin.setTitleControl(lblTitle);
 
 		//Backbutton
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
@@ -21,121 +26,57 @@
 			});
 		});
 		searchWin.leftNavButton = backButton;
-
+		
 		//
-		//Inhoud window
+		// Evenementen
 		//
-		var searchBar = Titanium.UI.createTextField({
-			color : '#888',
-			top : 10,
-			left : 20,
-			right : 20,
-			height : 30,
-			hintText : 'Zoek op naam',
-			font : FontTextField,
-			opacity : 0.65,
-			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
-			returnKeyType : Titanium.UI.RETURNKEY_DONE,
-			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
-		});
-		
-		/*
-		var searchBar = Titanium.UI.createSearchBar({
-			barColor : '#fff',
-			height : 40,
-			top : 10,
-			left:15,
-			right:15,
-			hintText:'Zoek op naam',
-			font : FontTextField
-		});
-		*/
-		searchWin.add(searchBar);
-		
-		var btnSearch = Titanium.UI.createButton({
-			backgroundImage : "img/btn_zoeken.png",
-			width : 100,
-			height : 33,
-			top : 50,
-			right : 20
-		});
-		searchWin.add(btnSearch);
-
-		btnSearch.addEventListener('click', function() {
-			getLinks();
-		});
-		
-		function getLinks() {
+		getConcertsByName();
+		function getConcertsByName() {
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
-			getReq.open("GET", "http://localhost/uitinvlaanderen/get_itemsearch.php");
-
-			var params = {
-				eDateStart : searchBar.value
-			};
-
+			getReq.open("GET", "http://localhost/uitinvlaanderen/get_item.php");
 			getReq.timeout = 5000;
 			getReq.onload = function() {
 				try {
-					var search = JSON.parse(this.responseText);
+					var list = JSON.parse(this.responseText);
 
-					//Er zijn nog geen linken in de databank
-					if(search.searchItem === false) {
-						
-						var viewBg = Titanium.UI.createView({
-							backgroundImage:'img/bg.png',
-							width:'100%',
-							height:'100%',
-							top:98
-						});
-						
-						//Titanium.API.info(this.responseText);
-						var lblNoConcert = Titanium.UI.createLabel({
-							text : 'Geen concert gevonden voor zoekterm "' + searchBar.value + '".',
-							top : 0,
-							left : 20,
-							right : 30,
-							textAlign:'left',
-							width : 'auto',
-							height : 'auto',
+					//Geen concerten in de databank
+					if(list.getItem === false) {
+						var lblNoLinks = Titanium.UI.createLabel({
+							top : 70,
+							text : 'Er zijn geen concerten gevonden.',
 							color : '#D64027',
-							font : FontLubalin
+							left : 30,
+							right : 30,
+							width : 300,
+							height : 'auto',
+							font : FontNormal
 						});
-						viewBg.add(lblNoConcert);
-						searchWin.add(viewBg);
+						searchWin.add(lblNoLinks);
 
 					} else {
-						Titanium.API.info(this.responseText);
-						for(var i = 0, j = search.length;i<j; i++) {
-						//for(var i = 0; i < search.length; i++) {
-
-							var evenementNaam = search[i].evNaam,
-								evenementId = search[i].evId,
-								evenementDatum = search[i].evDate,
-								evenementLocatie = search[i].evLocatie,
-								evenementImg = search[i].evImage,
-								evenementQry = search[i].qry;
-							
-							Titanium.API.info('Qry: '+evenementQry);
+						for(var i = 0, j = list.length; i < j; i++) {
+							Titanium.App.evNaam1 = list[i].evNaam;
+							var evenementId = list[i].evId, evenementNaam = list[i].evNaam, evenementDatum = list[i].evDate, evenementLocatie = list[i].evLocatie, evenementImg = list[i].evImage;
 
 							var row = Ti.UI.createTableViewRow({
 								height : 'auto',
 								rightImage : 'img/detail.png',
-								backgroundImage:'img/bg.png'
+								backgroundImage : 'img/bg.png'
 							});
+							row.filter = list[i].evNaam;
 
 							//Image croppen in vierkant
 							var baseImage = Ti.UI.createImageView({
 								image : evenementImg,
 								width : 200,
-								height : 200
+								height : 'auto'
 							});
 
 							var cropView = Titanium.UI.createView({
 								width : 70,
-								height : 70,
+								height : 50,
 								backgroundColor : '#000'
 							});
 
@@ -185,30 +126,60 @@
 							row.add(date);
 							row.add(loc);
 
-							row.className = 'item' + i;
-							data[i] = row;
+							data.push(row);
 						};
 
+						var searchBar = Titanium.UI.createSearchBar({
+							hintText : 'Zoek op naam...'
+						});
+
+						var lblTap = Titanium.UI.createLabel({
+							text : 'Tik in het zoekveld om te zoeken.',
+							width : 'auto',
+							left : 20,
+							right : 20,
+							height : 40,
+							top : 60,
+							font : FontNormal,
+							color : '#555'
+						});
+						searchWin.add(lblTap);
+						
+						searchBar.addEventListener('change', function(e) {
+							listLinks.setData(data);
+							listLinks.setBottom(0);
+						});
+
 						var listLinks = Titanium.UI.createTableView({
-							top : 100,
+							search : searchBar,
+							filterAttribute : 'filter',
+							top : 0,
 							left : 0,
-							right : 5,
-							bottom : 0,
-							data : data,
-							backgroundImage : '/img/bg.png'
+							right : 0,
+							bottom : 373,
+							backgroundImage : '/img/bg.png',
+							scrollable : true
 						});
 						searchWin.add(listLinks);
+						
+						Titanium.App.addEventListener('app:reloadSearch', function(e) {
+							searchBar.setValue(Titanium.App.searchValue);
+						});
 
 						//Open detail van window
-
 						listLinks.addEventListener('click', function(e) {
-							Titanium.App.selectedIndex = search[e.index].evId;
-							Uit.navGroup.open(Uit.ui.createDetailWindow()/*,{animated:false}*/);
+							Titanium.App.searchValue = searchBar.value;
+
+							Titanium.App.selectedIndex = list[e.index].evId;
+							Uit.navGroup.open(Uit.ui.createDetailWindow(), {
+								animated : false
+							});
+
 						});
 					}
 
 				} catch(e) {
-					Titanium.API.info(e);
+					alert(e);
 				}
 			}
 			getReq.onerror = function(e) {
@@ -216,7 +187,7 @@
 				alert('Er is iets mis met de databank.');
 			}
 
-			getReq.send(params);
+			getReq.send();
 		}
 
 		return searchWin;

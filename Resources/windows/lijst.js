@@ -19,6 +19,7 @@
 			}));
 		});
 		mainWin.rightNavButton = searchButton;
+		
 		//
 		// Evenementen
 		//
@@ -38,7 +39,7 @@
 						Titanium.API.info('Geen links');
 						var lblNoLinks = Titanium.UI.createLabel({
 							top : 70,
-							text : 'Er zijn nog geen concerten.',
+							text : 'Geen concerten gevonden.',
 							color : '#D64027',
 							left : 30,
 							right : 30,
@@ -59,14 +60,6 @@
 								backgroundImage : 'img/bg.png'
 							});
 							
-							var colorView = Titanium.UI.createView({
-								height:'100%',
-								width:4,
-								backgroundColor:'#'+evenementColor,
-								left:0,
-								top:0
-							});
-
 							//Image croppen in vierkant
 							var baseImage = Ti.UI.createImageView({
 								image : evenementImg,
@@ -89,7 +82,7 @@
 								image : croppedImage,
 								width : 90,
 								height : 90,
-								left : 4,
+								left : 0,
 								top : 0
 							});
 
@@ -121,7 +114,6 @@
 								textAlign : 'left',
 								font : FontSmall
 							});
-							row.add(colorView);
 							row.add(imageView);
 							row.add(name);
 							row.add(date);
@@ -136,15 +128,12 @@
 							right : 0,
 							bottom : 0,
 							data : data,
-							backgroundImage : '/img/bg.png',
-							
+							backgroundImage : '/img/bg.png'
 						});
 						mainWin.add(listLinks);
 
 						//Open detail van window
-
 						listLinks.addEventListener('click', function(e) {
-							//selectedIndex is nu over heel de app beschikbaar
 							Titanium.App.selectedIndex = list[e.index].evId;
 							Uit.navGroup.open(Uit.ui.createDetailWindow(), {
 								animated : false
@@ -156,14 +145,15 @@
 				} catch(e) {
 					alert(e);
 				}
-			}
+			};
+			
 			getReq.onerror = function(e) {
 				Ti.API.info("TEXT onerror:   " + this.responseText);
 				alert('Er is iets mis met de databank.');
-			}
+			};
 
 			getReq.send();
-		}
+		};
 
 		return mainWin;
 	};

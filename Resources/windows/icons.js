@@ -9,15 +9,8 @@
 			image : 'img/icon_ontdek.png',
 			func : Uit.ui.createLijstWindow
 		}, {
-			image : 'img/icon_map.png',
-			func : Uit.ui.createMapWindow
-			
-		}, {
-			image : 'img/icon_star.png',
-			func : Uit.ui.createAanbevolenWindow
-		}, {
-			image : 'img/icon_settings.png',
-			func : Uit.ui.createSettingsWindow
+			image : 'img/icon_news.png',
+			func : Uit.ui.createNieuwsWindow
 		}]
 	};
 })();

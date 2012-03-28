@@ -6,9 +6,8 @@ if (!$conn -> connect_error) {
 	
 	$eId = $_POST['eId'];
 	
-	$qry = "SELECT eName, eImage, eDescription, eDateStart, eStartHour, ePrice, cName
+	$qry = "SELECT eName, eImage, eDescription, eDateStart, eStartHour, ePrice
 			FROM tblEvenement
-			INNER JOIN tblCategory ON(tblCategory.cId = tblEvenement.eCategory)
 			WHERE eId = '" .$eId. "'";
 
 
@@ -20,7 +19,6 @@ if (!$conn -> connect_error) {
 			$response = array(
 				"getItem" => true, 
 				"evNaam" => $singleResult['eName'], 
-				"evCategorie" => $singleResult['cName'], 
 				"evImage" => $singleResult['eImage'], 
 				"evDescription" => $singleResult['eDescription'],
 				"evDate" => $singleResult['eDateStart'],
