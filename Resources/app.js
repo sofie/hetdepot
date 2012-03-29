@@ -21,5 +21,4 @@ Ti.include(
 	'windows/icons.js', 
 	'windows/main.js'
 );
-
 Uit.ui.createApplicationMainWin();

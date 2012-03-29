@@ -8,7 +8,6 @@ exports.commonStyles = function() {
 		},
 		windowNoLayout : {
 			width : '100%',
-			height : '100%',
 			barImage : 'img/header.png'
 		},
 

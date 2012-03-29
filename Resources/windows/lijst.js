@@ -14,9 +14,9 @@
 
 		var searchButton = Titanium.UI.createButton(commonStyle.searchButton);
 		searchButton.addEventListener('click', function() {
-			Uit.navGroup.open(Uit.ui.createSearchWindow({
+			Uit.navGroup.open(Uit.ui.createSearchWindow(),{
 				animated : false
-			}));
+			});
 		});
 		mainWin.rightNavButton = searchButton;
 		

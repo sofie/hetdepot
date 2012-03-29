@@ -149,7 +149,7 @@
 							listLinks.setData(data);
 							listLinks.setBottom(0);
 						});
-
+						
 						var listLinks = Titanium.UI.createTableView({
 							search : searchBar,
 							filterAttribute : 'filter',

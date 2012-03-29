@@ -11,7 +11,7 @@
 			color : '#fff',
 			font : FontLubalinTitle
 		});
-		mainWin.setTitleControl(lblTitle);
+		mainWindow.setTitleControl(lblTitle);
 		
 
 		var data = [Ti.UI.createTableViewRow({
