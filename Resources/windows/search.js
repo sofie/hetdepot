@@ -11,19 +11,23 @@
 			font : FontLubalinTitle
 		});
 		searchWin.setTitleControl(lblTitle);
-		
-		searchWin.addEventListener('open',function(){
+
+		searchWin.addEventListener('open', function() {
 			Titanium.API.info('Search window opened');
 		});
-		searchWin.addEventListener('close',function(){
+		searchWin.addEventListener('blur', function() {
+			Titanium.API.info('Search window blured');
+		});
+		searchWin.addEventListener('close', function() {
 			Titanium.API.info('Search window closed');
 		});
-
 		//Backbutton
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
 
 		backButton.addEventListener('click', function() {
-			Titanium.App.navTab1.close(searchWin,{animated:false});
+			Titanium.App.navTab1.close(searchWin, {
+				animated : false
+			});
 			//searchWin.close();
 		});
 		searchWin.leftNavButton = backButton;
@@ -50,8 +54,13 @@
 			},
 			returnKeyType : Titanium.UI.RETURNKEY_SEARCH
 		});
-
 		searchWin.add(searchBar);
+		
+		searchBar.addEventListener('change', function() {
+			getConcertsByName();
+			lblTap.hide();
+		});
+		
 
 		var lblTap = Titanium.UI.createLabel({
 			text : 'Tik in het zoekveld om te zoeken.',
@@ -65,10 +74,12 @@
 		});
 		searchWin.add(lblTap);
 
-		searchBar.addEventListener('change', function() {
-			getConcertsByName();
-			lblTap.hide();
+		
+
+		Titanium.App.addEventListener('app:reloadSearch', function(e) {
+			searchBar.setValue(Titanium.App.searchValue);
 		});
+		
 		//
 		// Evenementen
 		//
@@ -146,39 +157,30 @@
 
 						data.push(row);
 					};
-
-					searchBar.addEventListener('return', function(e) {
-						listLinks.setData(data);
-						listLinks.setBottom(0);
-					});
 					var listLinks = Titanium.UI.createTableView({
-						top : 44,
-						left : 0,
-						right : 0,
-						bottom : 373,
-						backgroundImage : '/img/bg.png',
-						scrollable : true
-					});
-					searchWin.add(listLinks);
-
-					Titanium.App.addEventListener('app:reloadSearch', function(e) {
-						searchBar.setValue(Titanium.App.searchValue);
-					});
+			top : 44,
+			left : 0,
+			right : 0,
+			bottom : 373,
+			backgroundImage : '/img/bg.png',
+			scrollable : true
+		});
+		searchWin.add(listLinks);
+		searchBar.addEventListener('return', function(e) {
+			listLinks.setData(data);
+			listLinks.setBottom(0);
+		});
 					//Open detail van window
-					listLinks.addEventListener('click', function(e) {
-						Titanium.App.searchValue = searchBar.value;
+		listLinks.addEventListener('click', function(e) {
+			Titanium.App.searchValue = searchBar.value;
 
-						Titanium.App.selectedIndex = list[e.index].cdbid;
-						Titanium.API.info(Titanium.App.selectedIndex);
-						
-						Titanium.App.navTab1.open(Uit.ui.createDetailWindow());
-						
-						/*var winSearch = Uit.ui.createDetailWindow();
-						//winSearch.containingTab.open(winSearch);
-						//winSearch.tabGroup.activeTab.open(winSearch);
-						winSearch.open();*/
+			Titanium.App.selectedIndex = list[e.index].cdbid;
+			Titanium.API.info(Titanium.App.selectedIndex);
 
-					});
+			Titanium.App.navTab1.open(Uit.ui.createDetailWindow());
+
+		});
+
 				} catch(e) {
 					alert(e);
 				}

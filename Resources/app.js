@@ -19,9 +19,8 @@ Ti.include(
 	
 	'windows/detail.js',
 	'windows/search.js',
-	'windows/search_detail.js',
 	
-	'windows/icons.js', 
-	'windows/main.js'
+	'windows/main.js',
+	'windows/activityIndicator.js'
 );
 Uit.ui.createApplicationMainWin();

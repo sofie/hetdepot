@@ -7,40 +7,53 @@
 			width : '100%',
 			barImage : 'img/header.png',
 			tabBarHidden : true,
-			backgroundImage:'img/bg.png'
+			backgroundImage:'img/bg.png',
+			//titleControl:lblTitle
+			title:'Detail'
 		});
-		
-		detailWin.addEventListener('open',function(){
-			getLinks();
-			Titanium.API.info('Detail window opened');
-		});
-		detailWin.addEventListener('close',function(){
-			Titanium.API.info('Detail window closed');
-		});
-
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Detail',
 			color : '#fff',
 			font : FontLubalinTitle
 		});
-		detailWin.setTitleControl(lblTitle);
+		detailWin.titleControl=lblTitle;
+		
+		
+		
+	
+		
+		detailWin.addEventListener('blur',function(){
+			Titanium.API.info('Detail window blured');
+			Titanium.App.navTab1.close(detailWin,{animated:false});
+		});
+		
+		var navActInd = Titanium.UI.createActivityIndicator();	
+		detailWin.addEventListener('open',function(){
+			getLinks();
+			Titanium.API.info('Detail window opened');
+				
+			detailWin.setRightNavButton(navActInd);
+			navActInd.show();
+		});
+		
+		detailWin.addEventListener('close',function(){
+			Titanium.API.info('Detail window closed');
+		});
+
+		
 
 		//Backbutton
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
 		backButton.addEventListener('click', function() {
-			//Zoekresultaten herladen
 			Ti.App.fireEvent('app:reloadSearch', {
 				action : 'Reload search'
 			});
-			Titanium.App.navTab1.close(detailWin,{animated:false});
-			
-			
+			Titanium.App.navTab1.close(detailWin,{animated:false});	
 		});
 		detailWin.leftNavButton = backButton;
 
 		//Detail van geselecteerd concert ophalen
-		function getLinks() {
-
+		function getLinks() {	
 			
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/event/' + Titanium.App.selectedIndex + '?format=json&key=' + Uit.api_key;
@@ -48,7 +61,7 @@
 
 			getReq.timeout = 5000;
 			getReq.onload = function() {
-				try {
+				try {					
 					var detail = JSON.parse(this.responseText);
 
 					var scrollView = Titanium.UI.createScrollView({
@@ -72,18 +85,18 @@
 					//Als geen foto is, foto weglaten
 					if(detail.event.eventdetails.eventdetail.media !== undefined) {
 						var evenementImg = detail.event.eventdetails.eventdetail.media.file.hlink+'?width=320&height=175&crop=auto';
-						
-						var image = Ti.UI.createImageView({
-							image : evenementImg,
-							width : 320,
-							height : 175,
-							top:0,
-							left:0
-						});
-
-						scrollView.add(image);
-
-					};
+					}else{
+						evenementImg = 'img/no_img.png'
+					}
+					
+					var image = Ti.UI.createImageView({
+						image : evenementImg,
+						width : 320,
+						height : 175,
+						top:0,
+						left:0
+					});
+					scrollView.add(image);
 
 					var viewBlue = Titanium.UI.createView({
 						width : '100%',
@@ -241,7 +254,7 @@
 					scrollView.add(ticketsLink);
 
 					detailWin.add(scrollView);
-
+					navActInd.hide();
 
 				} catch(e) {
 					alert(e);
@@ -253,6 +266,7 @@
 			}
 
 			getReq.send();
+			
 		}
 		return detailWin;
 	};

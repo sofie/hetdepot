@@ -9,34 +9,55 @@
 			tabBarHidden : true,
 			backgroundImage:'img/bg.png'
 		});
-		lijstWin.addEventListener('close',function(){
-			Titanium.API.info('Lijst window closed');
-		});
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Concerten',
 			color : '#fff',
 			font : FontLubalinTitle
 		});
-		lijstWin.setTitleControl(lblTitle);
-
+		lijstWin.setTitleControl(lblTitle);		
+		
+		lijstWin.addEventListener('close',function(){
+			Titanium.API.info('Lijst window closed');
+		});
+		
+		lijstWin.addEventListener('open',function(){
+			Titanium.API.info('Lijst window opened');
+			getConcerts();
+		});
+		
+		
+		Titanium.App.addEventListener('app:reloadRequest', function(e) {
+			Titanium.API.info('Refresh concerten');
+			Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
+			getConcerts();
+		});
+		
+		lijstWin.addEventListener('close', function() {
+		    Ti.App.removeEventListener('app:reloadRequest', function(e) {
+				Titanium.API.info('Refresh concerten');
+				Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
+				getConcerts();
+			});
+		});
 		//
 		// Evenementen
 		//
-		getConcerts();
 		function getConcerts() {
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
 			
+			if(!Titanium.Network.online){
+			     alert("You must be connected to the internet to retrieve Het Depot information");
+			}
+			
 			getReq.open("GET", url);
 			getReq.timeout = 5000;
 			getReq.onload = function() {
 				try {
 					var list = JSON.parse(this.responseText);
-
-					//Er zijn nog geen linken in de databank
 
 					for(var i = 0, j = list.length; i < j; i++) {
 						Titanium.App.evNaam1 = list[i].title;
@@ -94,31 +115,30 @@
 
 						data.push(row);
 					};
-
 					var listLinks = Titanium.UI.createTableView({
 						top : 0,
 						left : 0,
 						right : 0,
-						bottom : 0,
-						data : data,
+						bottom : 40,
+						data:data,
 						backgroundImage : '/img/bg.png'
 					});
 					lijstWin.add(listLinks);
 
-					//Open detail van window
+					//Open detail window
 					listLinks.addEventListener('click', function(e) {
 						Titanium.App.selectedIndex = list[e.index].cdbid;
+						Titanium.App.concertNaam = list[e.index].title.toUpperCase();
 						Titanium.API.info('-------');
 						Titanium.API.info('cdbid: ' + Titanium.App.selectedIndex);
-						//lijstWin.close();
+
 						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(),{
 							animated:false
-						});
-						//lijstWin.containingTab.open(Uit.ui.createDetailWindow());
-						
-	
+						},{title:'Detail'});
 
 					});
+					Uit.ui.activityIndicator.hideModal();
+					
 				} catch(e) {
 					alert(e);
 				}
@@ -127,13 +147,11 @@
 			getReq.onerror = function(e) {
 				Ti.API.info("TEXT onerror:   " + this.responseText);
 				alert('Kan gegevens niet ophalen.');
+				Uit.ui.activityIndicator.hideModal();
 			};
 
 			getReq.send();
 		};
-
-
-		lijstWin.open();
 		return lijstWin;
 	};
 })();

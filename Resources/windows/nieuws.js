@@ -10,6 +10,9 @@
 			tabBarHidden : true,
 			backgroundImage:'img/bg.png'
 		});
+		nieuwsWindow.addEventListener('open',function(){
+			Titanium.API.info('Nieuws window opened');
+		});
 		
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Nieuws',
