@@ -1,4 +1,6 @@
-//Window met alle items in lijst
+/*
+ * Eerste tab, alle concerten in tableview
+ */
 
 (function() {
 
@@ -17,38 +19,42 @@
 		});
 		lijstWin.setTitleControl(lblTitle);		
 		
+		// RIGHT NAVBAR REFRESH BUTTON
+		var searchButton = Titanium.UI.createButton(commonStyle.searchButton);
+		searchButton.addEventListener('click', function() {
+			var searchWin = Uit.ui.createSearchWindow();
+			Titanium.App.navTab1.open(searchWin,{animated:false});
+		});
+		lijstWin.rightNavButton = searchButton;
+		
+		// LEFT NAVBAR REFRESH BUTTON
+		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
+		refreshButton.addEventListener('click', function() {
+			Titanium.API.info('Refresh concerten');
+			Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
+			getConcerts();
+		});
+		lijstWin.leftNavButton=refreshButton;
+		
 		lijstWin.addEventListener('close',function(){
 			Titanium.API.info('Lijst window closed');
 		});
-		
+				
+		//
+		// HTTP CLIENT GETCONCERTS
+		//
 		lijstWin.addEventListener('open',function(){
 			Titanium.API.info('Lijst window opened');
 			getConcerts();
 		});
 		
-		
-		Titanium.App.addEventListener('app:reloadRequest', function(e) {
-			Titanium.API.info('Refresh concerten');
-			Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
-			getConcerts();
-		});
-		
-		lijstWin.addEventListener('close', function() {
-		    Ti.App.removeEventListener('app:reloadRequest', function(e) {
-				Titanium.API.info('Refresh concerten');
-				Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
-				getConcerts();
-			});
-		});
-		//
-		// Evenementen
-		//
 		function getConcerts() {
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
 			
+			//Geen internet
 			if(!Titanium.Network.online){
 			     alert("You must be connected to the internet to retrieve Het Depot information");
 			}
@@ -73,7 +79,8 @@
 							height : 92,
 							rightImage : 'img/detail.png',
 							backgroundImage : 'img/bg.png',
-							layout : 'vertical'
+							layout : 'vertical',
+							selectedBackgroundColor : '#B8DAE8'
 						});
 
 						if(evenementImg!== '') {
@@ -109,6 +116,7 @@
 							textAlign : 'left',
 							font : FontSmall
 						});
+						
 						row.add(thumb);
 						row.add(name);
 						row.add(descr);

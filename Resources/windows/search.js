@@ -1,4 +1,6 @@
-//Search window
+/*
+ * Search window
+ */
 
 (function() {
 
@@ -21,14 +23,12 @@
 		searchWin.addEventListener('close', function() {
 			Titanium.API.info('Search window closed');
 		});
-		//Backbutton
+		//LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
-
 		backButton.addEventListener('click', function() {
 			Titanium.App.navTab1.close(searchWin, {
 				animated : false
 			});
-			//searchWin.close();
 		});
 		searchWin.leftNavButton = backButton;
 
@@ -55,13 +55,11 @@
 			returnKeyType : Titanium.UI.RETURNKEY_SEARCH
 		});
 		searchWin.add(searchBar);
-		
+
 		searchBar.addEventListener('change', function() {
 			getConcertsByName();
 			lblTap.hide();
 		});
-		
-
 		var lblTap = Titanium.UI.createLabel({
 			text : 'Tik in het zoekveld om te zoeken.',
 			width : 'auto',
@@ -74,14 +72,11 @@
 		});
 		searchWin.add(lblTap);
 
-		
-
 		Titanium.App.addEventListener('app:reloadSearch', function(e) {
 			searchBar.setValue(Titanium.App.searchValue);
 		});
-		
 		//
-		// Evenementen
+		// HTTP CLIENT GETCONCERTBYNAME
 		//
 		function getConcertsByName() {
 			var data = [];
@@ -158,29 +153,28 @@
 						data.push(row);
 					};
 					var listLinks = Titanium.UI.createTableView({
-			top : 44,
-			left : 0,
-			right : 0,
-			bottom : 373,
-			backgroundImage : '/img/bg.png',
-			scrollable : true
-		});
-		searchWin.add(listLinks);
-		searchBar.addEventListener('return', function(e) {
-			listLinks.setData(data);
-			listLinks.setBottom(0);
-		});
+						top : 44,
+						left : 0,
+						right : 0,
+						bottom : 373,
+						backgroundImage : '/img/bg.png',
+						scrollable : true
+					});
+					searchWin.add(listLinks);
+					searchBar.addEventListener('return', function(e) {
+						listLinks.setData(data);
+						listLinks.setBottom(0);
+					});
 					//Open detail van window
-		listLinks.addEventListener('click', function(e) {
-			Titanium.App.searchValue = searchBar.value;
+					listLinks.addEventListener('click', function(e) {
+						Titanium.App.searchValue = searchBar.value;
 
-			Titanium.App.selectedIndex = list[e.index].cdbid;
-			Titanium.API.info(Titanium.App.selectedIndex);
+						Titanium.App.selectedIndex = list[e.index].cdbid;
+						Titanium.API.info(Titanium.App.selectedIndex);
 
-			Titanium.App.navTab1.open(Uit.ui.createDetailWindow());
+						Titanium.App.navTab1.open(Uit.ui.createDetailWindow());
 
-		});
-
+					});
 				} catch(e) {
 					alert(e);
 				}

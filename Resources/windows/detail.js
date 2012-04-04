@@ -1,4 +1,6 @@
-//Detail window van geselecteerd item
+/*
+ * Detail window
+ */
 
 (function() {
 	Uit.ui.createDetailWindow = function() {
@@ -8,7 +10,6 @@
 			barImage : 'img/header.png',
 			tabBarHidden : true,
 			backgroundImage:'img/bg.png',
-			//titleControl:lblTitle
 			title:'Detail'
 		});
 		var lblTitle = Titanium.UI.createLabel({
@@ -18,9 +19,6 @@
 		});
 		detailWin.titleControl=lblTitle;
 		
-		
-		
-	
 		
 		detailWin.addEventListener('blur',function(){
 			Titanium.API.info('Detail window blured');
@@ -42,7 +40,7 @@
 
 		
 
-		//Backbutton
+		// LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
 		backButton.addEventListener('click', function() {
 			Ti.App.fireEvent('app:reloadSearch', {
@@ -52,7 +50,7 @@
 		});
 		detailWin.leftNavButton = backButton;
 
-		//Detail van geselecteerd concert ophalen
+		//HTTP CLIENT GETLINKS
 		function getLinks() {	
 			
 			var getReq = Titanium.Network.createHTTPClient();

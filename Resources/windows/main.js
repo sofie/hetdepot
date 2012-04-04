@@ -1,4 +1,6 @@
-//Window met 4 buttons
+/*
+ * Main window met tabgroup en navgroup
+ */
 
 (function() {
 
@@ -6,49 +8,20 @@
 
 	var tabGroup = Titanium.UI.createTabGroup();
 
-		// First tab, main window
-		var mainWinTab1 = Uit.ui.createLijstWindow();
-
-		var searchButton = Titanium.UI.createButton({
-			backgroundImage : "img/btn_search.png",
-			width : 50,
-			height : 33
-		});
-		mainWinTab1.rightNavButton = searchButton;
-		
-		var refreshButton = Titanium.UI.createButton({
-			backgroundImage : "img/btn_refresh.png",
-			width : 50,
-			height : 33
-		});
-		refreshButton.addEventListener('click', function() {
-			Ti.App.fireEvent('app:reloadRequest', {
-				action : 'Reload request'
-			});
-		});
-		mainWinTab1.leftNavButton=refreshButton;
-
-		
-
+		// FIRST TAB
+		var mainWinTab1 = Uit.ui.createLijstWindow();		
 		var navTab1 = Titanium.UI.iPhone.createNavigationGroup({
 			window : mainWinTab1
 		});
 		Titanium.App.navTab1 = navTab1;
-
-		searchButton.addEventListener('click', function() {
-			var searchWinTab1 = Uit.ui.createSearchWindow();
-			navTab1.open(searchWinTab1,{animated:false});
-		});
-
 		var baseWinTab1 = Titanium.UI.createWindow({
 			navBarHidden : true,
 			tabBarHidden:true
 		});
 		baseWinTab1.add(navTab1);
-
-		
-		// Second tab, main window
-
+	
+	
+		// SECOND TAB
 		var mainWinTab2 = Uit.ui.createNieuwsWindow();
 
 		var navTab2 = Titanium.UI.iPhone.createNavigationGroup({
@@ -62,8 +35,7 @@
 		});
 		baseWinTab2.add(navTab2);
 
-		// Tab group
-
+		//TAB GROUP
 		var tab1 = Titanium.UI.createTab({
 			window : baseWinTab1
 		});
@@ -77,6 +49,7 @@
 
 		tabGroup.open();
 		
+		//CUSTOM TAB
 		Ti.include("customTabBar/customTabBar.js");
 
 		var myCustomTabBar = new CustomTabBar({

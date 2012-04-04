@@ -20,7 +20,12 @@ exports.commonStyles = function() {
 			height : 33
 		},
 		searchButton : {
-			backgroundImage : "img/btn_search_gradient.png",
+			backgroundImage : "img/btn_search.png",
+			width : 50,
+			height : 33
+		},
+		refreshButton : {
+			backgroundImage : "img/btn_refresh.png",
 			width : 50,
 			height : 33
 		},
