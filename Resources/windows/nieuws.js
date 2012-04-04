@@ -42,8 +42,11 @@
 
 			for(var c = 0; c < itemList.length; c++) {
 
-				var title = itemList.item(c).getElementsByTagName("title").item(0).text;
+				var title = itemList.item(c).getElementsByTagName("title").item(0).text.toUpperCase();
 				var desc = itemList.item(c).getElementsByTagName("description").item(0).text;
+				var date = itemList.item(c).getElementsByTagName("pubDate").item(0).text;
+				date = date.substr(5, 11);
+				var link = itemList.item(c).getElementsByTagName("link").item(0).text;
 				title = title.replace(/\n/gi, " ");
 				desc = desc.replace(/\n/gi, " ");
 
@@ -56,19 +59,15 @@
 					selectedBackgroundColor : '#B8DAE8'
 				});
 
-				// Create a label for the title
 				var post_title = Ti.UI.createLabel({
 					text : title,
 					color : '#000',
 					textAlign : 'left',
 					left : 20,
-					height : 20,
-					width : 300,
+					height : 50,
+					width : 270,
 					top : 5,
-					font : {
-						fontWeight : 'bold',
-						fontSize : 15
-					}
+					font : FontTitleLittle
 				});
 				row.add(post_title);
 
@@ -79,15 +78,27 @@
 					left : 20,
 					height : 50,
 					width : 270,
-					top : 8,
-					font : {
-						fontSize : 12
-					}
+					top : 5,
+					font : FontNormal
 				});
 				row.add(post_desc);
 
+				var post_date = Ti.UI.createLabel({
+					text : date,
+					color : '#000',
+					textAlign : 'left',
+					left : 20,
+					height : 'auto',
+					width : 270,
+					top : 5,
+					bottom : 8,
+					font : FontSmallBold
+				});
+				row.add(post_date);
+
 				// Add some rowData for when it is clicked
 				row.thisTitle = title;
+				row.thisLink = link;
 				row.thisDesc = desc;
 
 				// Add the row to the data
@@ -109,11 +120,33 @@
 
 			// Create tableView row event listener
 			feedTableView.addEventListener('click', function(e) {
+				var webview = Titanium.UI.createWebView({
+					url : e.rowData.thisLink,
+					width : 440,
+					left : 0,
+					top : -30
+				});
 
-				// a feed item was clicked
-				Ti.API.info('item index clicked :' + e.index);
-				Ti.API.info('title  :' + e.rowData.thisTitle);
-				Ti.API.info('description  :' + strip_tags(e.rowData.thisDesc));
+				var windowLink = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+				var lblTitle = Titanium.UI.createLabel({
+					text : 'DeMorgen.be',
+					color : '#fff',
+					font : FontLubalinTitle
+				});
+				windowLink.setTitleControl(lblTitle);
+
+				var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.backButton);
+				backBtnLinkWindow.addEventListener('click', function() {
+					windowLink.close({
+						animated : false
+					});
+				});
+				windowLink.leftNavButton = backBtnLinkWindow;
+
+				windowLink.add(webview);
+				windowLink.open({
+					modal : true
+				});
 			});
 		};
 
