@@ -63,6 +63,7 @@ CustomTabBar = function(settings) {
 	}
 
 	// Display the container and it's items
+	settings.tabBar.add(customTabBar);
 	customTabBar.open();
 
 	// Set the first item as current :)

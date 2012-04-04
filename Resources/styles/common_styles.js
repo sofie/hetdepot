@@ -2,13 +2,16 @@ exports.commonStyles = function() {
 	return {
 		window : {
 			width : '100%',
-			//height : 580,
 			barImage : 'img/header.png',
-			layout:'vertical'
+			layout:'vertical',
+			backgroundImage:'img/bg.png',
+			tabBarHidden : true
 		},
 		windowNoLayout : {
 			width : '100%',
-			barImage : 'img/header.png'
+			barImage : 'img/header.png',
+			tabBarHidden : true,
+			backgroundImage:'img/bg.png'
 		},
 
 		backButton : {
@@ -17,14 +20,14 @@ exports.commonStyles = function() {
 			height : 33
 		},
 		searchButton : {
-			backgroundImage : "img/btn_search.png",
+			backgroundImage : "img/btn_search_gradient.png",
 			width : 50,
 			height : 33
 		},
-		zoekenButton : {
-			backgroundImage : "img/btn_zoeken.png",
-			width : 100,
-			height : 33
+		starView:{
+			backgroundImage : "img/star.png",
+			width : 14,
+			height : 14
 		}
 	};
 };

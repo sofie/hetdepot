@@ -4,14 +4,19 @@
 		//
 		// Main window
 		//
-		var mainWindow = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+		var nieuwsWindow = Titanium.UI.createWindow({
+			width : '100%',
+			barImage : 'img/header.png',
+			tabBarHidden : true,
+			backgroundImage:'img/bg.png'
+		});
 		
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Nieuws',
 			color : '#fff',
 			font : FontLubalinTitle
 		});
-		mainWindow.setTitleControl(lblTitle);
+		nieuwsWindow.setTitleControl(lblTitle);
 		
 
 		var data = [Ti.UI.createTableViewRow({
@@ -30,8 +35,9 @@
 			scrollable : false,
 			fullscreen : false
 		});
-		mainWindow.add(tableview);
+		nieuwsWindow.add(tableview);
 		
-		return mainWindow;
+		nieuwsWindow.open();
+		return nieuwsWindow;
 	};
 })();

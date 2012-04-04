@@ -1,6 +1,7 @@
 var Uit = {
     ui: {},
-    navGroup: undefined
+    api_key : '147c56bc-ae80-4b2f-b246-b83e55f364fc',
+	organizer : '061C13AC-A15F-F419-D8993D68C9E94548'
 };
 
 
@@ -9,6 +10,7 @@ Titanium.UI.setBackgroundImage('img/bg.png');
 Titanium.include('styles/font_styles.js');
 var commonStyle = require('styles/common_styles').commonStyles();
 
+Titanium.include('config.js');
 
 //windows & ui
 Ti.include(
@@ -17,6 +19,7 @@ Ti.include(
 	
 	'windows/detail.js',
 	'windows/search.js',
+	'windows/search_detail.js',
 	
 	'windows/icons.js', 
 	'windows/main.js'

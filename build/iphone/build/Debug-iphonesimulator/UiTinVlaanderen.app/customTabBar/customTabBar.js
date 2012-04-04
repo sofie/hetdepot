@@ -1,0 +1,1 @@
+/Users/sofie/Documents/Titanium Studio Workspace/UiTinVlaanderen/Resources/customTabBar/customTabBar.js
