@@ -7,6 +7,7 @@
 	Uit.ui.createApplicationMainWin = function() {
 
 		var tabGroup = Titanium.UI.createTabGroup();
+		Titanium.App.tabgroup = tabGroup;
 
 		// FIRST TAB
 		var mainWinTab1 = Uit.ui.createLijstWindow();

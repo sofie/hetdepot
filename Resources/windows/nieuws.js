@@ -5,6 +5,8 @@
 (function() {
 	Uit.ui.createNieuwsWindow = function() {
 
+		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab2);
+
 		var nieuwsWindow = Titanium.UI.createWindow({
 			width : '100%',
 			barImage : 'img/header.png',
@@ -126,7 +128,6 @@
 					left : 0,
 					top : -30
 				});
-				
 
 				var windowLink = Titanium.UI.createWindow(commonStyle.windowNoLayout);
 				var lblTitle = Titanium.UI.createLabel({
@@ -153,7 +154,7 @@
 
 		function loadRSSFeed(url) {
 			data = [];
-			Ti.API.info('>>>> loading feed ' + url);
+
 			xhr = Titanium.Network.createHTTPClient();
 			xhr.open('GET', url);
 			xhr.onload = function() {
@@ -166,7 +167,7 @@
 					feedTitle = channel.item(0).getElementsByTagName("title").item(0).text;
 
 					lblTitle.text = feedTitle;
-					
+
 					// Find the RSS feed 'items'
 					var itemList = xml.documentElement.getElementsByTagName("item");
 

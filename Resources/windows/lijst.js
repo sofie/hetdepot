@@ -3,8 +3,10 @@
  */
 
 (function() {
-
 	Uit.ui.createLijstWindow = function() {
+		
+		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab1);
+
 		var lijstWin = Titanium.UI.createWindow({
 			width : '100%',
 			barImage : 'img/header.png',
