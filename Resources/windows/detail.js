@@ -49,7 +49,6 @@
 			Titanium.API.info('Detail window closed');
 		});		
 		
-		
 	
 
 		//HTTP CLIENT GETLINKS
@@ -177,6 +176,7 @@
 					}else{
 						evenementDescription=detail.event.eventdetails.eventdetail.shortdescription;
 					};
+					evenementDescription=evenementDescription.replace(/\n/gi, " ");
 
 					var HtmlParser = function(evenementDescription) {
 						var html = evenementDescription;
@@ -218,7 +218,9 @@
 					
 					ticketsLink.addEventListener('click', function(e) {
 						windowLink.open({
-							modal : true
+							modal : true,
+							modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
+	    					modalStyle: Ti.UI.iPhone.MODAL_PRESENTATION_CURRENT_CONTEXT, 
 						});
 					});
 					
@@ -238,7 +240,7 @@
 					});
 					windowLink.setTitleControl(lblTitle);
 
-					var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.backButton);
+					var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
 					backBtnLinkWindow.addEventListener('click', function() {
 						windowLink.close({
 							animated : false

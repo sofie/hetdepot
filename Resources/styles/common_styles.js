@@ -19,6 +19,11 @@ exports.commonStyles = function() {
 			width : 50,
 			height : 44
 		},
+		downButton : {
+			backgroundImage : "img/btn_down.png",
+			width : 50,
+			height : 44
+		},
 		searchButton : {
 			backgroundImage : "img/btn_search.png",
 			width : 50,

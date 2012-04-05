@@ -1,3 +1,8 @@
+/*
+ * Activity indicator
+ * https://github.com/appcelerator/Codestrong/blob/master/Resources/windows/ModalActivityIndicatorWindow.js
+ */
+
 Uit.ui.activityIndicator = (function() {
 	var activityIndicator;
 	var isShowing = false;

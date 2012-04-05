@@ -1,11 +1,17 @@
+/**
+ * Tutorial: Custom iPhone tabbar using Appcelerator Titanium
+ * http://www.samjordan.co.uk/2011/02/tutorial-custom-iphone-tabbar-using-appcelerator-titanium/
+ * 
+ * https://github.com/netsells/customTabBar
+ */
+
 CustomTabBar = function(settings) {
 	var tabBarItems = [];
 	var	tabCurrent = 0;
 	
 	var resetTabs = function() {
 		for(var i = 0; i < tabBarItems.length; i++) {
-			// Clear all the images to make sure only
-			// one is shown as selected
+			// Clear all the images to make sure only one is shown as selected
 			tabBarItems[i].image = "images/clear.png";
 		}
 	};

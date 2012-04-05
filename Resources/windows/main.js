@@ -50,6 +50,8 @@
 		tabGroup.open();
 
 		//CUSTOM TAB
+		//Tutorial: Custom iPhone tabbar using Appcelerator Titanium
+		//http://www.samjordan.co.uk/2011/02/tutorial-custom-iphone-tabbar-using-appcelerator-titanium/
 		Ti.include("customTabBar/customTabBar.js");
 
 		var myCustomTabBar = new CustomTabBar({
@@ -66,6 +68,6 @@
 			}]
 		});
 
-		//return tabGroup;
+		return tabGroup;
 	}
 })();

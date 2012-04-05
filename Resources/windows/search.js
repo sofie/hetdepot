@@ -3,12 +3,12 @@
  */
 
 (function() {
-
+	
 	Uit.ui.createSearchWindow = function() {
 		var searchWin = Titanium.UI.createWindow(commonStyle.windowNoLayout);
 
 		var lblTitle = Titanium.UI.createLabel({
-			text : 'Zoek concert',
+			text : 'Zoeken',
 			color : '#fff',
 			font : FontLubalinTitle
 		});

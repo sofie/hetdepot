@@ -33,8 +33,6 @@
 
 		var url = 'http://www.demorgen.be/cache/rss_muziek.xml';
 
-		Titanium.include('windows/strip_tags.js');
-
 		var data;
 		var i = 0;
 		var feedTableView;
@@ -49,8 +47,6 @@
 				var date = itemList.item(c).getElementsByTagName("pubDate").item(0).text;
 				date = date.substr(5, 11);
 				var link = itemList.item(c).getElementsByTagName("link").item(0).text;
-				title = title.replace(/\n/gi, " ");
-				desc = desc.replace(/\n/gi, " ");
 
 				// Create a table row for this item
 				var row = Ti.UI.createTableViewRow({
@@ -137,7 +133,7 @@
 				});
 				windowLink.setTitleControl(lblTitle);
 
-				var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.backButton);
+				var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
 				backBtnLinkWindow.addEventListener('click', function() {
 					windowLink.close({
 						animated : false
@@ -147,7 +143,9 @@
 
 				windowLink.add(webview);
 				windowLink.open({
-					modal : true
+					modal : true,
+					modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
+	    			modalStyle: Ti.UI.iPhone.MODAL_PRESENTATION_CURRENT_CONTEXT, 
 				});
 			});
 		};
