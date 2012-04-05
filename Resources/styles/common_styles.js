@@ -17,17 +17,17 @@ exports.commonStyles = function() {
 		backButton : {
 			backgroundImage : "img/btn_back.png",
 			width : 50,
-			height : 33
+			height : 44
 		},
 		searchButton : {
 			backgroundImage : "img/btn_search.png",
 			width : 50,
-			height : 33
+			height : 44
 		},
 		refreshButton : {
 			backgroundImage : "img/btn_refresh.png",
 			width : 50,
-			height : 33
+			height : 44
 		},
 		starView:{
 			backgroundImage : "img/star.png",

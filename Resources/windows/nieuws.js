@@ -126,6 +126,7 @@
 					left : 0,
 					top : -30
 				});
+				
 
 				var windowLink = Titanium.UI.createWindow(commonStyle.windowNoLayout);
 				var lblTitle = Titanium.UI.createLabel({
@@ -157,8 +158,6 @@
 			xhr.open('GET', url);
 			xhr.onload = function() {
 				try {
-					Ti.API.info('>>> got the feed! ... ');
-
 					// Now parse the feed XML
 					var xml = this.responseXML;
 
@@ -166,12 +165,10 @@
 					var channel = xml.documentElement.getElementsByTagName("channel");
 					feedTitle = channel.item(0).getElementsByTagName("title").item(0).text;
 
-					Ti.API.info("TITLE " + feedTitle);
-
 					lblTitle.text = feedTitle;
+					
 					// Find the RSS feed 'items'
 					var itemList = xml.documentElement.getElementsByTagName("item");
-					Ti.API.info('found ' + itemList.length + ' items in the RSS feed');
 
 					// Now add the items to a tableView
 					displayItems(itemList);

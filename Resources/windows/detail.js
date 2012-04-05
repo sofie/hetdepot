@@ -19,6 +19,17 @@
 		});
 		detailWin.titleControl=lblTitle;
 		
+		// LEFT NAVBAR BACK BUTTON
+		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		backButton.addEventListener('click', function() {
+			Ti.App.fireEvent('app:reloadSearch', {
+				action : 'Reload search'
+			});
+			
+			Titanium.App.navTab1.close(detailWin,{animated:false});	
+		});
+		detailWin.leftNavButton = backButton;
+		
 		
 		detailWin.addEventListener('blur',function(){
 			Titanium.API.info('Detail window blured');
@@ -36,19 +47,10 @@
 		
 		detailWin.addEventListener('close',function(){
 			Titanium.API.info('Detail window closed');
-		});
-
+		});		
 		
-
-		// LEFT NAVBAR BACK BUTTON
-		var backButton = Titanium.UI.createButton(commonStyle.backButton);
-		backButton.addEventListener('click', function() {
-			Ti.App.fireEvent('app:reloadSearch', {
-				action : 'Reload search'
-			});
-			Titanium.App.navTab1.close(detailWin,{animated:false});	
-		});
-		detailWin.leftNavButton = backButton;
+		
+	
 
 		//HTTP CLIENT GETLINKS
 		function getLinks() {	
@@ -62,15 +64,6 @@
 				try {					
 					var detail = JSON.parse(this.responseText);
 
-					var scrollView = Titanium.UI.createScrollView({
-						contentWidth : 'auto',
-						contentHeight : 'auto',
-						top : 0,
-						bottom : 10,
-						showVerticalScrollIndicator : true,
-						layout : 'vertical'
-					});
-
 					var evenementNaam = detail.event.eventdetails.eventdetail.title.toUpperCase();
 					var evenementDatum = detail.event.calendar.timestamps.timestamp.date;
 					var evJaar = evenementDatum.substr(2,2);
@@ -79,6 +72,15 @@
 					var prettyDate = evDag+'.'+evMaand+'.'+evJaar;
 					var evenementStart = detail.event.calendar.timestamps.timestamp.timestart;
 					evenementStart = evenementStart.substr(0,5);
+					
+					var scrollView = Titanium.UI.createScrollView({
+						contentWidth : 'auto',
+						contentHeight : 'auto',
+						top : 0,
+						bottom : 10,
+						showVerticalScrollIndicator : true,
+						layout : 'vertical'
+					});
 					
 					//Als geen foto is, foto weglaten
 					if(detail.event.eventdetails.eventdetail.media !== undefined) {
@@ -115,7 +117,7 @@
 						color : '#fff'
 					});
 
-					var viewHorizontal = Titanium.UI.createLabel({
+					var viewHorizontal = Titanium.UI.createView({
 						width : '100%',
 						height : 30,
 						top : 10
@@ -200,7 +202,8 @@
 						top:5,
 						left:30,
 						backgroundImage:'/img/bg-red-circle.png'
-					})
+					});
+					
 
 					var ticketsLink = Ti.UI.createLabel({
 						text : 'tickets',
@@ -218,6 +221,7 @@
 							modal : true
 						});
 					});
+					
 					
 					//
 					//Webview window
@@ -239,6 +243,9 @@
 						windowLink.close({
 							animated : false
 						});
+						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(),{
+							animated:false
+						},{title:'Detail'});
 					});
 					windowLink.leftNavButton = backBtnLinkWindow;
 
@@ -250,7 +257,26 @@
 					scrollView.add(web);
 					scrollView.add(ticketsPijl);
 					scrollView.add(ticketsLink);
-
+					
+					//Kleine windows toch laten scrollen
+					setTimeout(function() {
+					    if(web.size.height<110){
+					    	if(web.size.height===76){
+					    		//3 lijnen description
+					    		ticketsLink.setBottom(65);
+					    	
+					    	}else if(web.size.height===56){
+					    		//2 lijnen description
+					    		ticketsLink.setBottom(85);
+					    	}else{
+					    		//1 lijn description
+					    		ticketsLink.setBottom(105);
+					    	}
+					    	
+					    	scrollView.scrollTo(0,0);
+					    }
+					}, 500);
+					
 					detailWin.add(scrollView);
 					navActInd.hide();
 
@@ -264,8 +290,11 @@
 			}
 
 			getReq.send();
+		
 			
 		}
+		
+		
 		return detailWin;
 	};
 })();

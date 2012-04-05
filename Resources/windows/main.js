@@ -6,21 +6,20 @@
 
 	Uit.ui.createApplicationMainWin = function() {
 
-	var tabGroup = Titanium.UI.createTabGroup();
+		var tabGroup = Titanium.UI.createTabGroup();
 
 		// FIRST TAB
-		var mainWinTab1 = Uit.ui.createLijstWindow();		
+		var mainWinTab1 = Uit.ui.createLijstWindow();
 		var navTab1 = Titanium.UI.iPhone.createNavigationGroup({
 			window : mainWinTab1
 		});
 		Titanium.App.navTab1 = navTab1;
 		var baseWinTab1 = Titanium.UI.createWindow({
 			navBarHidden : true,
-			tabBarHidden:true
+			tabBarHidden : true
 		});
 		baseWinTab1.add(navTab1);
-	
-	
+
 		// SECOND TAB
 		var mainWinTab2 = Uit.ui.createNieuwsWindow();
 
@@ -31,7 +30,7 @@
 
 		var baseWinTab2 = Titanium.UI.createWindow({
 			navBarHidden : true,
-			tabBarHidden:true
+			tabBarHidden : true
 		});
 		baseWinTab2.add(navTab2);
 
@@ -48,7 +47,7 @@
 		tabGroup.addTab(tab2);
 
 		tabGroup.open();
-		
+
 		//CUSTOM TAB
 		Ti.include("customTabBar/customTabBar.js");
 
@@ -65,7 +64,7 @@
 				selected : 'btn_nieuws_selected.png'
 			}]
 		});
-		
-		return tabGroup;
+
+		//return tabGroup;
 	}
 })();

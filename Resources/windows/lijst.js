@@ -19,33 +19,34 @@
 		});
 		lijstWin.setTitleControl(lblTitle);		
 		
-		// RIGHT NAVBAR REFRESH BUTTON
+		// LEFT NAVBAR REFRESH BUTTON
 		var searchButton = Titanium.UI.createButton(commonStyle.searchButton);
 		searchButton.addEventListener('click', function() {
 			var searchWin = Uit.ui.createSearchWindow();
 			Titanium.App.navTab1.open(searchWin,{animated:false});
 		});
-		lijstWin.rightNavButton = searchButton;
+		lijstWin.leftNavButton = searchButton;
 		
-		// LEFT NAVBAR REFRESH BUTTON
+		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
 		refreshButton.addEventListener('click', function() {
 			Titanium.API.info('Refresh concerten');
 			Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
 			getConcerts();
 		});
-		lijstWin.leftNavButton=refreshButton;
+		lijstWin.rightNavButton=refreshButton;
 		
 		lijstWin.addEventListener('close',function(){
 			Titanium.API.info('Lijst window closed');
 		});
-				
+		
+		
 		//
 		// HTTP CLIENT GETCONCERTS
 		//
-		lijstWin.addEventListener('open',function(){
-			Titanium.API.info('Lijst window opened');
-			getConcerts();
+		lijstWin.addEventListener('open',function(e){
+			Titanium.API.info('Lijst window opened '+e.type);
+			
 		});
 		
 		function getConcerts() {
@@ -132,13 +133,13 @@
 						backgroundImage : '/img/bg.png'
 					});
 					lijstWin.add(listLinks);
+					Titanium.App.tableView = listLinks;
 
 					//Open detail window
 					listLinks.addEventListener('click', function(e) {
 						Titanium.App.selectedIndex = list[e.index].cdbid;
+						Titanium.App.rowIndex = e.index;
 						Titanium.App.concertNaam = list[e.index].title.toUpperCase();
-						Titanium.API.info('-------');
-						Titanium.API.info('cdbid: ' + Titanium.App.selectedIndex);
 
 						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(),{
 							animated:false
@@ -146,6 +147,8 @@
 
 					});
 					Uit.ui.activityIndicator.hideModal();
+					Titanium.App.tableView = listLinks;
+					
 					
 				} catch(e) {
 					alert(e);
@@ -160,6 +163,7 @@
 
 			getReq.send();
 		};
+		getConcerts();
 		return lijstWin;
 	};
 })();
