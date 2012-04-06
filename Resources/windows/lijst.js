@@ -7,12 +7,7 @@
 		
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab1);
 
-		var lijstWin = Titanium.UI.createWindow({
-			width : '100%',
-			barImage : 'img/header.png',
-			tabBarHidden : true,
-			backgroundImage:'img/bg.png'
-		});
+		var lijstWin = Titanium.UI.createWindow(commonStyle.window);
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Concerten',
@@ -140,12 +135,13 @@
 					//Open detail window
 					listLinks.addEventListener('click', function(e) {
 						Titanium.App.selectedIndex = list[e.index].cdbid;
+						Titanium.API.info(Titanium.App.selectedIndex);
 						Titanium.App.rowIndex = e.index;
 						Titanium.App.concertNaam = list[e.index].title.toUpperCase();
 
 						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(),{
 							animated:false
-						},{title:'Detail'});
+						});
 
 					});
 					Uit.ui.activityIndicator.hideModal();

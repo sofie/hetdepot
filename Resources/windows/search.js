@@ -5,7 +5,7 @@
 (function() {
 	
 	Uit.ui.createSearchWindow = function() {
-		var searchWin = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+		var searchWin = Titanium.UI.createWindow(commonStyle.window);
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Zoeken',

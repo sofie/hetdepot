@@ -7,12 +7,7 @@
 
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab2);
 
-		var nieuwsWindow = Titanium.UI.createWindow({
-			width : '100%',
-			barImage : 'img/header.png',
-			tabBarHidden : true,
-			backgroundImage : 'img/bg.png'
-		});
+		var nieuwsWindow = Titanium.UI.createWindow(commonStyle.window);
 		nieuwsWindow.addEventListener('open', function() {
 			Titanium.API.info('Nieuws window opened');
 		});
@@ -22,6 +17,11 @@
 			font : FontLubalinTitle
 		});
 		nieuwsWindow.setTitleControl(lblTitle);
+		
+		// load the feed
+		nieuwsWindow.addEventListener('open',function(){
+			loadRSSFeed(url);
+		});
 
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
@@ -31,6 +31,7 @@
 		});
 		nieuwsWindow.rightNavButton = refreshButton;
 
+		Titanium.include('/config/strip_tags.js');
 		var url = 'http://www.demorgen.be/cache/rss_muziek.xml';
 
 		var data;
@@ -42,11 +43,26 @@
 
 			for(var c = 0; c < itemList.length; c++) {
 
-				var title = itemList.item(c).getElementsByTagName("title").item(0).text.toUpperCase();
+				var title = itemList.item(c).getElementsByTagName("title").item(0).text;
 				var desc = itemList.item(c).getElementsByTagName("description").item(0).text;
 				var date = itemList.item(c).getElementsByTagName("pubDate").item(0).text;
 				date = date.substr(5, 11);
 				var link = itemList.item(c).getElementsByTagName("link").item(0).text;
+
+				//Clean up characters
+				title = title.replace(/\n/gi, " ");
+				title = title.replace(/br/gi, "");
+				title = title.replace(/>/gi, "");
+				title = title.replace(/&eacute;/gi, "é");
+				title = title.replace(/&egrave;/gi, "è");
+				title = title.replace(/&euml;/gi, "ë");
+				
+				desc = desc.replace(/\n/gi, " ");
+				desc = desc.replace(/<br /gi, "");
+				desc = desc.replace(/>/gi, "");
+				desc = desc.replace(/&eacute;/gi, "é");
+				desc = desc.replace(/&egrave;/gi, "è");
+				desc = desc.replace(/&euml;/gi, "ë");
 
 				// Create a table row for this item
 				var row = Ti.UI.createTableViewRow({
@@ -125,7 +141,7 @@
 					top : -30
 				});
 
-				var windowLink = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+				var windowLink = Titanium.UI.createWindow(commonStyle.window);
 				var lblTitle = Titanium.UI.createLabel({
 					text : 'DeMorgen.be',
 					color : '#fff',
@@ -142,17 +158,17 @@
 				windowLink.leftNavButton = backBtnLinkWindow;
 
 				windowLink.add(webview);
+
 				windowLink.open({
 					modal : true,
-					modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
-	    			modalStyle: Ti.UI.iPhone.MODAL_PRESENTATION_CURRENT_CONTEXT, 
+					modalTransitionStyle : Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,
+					modalStyle : Ti.UI.iPhone.MODAL_PRESENTATION_CURRENT_CONTEXT,
 				});
 			});
 		};
 
 		function loadRSSFeed(url) {
 			data = [];
-
 			xhr = Titanium.Network.createHTTPClient();
 			xhr.open('GET', url);
 			xhr.onload = function() {
@@ -179,10 +195,7 @@
 			};
 
 			xhr.send();
-		}
-
-		// load the feed
-		loadRSSFeed(url);
+		};		
 
 		return nieuwsWindow;
 	};

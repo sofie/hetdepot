@@ -3,17 +3,9 @@ exports.commonStyles = function() {
 		window : {
 			width : '100%',
 			barImage : 'img/header.png',
-			layout:'vertical',
 			backgroundImage:'img/bg.png',
 			tabBarHidden : true
 		},
-		windowNoLayout : {
-			width : '100%',
-			barImage : 'img/header.png',
-			tabBarHidden : true,
-			backgroundImage:'img/bg.png'
-		},
-
 		backButton : {
 			backgroundImage : "img/btn_back.png",
 			width : 50,

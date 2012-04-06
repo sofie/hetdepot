@@ -5,19 +5,8 @@
 (function() {
 	Uit.ui.createDetailWindow = function() {
 		
-		var detailWin = Titanium.UI.createWindow({
-			width : '100%',
-			barImage : 'img/header.png',
-			tabBarHidden : true,
-			backgroundImage:'img/bg.png',
-			title:'Detail'
-		});
-		var lblTitle = Titanium.UI.createLabel({
-			text : 'Detail',
-			color : '#fff',
-			font : FontLubalinTitle
-		});
-		detailWin.titleControl=lblTitle;
+		var detailWin = Titanium.UI.createWindow(commonStyle.window);
+		
 		
 		// LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
@@ -232,7 +221,7 @@
 						url : 'http://www.hetdepot.be/'
 					});
 
-					var windowLink = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+					var windowLink = Titanium.UI.createWindow(commonStyle.window);
 					var lblTitle = Titanium.UI.createLabel({
 						text : 'Bestel tickets',
 						color : '#fff',
@@ -252,13 +241,52 @@
 					windowLink.leftNavButton = backBtnLinkWindow;
 
 					windowLink.add(webview);
-
+					
+					var footer = Titanium.UI.createView({
+						backgroundColor:'#361C00',
+						left:10,
+						right:10,
+						top:-15,
+						bottom:40,
+						height:40
+					});
+					var hetdepot = Titanium.UI.createLabel({
+						text:'© Het Depot',
+						left:10,
+						font:FontSmall,
+						color:'#fff'
+					});
+					var tel = Titanium.UI.createLabel({
+						text:'T: 016220603',
+						left:95,
+						font:FontSmall,
+						color:'#fff'
+					});
+					tel.addEventListener('click',function(){
+						Titanium.Platform.openURL('tel:016220603')
+					});
+					var mail = Titanium.UI.createLabel({
+						text:'info@hetdepot.be',
+						top:0,
+						left:190,
+						font:FontSmall,
+						color:'#fff'
+					});
+					mail.addEventListener('click',function(){
+						Titanium.Platform.openURL('mail:info@hetdepot.be')
+					});
+					footer.add(hetdepot);
+					footer.add(tel);
+					footer.add(mail);
+					
 					scrollView.add(viewBlue);
 					scrollView.add(name);
 					scrollView.add(viewHorizontal);
 					scrollView.add(web);
 					scrollView.add(ticketsPijl);
 					scrollView.add(ticketsLink);
+					
+					scrollView.add(footer);
 					
 					//Kleine windows toch laten scrollen
 					setTimeout(function() {

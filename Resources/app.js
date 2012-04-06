@@ -4,13 +4,9 @@ var Uit = {
 	organizer : '061C13AC-A15F-F419-D8993D68C9E94548'
 };
 
-
 Titanium.UI.setBackgroundImage('img/bg.png');
 
-Titanium.include('styles/font_styles.js');
 var commonStyle = require('styles/common_styles').commonStyles();
-
-Titanium.include('config.js');
 
 //windows & ui
 Ti.include(
@@ -21,6 +17,10 @@ Ti.include(
 	'windows/search.js',
 	
 	'windows/main.js',
-	'windows/activityIndicator.js'
+	
+	'config/config.js',
+	'config/activityIndicator.js',
+	
+	'styles/font_styles.js'
 );
 Uit.ui.createApplicationMainWin();
