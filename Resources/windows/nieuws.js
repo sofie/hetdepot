@@ -7,22 +7,18 @@
 
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab2);
 
-		var nieuwsWindow = Titanium.UI.createWindow(commonStyle.window);
+		var titlebar_img = mergeObjects(commonStyle.window, {
+			barImage : 'img/header_nieuws.png'
+		});
+		var nieuwsWindow = Titanium.UI.createWindow(titlebar_img);
+
 		nieuwsWindow.addEventListener('open', function() {
 			Titanium.API.info('Nieuws window opened');
 		});
-		var lblTitle = Titanium.UI.createLabel({
-			text : 'Nieuws',
-			color : '#fff',
-			font : FontLubalinTitle
-		});
-		nieuwsWindow.setTitleControl(lblTitle);
-		
 		// load the feed
-		nieuwsWindow.addEventListener('open',function(){
+		nieuwsWindow.addEventListener('open', function() {
 			loadRSSFeed(url);
 		});
-
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
 		refreshButton.addEventListener('click', function() {
@@ -39,7 +35,7 @@
 		var feedTableView;
 		var feedTitle = '';
 
-		function displayItems(itemList) {
+		function displayNieuws(itemList) {
 
 			for(var c = 0; c < itemList.length; c++) {
 
@@ -56,7 +52,6 @@
 				title = title.replace(/&eacute;/gi, "é");
 				title = title.replace(/&egrave;/gi, "è");
 				title = title.replace(/&euml;/gi, "ë");
-				
 				desc = desc.replace(/\n/gi, " ");
 				desc = desc.replace(/<br /gi, "");
 				desc = desc.replace(/>/gi, "");
@@ -129,10 +124,9 @@
 				width : 320
 			});
 
-			// Add the tableView to the current window
 			nieuwsWindow.add(feedTableView);
 
-			// Create tableView row event listener
+			//WEBVIEW OPENEN VAN NIEUWSITEM
 			feedTableView.addEventListener('click', function(e) {
 				var webview = Titanium.UI.createWebView({
 					url : e.rowData.thisLink,
@@ -141,13 +135,10 @@
 					top : -30
 				});
 
-				var windowLink = Titanium.UI.createWindow(commonStyle.window);
-				var lblTitle = Titanium.UI.createLabel({
-					text : 'DeMorgen.be',
-					color : '#fff',
-					font : FontLubalinTitle
+				var titlebar_img = mergeObjects(commonStyle.window, {
+					barImage : 'img/header_nieuws.png'
 				});
-				windowLink.setTitleControl(lblTitle);
+				var windowLink = Titanium.UI.createWindow(titlebar_img);
 
 				var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
 				backBtnLinkWindow.addEventListener('click', function() {
@@ -180,13 +171,11 @@
 					var channel = xml.documentElement.getElementsByTagName("channel");
 					feedTitle = channel.item(0).getElementsByTagName("title").item(0).text;
 
-					lblTitle.text = feedTitle;
-
 					// Find the RSS feed 'items'
 					var itemList = xml.documentElement.getElementsByTagName("item");
 
 					// Now add the items to a tableView
-					displayItems(itemList);
+					displayNieuws(itemList);
 					Uit.ui.activityIndicator.hideModal();
 
 				} catch(e) {
@@ -195,7 +184,7 @@
 			};
 
 			xhr.send();
-		};		
+		};
 
 		return nieuwsWindow;
 	};

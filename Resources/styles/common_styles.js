@@ -2,8 +2,7 @@ exports.commonStyles = function() {
 	return {
 		window : {
 			width : '100%',
-			barImage : 'img/header.png',
-			backgroundImage:'img/bg.png',
+			backgroundImage : 'img/bg.png',
 			tabBarHidden : true
 		},
 		backButton : {
@@ -26,7 +25,7 @@ exports.commonStyles = function() {
 			width : 50,
 			height : 44
 		},
-		starView:{
+		starView : {
 			backgroundImage : "img/star.png",
 			width : 14,
 			height : 14

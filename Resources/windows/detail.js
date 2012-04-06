@@ -5,9 +5,11 @@
 (function() {
 	Uit.ui.createDetailWindow = function() {
 		
-		var detailWin = Titanium.UI.createWindow(commonStyle.window);
-		
-		
+		var titlebar_img = mergeObjects(commonStyle.window, {
+			barImage : 'img/header_detail.png'
+		});
+		var detailWin = Titanium.UI.createWindow(titlebar_img);
+	
 		// LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
 		backButton.addEventListener('click', function() {
@@ -26,6 +28,7 @@
 		});
 		
 		var navActInd = Titanium.UI.createActivityIndicator();	
+		
 		detailWin.addEventListener('open',function(){
 			getLinks();
 			Titanium.API.info('Detail window opened');
@@ -52,14 +55,14 @@
 				try {					
 					var detail = JSON.parse(this.responseText);
 
-					var evenementNaam = detail.event.eventdetails.eventdetail.title.toUpperCase();
-					var evenementDatum = detail.event.calendar.timestamps.timestamp.date;
-					var evJaar = evenementDatum.substr(2,2);
-					var evMaand = evenementDatum.substr(5,2);
-					var evDag = evenementDatum.substr(8,2);
+					var concertNaam = detail.event.eventdetails.eventdetail.title.toUpperCase();
+					var concertDatum = detail.event.calendar.timestamps.timestamp.date;
+					var evJaar = concertDatum.substr(2,2);
+					var evMaand = concertDatum.substr(5,2);
+					var evDag = concertDatum.substr(8,2);
 					var prettyDate = evDag+'.'+evMaand+'.'+evJaar;
-					var evenementStart = detail.event.calendar.timestamps.timestamp.timestart;
-					evenementStart = evenementStart.substr(0,5);
+					var concertStart = detail.event.calendar.timestamps.timestamp.timestart;
+					concertStart = concertStart.substr(0,5);
 					
 					var scrollView = Titanium.UI.createScrollView({
 						contentWidth : 'auto',
@@ -72,13 +75,13 @@
 					
 					//Als geen foto is, foto weglaten
 					if(detail.event.eventdetails.eventdetail.media !== undefined) {
-						var evenementImg = detail.event.eventdetails.eventdetail.media.file.hlink+'?width=320&height=175&crop=auto';
+						var concertImg = detail.event.eventdetails.eventdetail.media.file.hlink+'?width=320&height=175&crop=auto';
 					}else{
-						evenementImg = 'img/no_img.png'
+						concertImg = 'img/no_img.png'
 					}
 					
 					var image = Ti.UI.createImageView({
-						image : evenementImg,
+						image : concertImg,
 						width : 320,
 						height : 175,
 						top:0,
@@ -95,7 +98,7 @@
 					});
 
 					var name = Titanium.UI.createLabel({
-						text : evenementNaam,
+						text : concertNaam,
 						left : 10,
 						top : -28,
 						width : 300,
@@ -128,7 +131,7 @@
 					viewHorizontal.add(star1);
 
 					var start = Ti.UI.createLabel({
-						text : evenementStart,
+						text : concertStart,
 						left : 140,
 						width : 'auto',
 						height : 'auto',
@@ -140,9 +143,9 @@
 
 					//Als prijs niet bestaat, ster en prijs niet tonen
 					if(detail.event.eventdetails.eventdetail.price !== undefined) {
-						var evenementPrijs = detail.event.eventdetails.eventdetail.price.pricevalue;
+						var concertPrijs = detail.event.eventdetails.eventdetail.price.pricevalue;
 						var price = Ti.UI.createLabel({
-							text : '€' + evenementPrijs,
+							text : '€' + concertPrijs,
 							right : 30,
 							width : 'auto',
 							height : 'auto',
@@ -161,21 +164,21 @@
 					
 					//Als er geen longdescription is, shortdescription laten zien
 					if(detail.event.eventdetails.eventdetail.longdescription !== undefined) {
-						var evenementDescription = detail.event.eventdetails.eventdetail.longdescription;
+						var concertDescription = detail.event.eventdetails.eventdetail.longdescription;
 					}else{
-						evenementDescription=detail.event.eventdetails.eventdetail.shortdescription;
+						concertDescription=detail.event.eventdetails.eventdetail.shortdescription;
 					};
-					evenementDescription=evenementDescription.replace(/\n/gi, " ");
+					concertDescription=concertDescription.replace(/\n/gi, " ");
 
-					var HtmlParser = function(evenementDescription) {
-						var html = evenementDescription;
+					var HtmlParser = function(concertDescription) {
+						var html = concertDescription;
 						var urlRegex = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
 
 						this.getHTML = function() {
 							return html;
 						};
 					};
-					var parser = new HtmlParser(evenementDescription);
+					var parser = new HtmlParser(concertDescription);
 					var web = Ti.UI.createWebView({
 						html : parser.getHTML(),
 						width : 270,
@@ -221,14 +224,11 @@
 						url : 'http://www.hetdepot.be/'
 					});
 
-					var windowLink = Titanium.UI.createWindow(commonStyle.window);
-					var lblTitle = Titanium.UI.createLabel({
-						text : 'Bestel tickets',
-						color : '#fff',
-						font : FontLubalinTitle
+					var titlebar_img = mergeObjects(commonStyle.window, {
+						barImage : 'img/header_tickets.png'
 					});
-					windowLink.setTitleControl(lblTitle);
-
+					var windowLink = Titanium.UI.createWindow(titlebar_img);
+		
 					var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
 					backBtnLinkWindow.addEventListener('click', function() {
 						windowLink.close({

@@ -1,0 +1,184 @@
+/*
+ * Search window
+ */
+
+(function() {
+	Uit.ui.createSearchWindow = function() {
+
+		var titlebar_img = mergeObjects(commonStyle.window, {
+			barImage : 'img/header_zoeken.png'
+		});
+		var searchWin = Titanium.UI.createWindow(titlebar_img);
+
+		//LEFT NAVBAR BACK BUTTON
+		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		backButton.addEventListener('click', function() {
+			Titanium.App.navTab1.close(searchWin, {
+				animated : false
+			});
+		});
+		searchWin.leftNavButton = backButton;
+
+		var searchBg = Titanium.UI.createView({
+			width : 320,
+			height : 43,
+			top : 0,
+			left : 0,
+			backgroundImage : 'img/bg_search.png'
+		});
+		searchWin.add(searchBg);
+
+		var searchBar = Titanium.UI.createTextField({
+			hintText : 'Zoek op naam...',
+			top : 7,
+			left : 40,
+			width : 265,
+			height : 30,
+			color : '#b3b3b3',
+			font : {
+				fontFamily : 'Tahoma',
+				fontSize : 14
+			},
+			returnKeyType : Titanium.UI.RETURNKEY_SEARCH
+		});
+		searchWin.add(searchBar);
+
+		searchBar.addEventListener('change', function() {
+			getConcertsByName();
+			lblInstruction.hide();
+		});
+		var lblInstruction = Titanium.UI.createLabel({
+			text : 'Tik in het zoekveld om te zoeken.',
+			width : 'auto',
+			left : 20,
+			right : 20,
+			height : 40,
+			top : 60,
+			font : FontNormal,
+			color : '#555'
+		});
+		searchWin.add(lblInstruction);
+
+		Titanium.App.addEventListener('app:reloadSearch', function(e) {
+			searchBar.setValue(Titanium.App.searchValue);
+		});
+		//
+		// HTTP CLIENT GETCONCERTBYNAME
+		//
+		function getConcertsByName() {
+			var data = [];
+
+			var getReq = Titanium.Network.createHTTPClient();
+			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=' + searchBar.value;
+
+			if(url === 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=') {
+				url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
+			} else {
+				url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=' + searchBar.value;
+			}
+
+			getReq.timeout = 5000;
+			getReq.onload = function() {
+				try {
+					var list = JSON.parse(this.responseText);
+
+					for(var i = 0, j = list.length; i < j; i++) {
+						Titanium.App.evNaam1 = list[i].title;
+
+						var concertId = list[i].cdbid;
+						var concertNaam = list[i].title;
+						var concertDescription = list[i].shortdescription;
+
+						var concertImg = list[i].thumbnail;
+						var strImg = concertImg.substr(0, 77);
+						var imgThumb = strImg + '?width=90&height=90&crop=auto';
+
+						var row = Ti.UI.createTableViewRow({
+							height : 'auto',
+							rightImage : 'img/detail.png',
+							backgroundImage : 'img/bg.png'
+						});
+						row.filter = list[i].evNaam;
+
+						if(concertImg !== '') {
+							var img = imgThumb;
+						} else {
+							img = 'img/no_thumb.jpg';
+						}
+
+						var thumb = Titanium.UI.createImageView({
+							image : img,
+							backgroundColor : '#000',
+							width : 90,
+							height : 90,
+							left : 0,
+							top : 0
+						});
+
+						var name = Ti.UI.createLabel({
+							text : concertNaam,
+							left : 100,
+							top : 0,
+							width : 'auto',
+							height : 50,
+							textAlign : 'left',
+							font : FontTitleSmall
+						});
+						var descr = Ti.UI.createLabel({
+							text : concertDescription,
+							bottom : 5,
+							left : 100,
+							width : 205,
+							height : 36,
+							textAlign : 'left',
+							font : FontSmall
+						});
+						row.add(thumb);
+						row.add(name);
+						row.add(descr);
+
+						data.push(row);
+					};
+					var listLinks = Titanium.UI.createTableView({
+						top : 44,
+						left : 0,
+						right : 0,
+						bottom : 373,
+						backgroundImage : '/img/bg.png',
+						scrollable : true
+					});
+					searchWin.add(listLinks);
+					searchBar.addEventListener('return', function(e) {
+						listLinks.setData(data);
+						listLinks.setBottom(0);
+					});
+					//Open detail van window
+					listLinks.addEventListener('click', function(e) {
+						Titanium.App.searchValue = searchBar.value;
+
+						Titanium.App.selectedIndex = list[e.index].cdbid;
+						Titanium.API.info(Titanium.App.selectedIndex);
+
+						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(), {
+							animated : false
+						});
+
+					});
+				} catch(e) {
+					alert(e);
+				}
+			}
+			getReq.onerror = function(e) {
+				Ti.API.info("TEXT onerror:   " + this.responseText);
+				alert('Er is iets mis met de databank.');
+			}
+			getReq.open("GET", url);
+
+			getReq.send();
+		}
+
+
+		searchWin.open();
+		return searchWin;
+	};
+})();

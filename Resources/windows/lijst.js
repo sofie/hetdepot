@@ -7,7 +7,10 @@
 		
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab1);
 
-		var lijstWin = Titanium.UI.createWindow(commonStyle.window);
+		var titlebar_img = mergeObjects(commonStyle.window, {
+			barImage : 'img/header.png'
+		});
+		var lijstWin = Titanium.UI.createWindow(titlebar_img);
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Concerten',
@@ -36,14 +39,15 @@
 		lijstWin.addEventListener('close',function(){
 			Titanium.API.info('Lijst window closed');
 		});
-		
-		
+		lijstWin.addEventListener('open',function(){
+			getConcerts();
+		});
+
 		//
 		// HTTP CLIENT GETCONCERTS
 		//
 		lijstWin.addEventListener('open',function(e){
-			Titanium.API.info('Lijst window opened '+e.type);
-			
+			Titanium.API.info('Lijst window opened '+e.type);	
 		});
 		
 		function getConcerts() {
@@ -65,12 +69,12 @@
 
 					for(var i = 0, j = list.length; i < j; i++) {
 						Titanium.App.evNaam1 = list[i].title;
-						var evenementId = list[i].cdbid;
-						var evenementNaam = list[i].title;
-						var evenementDescription = list[i].shortdescription;
+						var concertId = list[i].cdbid;
+						var concertNaam = list[i].title;
+						var concertDescription = list[i].shortdescription;
 						
-						var evenementImg = list[i].thumbnail;
-						var strImg = evenementImg.substr(0, 77);
+						var concertImg = list[i].thumbnail;
+						var strImg = concertImg.substr(0, 77);
 						var imgThumb = strImg + '?width=90&height=90&crop=auto';
 
 						var row = Ti.UI.createTableViewRow({
@@ -81,13 +85,13 @@
 							selectedBackgroundColor : '#B8DAE8'
 						});
 
-						if(evenementImg!== '') {
+						if(concertImg!== '') {
 							var img = imgThumb;
 						}else{
 							img='img/no_thumb.jpg';
 						};
 						
-						var thumb = Titanium.UI.createImageView({
+						var image = Titanium.UI.createImageView({
 							image : img,
 							backgroundColor : '#000',
 							width : 90,
@@ -97,7 +101,7 @@
 						});
 
 						var name = Ti.UI.createLabel({
-							text : evenementNaam,
+							text : concertNaam,
 							left : 100,
 							top : -95,
 							width : 'auto',
@@ -106,7 +110,7 @@
 							font : FontTitleSmall
 						});
 						var descr = Ti.UI.createLabel({
-							text : evenementDescription,
+							text : concertDescription,
 							bottom : 5,
 							left : 100,
 							width : 205,
@@ -115,7 +119,7 @@
 							font : FontSmall
 						});
 						
-						row.add(thumb);
+						row.add(image);
 						row.add(name);
 						row.add(descr);
 
@@ -135,7 +139,6 @@
 					//Open detail window
 					listLinks.addEventListener('click', function(e) {
 						Titanium.App.selectedIndex = list[e.index].cdbid;
-						Titanium.API.info(Titanium.App.selectedIndex);
 						Titanium.App.rowIndex = e.index;
 						Titanium.App.concertNaam = list[e.index].title.toUpperCase();
 
@@ -161,7 +164,7 @@
 
 			getReq.send();
 		};
-		getConcerts();
+		
 		return lijstWin;
 	};
 })();

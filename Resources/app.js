@@ -14,7 +14,7 @@ Ti.include(
 	'windows/nieuws.js',
 	
 	'windows/detail.js',
-	'windows/search.js',
+	'windows/zoeken.js',
 	
 	'windows/main.js',
 	
