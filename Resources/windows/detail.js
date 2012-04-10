@@ -5,10 +5,10 @@
 (function() {
 	Uit.ui.createDetailWindow = function() {
 		
-		var titlebar_img = mergeObjects(commonStyle.window, {
+		var titlebarImg = mergeObjects(commonStyle.window, {
 			barImage : 'img/header_detail.png'
 		});
-		var detailWin = Titanium.UI.createWindow(titlebar_img);
+		var detailWin = Titanium.UI.createWindow(titlebarImg);
 	
 		// LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
@@ -20,28 +20,25 @@
 			Titanium.App.navTab1.close(detailWin,{animated:false});	
 		});
 		detailWin.leftNavButton = backButton;
-		
-		
-		detailWin.addEventListener('blur',function(){
-			Titanium.API.info('Detail window blured');
+			
+		detailWin.addEventListener('blur',function(e){
+			Titanium.API.info('Detail window '+e.type);
 			Titanium.App.navTab1.close(detailWin,{animated:false});
 		});
 		
 		var navActInd = Titanium.UI.createActivityIndicator();	
 		
-		detailWin.addEventListener('open',function(){
+		detailWin.addEventListener('open',function(e){
 			getLinks();
-			Titanium.API.info('Detail window opened');
+			Titanium.API.info('Detail window '+e.type);
 				
 			detailWin.setRightNavButton(navActInd);
 			navActInd.show();
 		});
 		
-		detailWin.addEventListener('close',function(){
-			Titanium.API.info('Detail window closed');
-		});		
-		
-	
+		detailWin.addEventListener('close',function(e){
+			Titanium.API.info('Detail window '+e.type);
+		});
 
 		//HTTP CLIENT GETLINKS
 		function getLinks() {	
@@ -196,7 +193,6 @@
 						backgroundImage:'/img/bg-red-circle.png'
 					});
 					
-
 					var ticketsLink = Ti.UI.createLabel({
 						text : 'tickets',
 						top :-17,
@@ -215,7 +211,6 @@
 	    					modalStyle: Ti.UI.iPhone.MODAL_PRESENTATION_CURRENT_CONTEXT, 
 						});
 					});
-					
 					
 					//
 					//Webview window
@@ -242,6 +237,7 @@
 
 					windowLink.add(webview);
 					
+					//Donker rode balk
 					var footer = Titanium.UI.createView({
 						backgroundColor:'#361C00',
 						left:10,
@@ -285,7 +281,6 @@
 					scrollView.add(web);
 					scrollView.add(ticketsPijl);
 					scrollView.add(ticketsLink);
-					
 					scrollView.add(footer);
 					
 					//Kleine windows toch laten scrollen
@@ -302,7 +297,6 @@
 					    		//1 lijn description
 					    		ticketsLink.setBottom(105);
 					    	}
-					    	
 					    	scrollView.scrollTo(0,0);
 					    }
 					}, 500);
@@ -318,13 +312,9 @@
 				Ti.API.info("TEXT onerror:   " + this.responseText);
 				alert('Er is iets mis met de databank.');
 			}
-
-			getReq.send();
-		
+			getReq.send();	
+		}	
 			
-		}
-		
-		
 		return detailWin;
 	};
 })();

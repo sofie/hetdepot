@@ -7,10 +7,10 @@
 		
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab1);
 
-		var titlebar_img = mergeObjects(commonStyle.window, {
+		var titlebarImg = mergeObjects(commonStyle.window, {
 			barImage : 'img/header.png'
 		});
-		var lijstWin = Titanium.UI.createWindow(titlebar_img);
+		var lijstWin = Titanium.UI.createWindow(titlebarImg);
 
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Concerten',
@@ -37,19 +37,16 @@
 		lijstWin.rightNavButton=refreshButton;
 		
 		lijstWin.addEventListener('close',function(){
-			Titanium.API.info('Lijst window closed');
+			Titanium.API.info('Lijst window'+e.type);
 		});
-		lijstWin.addEventListener('open',function(){
+		lijstWin.addEventListener('open',function(e){
+			Titanium.API.info('Lijst window '+e.type);	
 			getConcerts();
 		});
 
 		//
 		// HTTP CLIENT GETCONCERTS
 		//
-		lijstWin.addEventListener('open',function(e){
-			Titanium.API.info('Lijst window opened '+e.type);	
-		});
-		
 		function getConcerts() {
 			var data = [];
 
@@ -125,6 +122,7 @@
 
 						data.push(row);
 					};
+					
 					var listLinks = Titanium.UI.createTableView({
 						top : 0,
 						left : 0,

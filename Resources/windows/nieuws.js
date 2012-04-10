@@ -7,18 +7,17 @@
 
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab2);
 
-		var titlebar_img = mergeObjects(commonStyle.window, {
+		var titlebarImg = mergeObjects(commonStyle.window, {
 			barImage : 'img/header_nieuws.png'
 		});
-		var nieuwsWindow = Titanium.UI.createWindow(titlebar_img);
-
-		nieuwsWindow.addEventListener('open', function() {
-			Titanium.API.info('Nieuws window opened');
-		});
+		var nieuwsWindow = Titanium.UI.createWindow(titlebarImg);
+		
 		// load the feed
-		nieuwsWindow.addEventListener('open', function() {
+		nieuwsWindow.addEventListener('open', function(e) {
+			Titanium.API.info('Nieuws window '+e.type);
 			loadRSSFeed(url);
 		});
+		
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
 		refreshButton.addEventListener('click', function() {
@@ -36,6 +35,10 @@
 		var feedTitle = '';
 
 		function displayNieuws(itemList) {
+			
+			if(!Titanium.Network.online){
+			     alert("You must be connected to the internet to retrieve Het Depot information");
+			}
 
 			for(var c = 0; c < itemList.length; c++) {
 
@@ -139,7 +142,8 @@
 					barImage : 'img/header_nieuws.png'
 				});
 				var windowLink = Titanium.UI.createWindow(titlebar_img);
-
+				
+				//Terug naar nieuwsoverzicht
 				var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
 				backBtnLinkWindow.addEventListener('click', function() {
 					windowLink.close({
@@ -147,6 +151,13 @@
 					});
 				});
 				windowLink.leftNavButton = backBtnLinkWindow;
+				
+				//Navigeren in webview
+				var goBackBtnWindow = Titanium.UI.createButton(commonStyle.backButton);
+				goBackBtnWindow.addEventListener('click', function() {
+					webview.goBack();
+				});
+				windowLink.rightNavButton = goBackBtnWindow;
 
 				windowLink.add(webview);
 

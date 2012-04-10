@@ -5,10 +5,10 @@
 (function() {
 	Uit.ui.createSearchWindow = function() {
 
-		var titlebar_img = mergeObjects(commonStyle.window, {
+		var titlebarImg = mergeObjects(commonStyle.window, {
 			barImage : 'img/header_zoeken.png'
 		});
-		var searchWin = Titanium.UI.createWindow(titlebar_img);
+		var searchWin = Titanium.UI.createWindow(titlebarImg);
 
 		//LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(commonStyle.backButton);
@@ -18,6 +18,10 @@
 			});
 		});
 		searchWin.leftNavButton = backButton;
+		
+		searchWin.addEventListener('open',function(e){
+			Titanium.API.info('Search window '+e.type);
+		});
 
 		var searchBg = Titanium.UI.createView({
 			width : 320,
@@ -70,11 +74,9 @@
 
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=' + searchBar.value;
-
-			if(url === 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=') {
+			
+			if(searchBar.value === '') {
 				url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
-			} else {
-				url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=' + searchBar.value;
 			}
 
 			getReq.timeout = 5000;
@@ -124,6 +126,7 @@
 							textAlign : 'left',
 							font : FontTitleSmall
 						});
+						
 						var descr = Ti.UI.createLabel({
 							text : concertDescription,
 							bottom : 5,
@@ -139,6 +142,7 @@
 
 						data.push(row);
 					};
+					
 					var listLinks = Titanium.UI.createTableView({
 						top : 44,
 						left : 0,
@@ -148,6 +152,7 @@
 						scrollable : true
 					});
 					searchWin.add(listLinks);
+					
 					searchBar.addEventListener('return', function(e) {
 						listLinks.setData(data);
 						listLinks.setBottom(0);
@@ -175,10 +180,8 @@
 			getReq.open("GET", url);
 
 			getReq.send();
-		}
+		};
 
-
-		searchWin.open();
 		return searchWin;
 	};
 })();

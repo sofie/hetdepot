@@ -14,7 +14,7 @@
     <publisher>sofie</publisher>
     <url>http://</url>
     <description>not specified</description>
-    <copyright>2012 by sofie</copyright>
+    <copyright>2012 by Statik</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -29,11 +29,13 @@
             <orientation>Ti.UI.PORTRAIT</orientation>
         </orientations>
         <orientations device="ipad">
+        	<!--
             <orientation>Ti.UI.PORTRAIT</orientation>
             <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
             <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
-        </orientations>
+            -->
+        </orientations>  
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <modules/>
