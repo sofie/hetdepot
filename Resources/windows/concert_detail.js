@@ -3,7 +3,7 @@
  */
 
 (function() {
-	Uit.ui.createDetailWindow = function() {
+	Uit.ui.createConcertDetailWindow = function() {
 		
 		var titlebarImg = mergeObjects(commonStyle.window, {
 			barImage : 'img/header_detail.png'
@@ -29,7 +29,7 @@
 		var navActInd = Titanium.UI.createActivityIndicator();	
 		
 		detailWin.addEventListener('open',function(e){
-			getLinks();
+			getConcert();
 			Titanium.API.info('Detail window '+e.type);
 				
 			detailWin.setRightNavButton(navActInd);
@@ -40,8 +40,8 @@
 			Titanium.API.info('Detail window '+e.type);
 		});
 
-		//HTTP CLIENT GETLINKS
-		function getLinks() {	
+		//HTTP CLIENT GETCONCERT
+		function getConcert() {	
 			
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/event/' + Titanium.App.selectedIndex + '?format=json&key=' + Uit.api_key;
@@ -224,14 +224,12 @@
 					});
 					var windowLink = Titanium.UI.createWindow(titlebar_img);
 		
-					var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
+					var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.backButton);
 					backBtnLinkWindow.addEventListener('click', function() {
 						windowLink.close({
 							animated : false
 						});
-						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(),{
-							animated:false
-						},{title:'Detail'});
+						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(),{animated:false});
 					});
 					windowLink.leftNavButton = backBtnLinkWindow;
 

@@ -10,7 +10,7 @@
 		Titanium.App.tabgroup = tabGroup;
 
 		// FIRST TAB
-		var mainWinTab1 = Uit.ui.createLijstWindow();
+		var mainWinTab1 = Uit.ui.createConcertenWindow();
 		var navTab1 = Titanium.UI.iPhone.createNavigationGroup({
 			window : mainWinTab1
 		});

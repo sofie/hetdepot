@@ -11,13 +11,12 @@
 			barImage : 'img/header_nieuws.png'
 		});
 		var nieuwsWindow = Titanium.UI.createWindow(titlebarImg);
-		
+
 		// load the feed
 		nieuwsWindow.addEventListener('open', function(e) {
-			Titanium.API.info('Nieuws window '+e.type);
+			Titanium.API.info('Nieuws window ' + e.type);
 			loadRSSFeed(url);
 		});
-		
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
 		refreshButton.addEventListener('click', function() {
@@ -35,9 +34,9 @@
 		var feedTitle = '';
 
 		function displayNieuws(itemList) {
-			
-			if(!Titanium.Network.online){
-			     alert("You must be connected to the internet to retrieve Het Depot information");
+
+			if(!Titanium.Network.online) {
+				alert("You must be connected to the internet to retrieve Het Depot information");
 			}
 
 			for(var c = 0; c < itemList.length; c++) {
@@ -53,11 +52,13 @@
 				title = title.replace(/br/gi, "");
 				title = title.replace(/>/gi, "");
 				title = title.replace(/&eacute;/gi, "é");
+				title = title.replace(/&amp;/gi, "&");
 				title = title.replace(/&egrave;/gi, "è");
 				title = title.replace(/&euml;/gi, "ë");
 				desc = desc.replace(/\n/gi, " ");
 				desc = desc.replace(/<br /gi, "");
 				desc = desc.replace(/>/gi, "");
+				desc = desc.replace(/&amp;/gi, "&");
 				desc = desc.replace(/&eacute;/gi, "é");
 				desc = desc.replace(/&egrave;/gi, "è");
 				desc = desc.replace(/&euml;/gi, "ë");
@@ -91,7 +92,7 @@
 					height : 50,
 					width : 270,
 					top : 5,
-					font : FontNormal
+					font : FontSmall
 				});
 				row.add(post_desc);
 
@@ -131,41 +132,11 @@
 
 			//WEBVIEW OPENEN VAN NIEUWSITEM
 			feedTableView.addEventListener('click', function(e) {
-				var webview = Titanium.UI.createWebView({
-					url : e.rowData.thisLink,
-					width : 440,
-					left : 0,
-					top : -30
+				Titanium.App.selectedItemNieuws = e.rowData.thisLink;
+				Titanium.App.navTab2.open(Uit.ui.createNieuwsDetailWindow(), {
+					animated : false
 				});
 
-				var titlebar_img = mergeObjects(commonStyle.window, {
-					barImage : 'img/header_nieuws.png'
-				});
-				var windowLink = Titanium.UI.createWindow(titlebar_img);
-				
-				//Terug naar nieuwsoverzicht
-				var backBtnLinkWindow = Titanium.UI.createButton(commonStyle.downButton);
-				backBtnLinkWindow.addEventListener('click', function() {
-					windowLink.close({
-						animated : false
-					});
-				});
-				windowLink.leftNavButton = backBtnLinkWindow;
-				
-				//Navigeren in webview
-				var goBackBtnWindow = Titanium.UI.createButton(commonStyle.backButton);
-				goBackBtnWindow.addEventListener('click', function() {
-					webview.goBack();
-				});
-				windowLink.rightNavButton = goBackBtnWindow;
-
-				windowLink.add(webview);
-
-				windowLink.open({
-					modal : true,
-					modalTransitionStyle : Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,
-					modalStyle : Ti.UI.iPhone.MODAL_PRESENTATION_CURRENT_CONTEXT,
-				});
 			});
 		};
 

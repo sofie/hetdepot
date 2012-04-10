@@ -4,16 +4,14 @@ var Uit = {
 	organizer : '061C13AC-A15F-F419-D8993D68C9E94548'
 };
 
-Titanium.UI.setBackgroundImage('img/bg.png');
-
 var commonStyle = require('styles/common_styles').commonStyles();
 
-//windows & ui
 Ti.include(
-	'windows/lijst.js',
+	'windows/concerten.js',
 	'windows/nieuws.js',
 	
-	'windows/detail.js',
+	'windows/concert_detail.js',
+	'windows/nieuws_detail.js',
 	'windows/zoeken.js',
 	
 	'windows/main.js',

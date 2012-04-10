@@ -164,7 +164,7 @@
 						Titanium.App.selectedIndex = list[e.index].cdbid;
 						Titanium.API.info(Titanium.App.selectedIndex);
 
-						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(), {
+						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(), {
 							animated : false
 						});
 

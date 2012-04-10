@@ -3,7 +3,7 @@
  */
 
 (function() {
-	Uit.ui.createLijstWindow = function() {
+	Uit.ui.createConcertenWindow = function() {
 		
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab1);
 
@@ -140,7 +140,7 @@
 						Titanium.App.rowIndex = e.index;
 						Titanium.App.concertNaam = list[e.index].title.toUpperCase();
 
-						Titanium.App.navTab1.open(Uit.ui.createDetailWindow(),{
+						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(),{
 							animated:false
 						});
 
