@@ -98,6 +98,14 @@
 			bottom : 40,
 			backgroundImage : '/img/bg.png'
 		},
+		TableViewSearch: {
+			top : 44,
+			left : 0,
+			right : 0,
+			bottom : 373,
+			backgroundImage : '/img/bg.png',
+			scrollable : true
+		},
 		tableViewRow :{
 			rightImage : 'img/arrow.png',
 			backgroundImage : 'img/bg.png',
@@ -106,6 +114,7 @@
 			backgroundSelectedColor: '#B8DAE8',
 			height:'auto'
 		},
+		
 		searchBar:{
 			backgroundImage : 'img/bg_search.png',
 			width : Ti.Platform.displayCaps.platformWidth,
@@ -184,7 +193,7 @@
 		},
 		
 		//TAB1
-		titleSmall: {
+		titleDetail: {
 			left : 100,
 			top : -95,
 			width : 'auto',

@@ -77,7 +77,7 @@
 							image : imgThumb
 						}));
 
-						var name = Ti.UI.createLabel(Uit.combine(style.titleSmall,{
+						var name = Ti.UI.createLabel(Uit.combine(style.titleDetail,{
 							text : cdbNaam
 						}));
 						

@@ -7,7 +7,16 @@
 		var searchWin = Titanium.UI.createWindow(Uit.combine(style.Window, {
 			barImage : 'img/header_zoeken.png'
 		}));
-		
+
+		searchWin.addEventListener('open', function() {
+			Titanium.API.info('Search window opened');
+		});
+		searchWin.addEventListener('blur', function() {
+			Titanium.API.info('Search window blured');
+		});
+		searchWin.addEventListener('close', function() {
+			Titanium.API.info('Search window closed');
+		});
 		//LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(style.backButton);
 		backButton.addEventListener('click', function() {
@@ -16,11 +25,10 @@
 			});
 		});
 		searchWin.leftNavButton = backButton;
-		
-		
+
 		var searchBg = Titanium.UI.createView(style.searchBar);
 		searchWin.add(searchBg);
-		
+
 		var searchBar = Titanium.UI.createTextField(Uit.combine(style.SearchField,{
 			hintText : 'Zoek op naam...'
 		}));
@@ -28,12 +36,13 @@
 
 		searchBar.addEventListener('change', function() {
 			getConcertsByName();
-			lblInstruction.hide();
+			lblTap.hide();
 		});
-		var lblInstruction = Titanium.UI.createLabel(Uit.combine(style.textInstruction,{
+		var lblTap = Titanium.UI.createLabel(Uit.combine(style.textInstruction,{
 			text : 'Tik in het zoekveld om te zoeken.',
 		}));
-		searchWin.add(lblInstruction);
+		searchWin.add(lblTap);
+		
 
 		Titanium.App.addEventListener('app:reloadSearch', function(e) {
 			searchBar.setValue(Titanium.App.searchValue);
@@ -46,9 +55,11 @@
 
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=' + searchBar.value;
-			
-			if(searchBar.value === '') {
+
+			if(url === 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=') {
 				url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
+			} else {
+				url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer + '&q=' + searchBar.value;
 			}
 
 			getReq.timeout = 5000;
@@ -57,6 +68,7 @@
 					var list = JSON.parse(this.responseText);
 
 					for(var i = 0, j = list.length; i < j; i++) {
+						Titanium.App.evNaam1 = list[i].title;
 
 						var cdbId = list[i].cdbid;
 						var cdbNaam = list[i].title;
@@ -65,35 +77,32 @@
 						var cdbImg = list[i].thumbnail;
 						var strImg = cdbImg.substr(0, 77);
 						var imgThumb = strImg + '?width=90&height=90&crop=auto';
-						
-						var row = Ti.UI.createTableViewRow(style.tableViewRow);
 
-						row.filter = list[i].evNaam;
+						var row = Ti.UI.createTableViewRow(style.tableViewRow);
 
 						if(cdbImg === '') {
 							imgThumb = 'img/no_thumb.jpg';
 						}
 
-						var thumb = Titanium.UI.createImageView(Uit.combine(style.Img90,{
+						var image = Titanium.UI.createImageView(Uit.combine(style.Img90,{
 							image : imgThumb
 						}));
 
-						var name = Ti.UI.createLabel(Uit.combine(style.titleSmall,{
+						var name = Ti.UI.createLabel(Uit.combine(style.titleDetail,{
 							text : cdbNaam
 						}));
 						
 						var descr = Ti.UI.createLabel(Uit.combine(style.textSmall,{
 							text : cdbDescription
 						}));
-						
-						row.add(thumb);
+
+						row.add(image);
 						row.add(name);
 						row.add(descr);
 
 						data.push(row);
 					};
-					
-					var tableView = Titanium.UI.createTableView(Uit.combine(style.TableView,{
+					var tableView = Titanium.UI.createTableView(Uit.combine(style.TableViewSearch,{
 						data : data
 					}));
 					searchWin.add(tableView);
@@ -109,8 +118,8 @@
 						Titanium.App.selectedIndex = list[e.index].cdbid;
 						Titanium.API.info(Titanium.App.selectedIndex);
 
-						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(), {
-							animated : false
+						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(),{
+							animated:false
 						});
 
 					});
@@ -125,8 +134,10 @@
 			getReq.open("GET", url);
 
 			getReq.send();
-		};
+		}
 
+
+		searchWin.open();
 		return searchWin;
 	};
 })();
