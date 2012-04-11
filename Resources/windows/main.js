@@ -9,7 +9,7 @@
 		var tabGroup = Titanium.UI.createTabGroup();
 		Titanium.App.tabgroup = tabGroup;
 
-		// FIRST TAB
+		// EERSTE TAB
 		var mainWinTab1 = Uit.ui.createConcertenWindow();
 		var navTab1 = Titanium.UI.iPhone.createNavigationGroup({
 			window : mainWinTab1
@@ -21,7 +21,7 @@
 		});
 		baseWinTab1.add(navTab1);
 
-		// SECOND TAB
+		// TWEEDE TAB
 		var mainWinTab2 = Uit.ui.createNieuwsWindow();
 
 		var navTab2 = Titanium.UI.iPhone.createNavigationGroup({
@@ -60,11 +60,11 @@
 			width : 160,
 			height : 40,
 			items : [{
-				image : 'btn_concerten.png',
-				selected : 'btn_concerten_selected.png'
+				image : Uit.customTab1,
+				selected : Uit.customTab1_selected
 			}, {
-				image : 'btn_nieuws.png',
-				selected : 'btn_nieuws_selected.png'
+				image : Uit.customTab2,
+				selected : Uit.customTab2_selected
 			}]
 		});
 

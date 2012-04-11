@@ -19,31 +19,27 @@
 		});
 		searchWin.leftNavButton = backButton;
 		
-		searchWin.addEventListener('open',function(e){
-			Titanium.API.info('Search window '+e.type);
-		});
-
 		var searchBg = Titanium.UI.createView({
+			backgroundImage : 'img/bg_search.png',
 			width : 320,
 			height : 43,
 			top : 0,
-			left : 0,
-			backgroundImage : 'img/bg_search.png'
+			left : 0
 		});
 		searchWin.add(searchBg);
 
 		var searchBar = Titanium.UI.createTextField({
 			hintText : 'Zoek op naam...',
-			top : 7,
-			left : 40,
-			width : 265,
-			height : 30,
 			color : '#b3b3b3',
 			font : {
 				fontFamily : 'Tahoma',
 				fontSize : 14
 			},
-			returnKeyType : Titanium.UI.RETURNKEY_SEARCH
+			returnKeyType : Titanium.UI.RETURNKEY_SEARCH,
+			width : 265,
+			height : 30,
+			top : 7,
+			left : 40,
 		});
 		searchWin.add(searchBar);
 
@@ -54,12 +50,12 @@
 		var lblInstruction = Titanium.UI.createLabel({
 			text : 'Tik in het zoekveld om te zoeken.',
 			width : 'auto',
+			font : FontNormal,
+			color : '#555',
 			left : 20,
 			right : 20,
 			height : 40,
-			top : 60,
-			font : FontNormal,
-			color : '#555'
+			top : 60
 		});
 		searchWin.add(lblInstruction);
 
@@ -85,31 +81,28 @@
 					var list = JSON.parse(this.responseText);
 
 					for(var i = 0, j = list.length; i < j; i++) {
-						Titanium.App.evNaam1 = list[i].title;
 
-						var concertId = list[i].cdbid;
-						var concertNaam = list[i].title;
-						var concertDescription = list[i].shortdescription;
+						var cdbId = list[i].cdbid;
+						var cdbNaam = list[i].title;
+						var cdbDescription = list[i].shortdescription;
 
-						var concertImg = list[i].thumbnail;
-						var strImg = concertImg.substr(0, 77);
+						var cdbImg = list[i].thumbnail;
+						var strImg = cdbImg.substr(0, 77);
 						var imgThumb = strImg + '?width=90&height=90&crop=auto';
-
-						var row = Ti.UI.createTableViewRow({
-							height : 'auto',
-							rightImage : 'img/detail.png',
-							backgroundImage : 'img/bg.png'
+						
+						var rowHeight = mergeObjects(commonStyle.tableViewRow, {
+							height : 'auto'
 						});
+						var row = Titanium.UI.createTableViewRow(rowHeight);
+
 						row.filter = list[i].evNaam;
 
-						if(concertImg !== '') {
-							var img = imgThumb;
-						} else {
-							img = 'img/no_thumb.jpg';
+						if(cdbImg === '') {
+							imgThumb = 'img/no_thumb.jpg';
 						}
 
 						var thumb = Titanium.UI.createImageView({
-							image : img,
+							image : imgThumb,
 							backgroundColor : '#000',
 							width : 90,
 							height : 90,
@@ -118,23 +111,23 @@
 						});
 
 						var name = Ti.UI.createLabel({
-							text : concertNaam,
+							text : cdbNaam,
+							textAlign : 'left',
+							font : FontTitleSmall,
 							left : 100,
 							top : 0,
 							width : 'auto',
-							height : 50,
-							textAlign : 'left',
-							font : FontTitleSmall
+							height : 50
 						});
 						
 						var descr = Ti.UI.createLabel({
-							text : concertDescription,
+							text : cdbDescription,
+							textAlign : 'left',
+							font : FontSmall,
 							bottom : 5,
 							left : 100,
 							width : 205,
-							height : 36,
-							textAlign : 'left',
-							font : FontSmall
+							height : 36
 						});
 						row.add(thumb);
 						row.add(name);
@@ -143,22 +136,22 @@
 						data.push(row);
 					};
 					
-					var listLinks = Titanium.UI.createTableView({
+					var tableViewData = Titanium.UI.createTableView({
+						backgroundImage : '/img/bg.png',
+						scrollable : true,
 						top : 44,
 						left : 0,
 						right : 0,
 						bottom : 373,
-						backgroundImage : '/img/bg.png',
-						scrollable : true
 					});
-					searchWin.add(listLinks);
+					searchWin.add(tableViewData);
 					
 					searchBar.addEventListener('return', function(e) {
-						listLinks.setData(data);
-						listLinks.setBottom(0);
+						tableViewData.setData(data);
+						tableViewData.setBottom(0);
 					});
 					//Open detail van window
-					listLinks.addEventListener('click', function(e) {
+					tableViewData.addEventListener('click', function(e) {
 						Titanium.App.searchValue = searchBar.value;
 
 						Titanium.App.selectedIndex = list[e.index].cdbid;

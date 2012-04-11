@@ -5,6 +5,14 @@ exports.commonStyles = function() {
 			backgroundImage : 'img/bg.png',
 			tabBarHidden : true
 		},
+		tableViewRow :{
+			rightImage : 'img/arrow.png',
+			backgroundImage : 'img/bg.png',
+			layout : 'vertical',
+			selectedBackgroundColor : '#B8DAE8'
+		},
+
+		//BUTTONS
 		backButton : {
 			backgroundImage : "img/btn_back.png",
 			width : 50,
@@ -25,6 +33,17 @@ exports.commonStyles = function() {
 			width : 50,
 			height : 44
 		},
+		
+		//LABELS
+		
+		titleBarLabel : {
+			color : '#fff',
+			font : {
+				fontSize : 22,
+				fontFamily : 'LubalinGraph LT'
+			}
+		},
+		//BACKGROUNDS
 		starView : {
 			backgroundImage : "img/star.png",
 			width : 14,

@@ -8,35 +8,39 @@
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab2);
 
 		var titlebarImg = mergeObjects(commonStyle.window, {
-			barImage : 'img/header_nieuws.png'
+			barImage : 'img/header.png'
 		});
 		var nieuwsWindow = Titanium.UI.createWindow(titlebarImg);
+		
+		var lblTitle = mergeObjects(commonStyle.titleBarLabel, {
+			text : Uit.tab2_name
+		});
+		var lblTitle = Titanium.UI.createLabel(lblTitle);
+		nieuwsWindow.setTitleControl(lblTitle);
 
 		// load the feed
 		nieuwsWindow.addEventListener('open', function(e) {
-			Titanium.API.info('Nieuws window ' + e.type);
 			loadRSSFeed(url);
 		});
+		
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
 		refreshButton.addEventListener('click', function() {
-			Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
+			Uit.ui.activityIndicator.showModal('Loading...', 10000, Uit.app_name+' timed out. All streams may not have updated.');
 			loadRSSFeed(url);
 		});
 		nieuwsWindow.rightNavButton = refreshButton;
 
 		Titanium.include('/config/strip_tags.js');
-		var url = 'http://www.demorgen.be/cache/rss_muziek.xml';
+		var url = Uit.url_news_feed;
 
 		var data;
 		var i = 0;
-		var feedTableView;
-		var feedTitle = '';
 
 		function displayNieuws(itemList) {
 
 			if(!Titanium.Network.online) {
-				alert("You must be connected to the internet to retrieve Het Depot information");
+				alert("You must be connected to the internet to retrieve "+Uit.app_name+" information");
 			}
 
 			for(var c = 0; c < itemList.length; c++) {
@@ -64,23 +68,20 @@
 				desc = desc.replace(/&euml;/gi, "ë");
 
 				// Create a table row for this item
-				var row = Ti.UI.createTableViewRow({
-					height : 'auto',
-					rightImage : 'img/detail.png',
-					backgroundImage : 'img/bg.png',
-					layout : 'vertical',
-					selectedBackgroundColor : '#B8DAE8'
+				var rowHeight = mergeObjects(commonStyle.tableViewRow, {
+					height : 'auto'
 				});
+				var row = Titanium.UI.createTableViewRow(rowHeight);
 
 				var post_title = Ti.UI.createLabel({
 					text : title,
 					color : '#000',
 					textAlign : 'left',
-					left : 20,
+					font : FontTitleLittle,
 					height : 50,
 					width : 270,
-					top : 5,
-					font : FontTitleLittle
+					left : 20,
+					top : 5
 				});
 				row.add(post_title);
 
@@ -88,11 +89,11 @@
 					text : desc,
 					color : '#000',
 					textAlign : 'left',
+					font : FontSmall,
+					top : 5,
 					left : 20,
 					height : 50,
-					width : 270,
-					top : 5,
-					font : FontSmall
+					width : 270
 				});
 				row.add(post_desc);
 
@@ -100,12 +101,12 @@
 					text : date,
 					color : '#000',
 					textAlign : 'left',
-					left : 20,
+					font : FontSmallBold,
 					height : 'auto',
 					width : 270,
 					top : 5,
-					bottom : 8,
-					font : FontSmallBold
+					left : 20,
+					bottom : 8
 				});
 				row.add(post_date);
 
@@ -121,13 +122,12 @@
 			};
 
 			// create the table
-			feedTableView = Titanium.UI.createTableView({
+			var feedTableView = Titanium.UI.createTableView({
 				data : data,
+				width : 320,
 				top : 0,
 				bottom : 40,
-				width : 320
 			});
-
 			nieuwsWindow.add(feedTableView);
 
 			//WEBVIEW OPENEN VAN NIEUWSITEM

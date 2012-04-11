@@ -16,33 +16,26 @@
 			Ti.App.fireEvent('app:reloadSearch', {
 				action : 'Reload search'
 			});
-			
 			Titanium.App.navTab1.close(detailWin,{animated:false});	
 		});
 		detailWin.leftNavButton = backButton;
 			
 		detailWin.addEventListener('blur',function(e){
-			Titanium.API.info('Detail window '+e.type);
 			Titanium.App.navTab1.close(detailWin,{animated:false});
 		});
 		
 		var navActInd = Titanium.UI.createActivityIndicator();	
 		
 		detailWin.addEventListener('open',function(e){
-			getConcert();
-			Titanium.API.info('Detail window '+e.type);
+			getData();
 				
 			detailWin.setRightNavButton(navActInd);
 			navActInd.show();
 		});
 		
-		detailWin.addEventListener('close',function(e){
-			Titanium.API.info('Detail window '+e.type);
-		});
-
-		//HTTP CLIENT GETCONCERT
-		function getConcert() {	
-			
+		
+		//HTTP CLIENT GETDATA
+		function getData() {	
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/event/' + Titanium.App.selectedIndex + '?format=json&key=' + Uit.api_key;
 			getReq.open("GET", url);
@@ -52,33 +45,35 @@
 				try {					
 					var detail = JSON.parse(this.responseText);
 
-					var concertNaam = detail.event.eventdetails.eventdetail.title.toUpperCase();
-					var concertDatum = detail.event.calendar.timestamps.timestamp.date;
-					var evJaar = concertDatum.substr(2,2);
-					var evMaand = concertDatum.substr(5,2);
-					var evDag = concertDatum.substr(8,2);
-					var prettyDate = evDag+'.'+evMaand+'.'+evJaar;
-					var concertStart = detail.event.calendar.timestamps.timestamp.timestart;
-					concertStart = concertStart.substr(0,5);
+					var cdbNaam = detail.event.eventdetails.eventdetail.title.toUpperCase();
+					
+					var cdbDatum = detail.event.calendar.timestamps.timestamp.date;
+					var jaar = cdbDatum.substr(2,2);
+					var maand = cdbDatum.substr(5,2);
+					var dag = cdbDatum.substr(8,2);
+					var prettyDate = dag+'.'+maand+'.'+jaar;
+					
+					var cdbStart = detail.event.calendar.timestamps.timestamp.timestart;
+					cdbStart = cdbStart.substr(0,5);
 					
 					var scrollView = Titanium.UI.createScrollView({
 						contentWidth : 'auto',
 						contentHeight : 'auto',
+						showVerticalScrollIndicator : true,
+						layout : 'vertical',
 						top : 0,
 						bottom : 10,
-						showVerticalScrollIndicator : true,
-						layout : 'vertical'
 					});
 					
 					//Als geen foto is, foto weglaten
 					if(detail.event.eventdetails.eventdetail.media !== undefined) {
-						var concertImg = detail.event.eventdetails.eventdetail.media.file.hlink+'?width=320&height=175&crop=auto';
+						var cdbImg = detail.event.eventdetails.eventdetail.media.file.hlink+'?width=320&height=175&crop=auto';
 					}else{
-						concertImg = 'img/no_img.png'
+						cdbImg = 'img/no_img.png'
 					}
 					
 					var image = Ti.UI.createImageView({
-						image : concertImg,
+						image : cdbImg,
 						width : 320,
 						height : 175,
 						top:0,
@@ -88,21 +83,21 @@
 
 					var viewBlue = Titanium.UI.createView({
 						width : '100%',
-						right : 0,
-						top : 0,
 						backgroundColor : '#86B6CD',
-						height : 30
+						height : 30,
+						top : 0,
+						right : 0
 					});
 
 					var name = Titanium.UI.createLabel({
-						text : concertNaam,
-						left : 10,
-						top : -28,
-						width : 300,
-						height : 25,
+						text : cdbNaam,
 						textAlign : 'left',
 						font : FontTitle,
-						color : '#fff'
+						color : '#fff',
+						width : 300,
+						height : 25,
+						top : -28,
+						left : 10
 					});
 
 					var viewHorizontal = Titanium.UI.createView({
@@ -112,12 +107,12 @@
 					});
 					var date = Ti.UI.createLabel({
 						text : prettyDate,
-						left : 30,
-						width : 'auto',
-						height : 'auto',
 						textAlign : 'left',
 						font : FontLubalin,
-						color : '#D63F27'
+						color : '#D63F27',
+						width : 'auto',
+						height : 'auto',
+						left : 30
 					});
 					viewHorizontal.add(date);
 
@@ -128,27 +123,27 @@
 					viewHorizontal.add(star1);
 
 					var start = Ti.UI.createLabel({
-						text : concertStart,
-						left : 140,
-						width : 'auto',
-						height : 'auto',
+						text : cdbStart,
 						textAlign : 'left',
 						font : FontLubalin,
-						color : '#D63F27'
+						color : '#D63F27',
+						width : 'auto',
+						height : 'auto',
+						left : 140
 					});
 					viewHorizontal.add(start);
 
 					//Als prijs niet bestaat, ster en prijs niet tonen
 					if(detail.event.eventdetails.eventdetail.price !== undefined) {
-						var concertPrijs = detail.event.eventdetails.eventdetail.price.pricevalue;
+						var cdbPrijs = detail.event.eventdetails.eventdetail.price.pricevalue;
 						var price = Ti.UI.createLabel({
-							text : '€' + concertPrijs,
-							right : 30,
-							width : 'auto',
-							height : 'auto',
+							text : '€' + cdbPrijs,
 							textAlign : 'left',
 							font : FontLubalin,
-							color : '#D63F27'
+							color : '#D63F27',
+							width : 'auto',
+							height : 'auto',
+							right : 30
 						});
 						var star2 = mergeObjects(commonStyle.starView, {
 							left : 200
@@ -161,47 +156,47 @@
 					
 					//Als er geen longdescription is, shortdescription laten zien
 					if(detail.event.eventdetails.eventdetail.longdescription !== undefined) {
-						var concertDescription = detail.event.eventdetails.eventdetail.longdescription;
+						var cdbDescription = detail.event.eventdetails.eventdetail.longdescription;
 					}else{
-						concertDescription=detail.event.eventdetails.eventdetail.shortdescription;
+						cdbDescription=detail.event.eventdetails.eventdetail.shortdescription;
 					};
-					concertDescription=concertDescription.replace(/\n/gi, " ");
+					cdbDescription=cdbDescription.replace(/\n/gi, " ");
 
-					var HtmlParser = function(concertDescription) {
-						var html = concertDescription;
+					var HtmlParser = function(cdbDescription) {
+						var html = cdbDescription;
 						var urlRegex = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
 
 						this.getHTML = function() {
 							return html;
 						};
 					};
-					var parser = new HtmlParser(concertDescription);
+					var parser = new HtmlParser(cdbDescription);
 					var web = Ti.UI.createWebView({
 						html : parser.getHTML(),
+						backgroundColor : 'transparent',
+						touchEnabled:false,
 						width : 270,
 						height : 'auto',
-						top : 5,
-						backgroundColor : 'transparent',
-						touchEnabled:false
+						top : 5
 					});
 					
 					var ticketsPijl = Titanium.UI.createView({
+						backgroundImage:'/img/bg-red-circle.png',
 						width:12,
 						height:12,
 						top:5,
-						left:30,
-						backgroundImage:'/img/bg-red-circle.png'
+						left:30
 					});
 					
 					var ticketsLink = Ti.UI.createLabel({
 						text : 'tickets',
+						textAlign : 'left',
+						color:'#602210',
+						font : FontLubalin,
 						top :-17,
 						left : 47,
 						bottom:40,
-						height : 'auto',
-						textAlign : 'left',
-						color:'#602210',
-						font : FontLubalin
+						height : 'auto'
 					});
 					
 					ticketsLink.addEventListener('click', function(e) {
@@ -216,7 +211,7 @@
 					//Webview window
 					//
 					var webview = Titanium.UI.createWebView({
-						url : 'http://www.hetdepot.be/'
+						url : Uit.app_site
 					});
 
 					var titlebar_img = mergeObjects(commonStyle.window, {
@@ -238,33 +233,33 @@
 					//Donker rode balk
 					var footer = Titanium.UI.createView({
 						backgroundColor:'#361C00',
+						height:40,
 						left:10,
 						right:10,
 						top:-15,
-						bottom:40,
-						height:40
+						bottom:40
 					});
 					var hetdepot = Titanium.UI.createLabel({
-						text:'© Het Depot',
-						left:10,
+						text:'© '+ Uit.app_name,
 						font:FontSmall,
-						color:'#fff'
+						color:'#fff',
+						left:10
 					});
 					var tel = Titanium.UI.createLabel({
 						text:'T: 016220603',
-						left:95,
 						font:FontSmall,
-						color:'#fff'
+						color:'#fff',
+						left:95
 					});
 					tel.addEventListener('click',function(){
 						Titanium.Platform.openURL('tel:016220603')
 					});
 					var mail = Titanium.UI.createLabel({
 						text:'info@hetdepot.be',
-						top:0,
-						left:190,
 						font:FontSmall,
-						color:'#fff'
+						color:'#fff',
+						top:0,
+						left:190
 					});
 					mail.addEventListener('click',function(){
 						Titanium.Platform.openURL('mail:info@hetdepot.be')

@@ -10,53 +10,48 @@
 		var titlebarImg = mergeObjects(commonStyle.window, {
 			barImage : 'img/header.png'
 		});
-		var lijstWin = Titanium.UI.createWindow(titlebarImg);
-
-		var lblTitle = Titanium.UI.createLabel({
-			text : 'Concerten',
-			color : '#fff',
-			font : FontLubalinTitle
-		});
-		lijstWin.setTitleControl(lblTitle);		
+		var mainWin = Titanium.UI.createWindow(titlebarImg);
 		
-		// LEFT NAVBAR REFRESH BUTTON
+		var lblTitle = mergeObjects(commonStyle.titleBarLabel, {
+			text : Uit.tab1_name
+		});
+		var lblTitle = Titanium.UI.createLabel(lblTitle);
+		mainWin.setTitleControl(lblTitle);
+				
+		
+		// LEFT NAVBAR: SEARCH BUTTON
 		var searchButton = Titanium.UI.createButton(commonStyle.searchButton);
 		searchButton.addEventListener('click', function() {
 			var searchWin = Uit.ui.createSearchWindow();
 			Titanium.App.navTab1.open(searchWin,{animated:false});
 		});
-		lijstWin.leftNavButton = searchButton;
+		mainWin.leftNavButton = searchButton;
 		
-		// RIGHT NAVBAR REFRESH BUTTON
+		// RIGHT NAVBAR: REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
 		refreshButton.addEventListener('click', function() {
-			Titanium.API.info('Refresh concerten');
-			Uit.ui.activityIndicator.showModal('Loading concerts...', 10000, 'Het Depot timed out. All streams may not have updated.');
-			getConcerts();
+			Uit.ui.activityIndicator.showModal('Loading...', 10000, Uit.app_name+' timed out. All streams may not have updated.');
+			getData();
 		});
-		lijstWin.rightNavButton=refreshButton;
+		mainWin.rightNavButton=refreshButton;
 		
-		lijstWin.addEventListener('close',function(){
-			Titanium.API.info('Lijst window'+e.type);
-		});
-		lijstWin.addEventListener('open',function(e){
-			Titanium.API.info('Lijst window '+e.type);	
-			getConcerts();
+		//GEGEVENS OPHALEN
+		mainWin.addEventListener('open',function(e){
+			if(!Titanium.Network.online){
+			     alert("You must be connected to the internet to retrieve " + Uit.app_name + " information");
+			};
+			
+			getData();
 		});
 
 		//
 		// HTTP CLIENT GETCONCERTS
 		//
-		function getConcerts() {
+		function getData() {
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
-			
-			//Geen internet
-			if(!Titanium.Network.online){
-			     alert("You must be connected to the internet to retrieve Het Depot information");
-			}
 			
 			getReq.open("GET", url);
 			getReq.timeout = 5000;
@@ -65,31 +60,26 @@
 					var list = JSON.parse(this.responseText);
 
 					for(var i = 0, j = list.length; i < j; i++) {
-						Titanium.App.evNaam1 = list[i].title;
-						var concertId = list[i].cdbid;
-						var concertNaam = list[i].title;
-						var concertDescription = list[i].shortdescription;
 						
-						var concertImg = list[i].thumbnail;
-						var strImg = concertImg.substr(0, 77);
+						var cdbId = list[i].cdbid;
+						var cdbNaam = list[i].title;
+						var cdbDescription = list[i].shortdescription;
+						
+						var cdbImg = list[i].thumbnail;
+						var strImg = cdbImg.substr(0, 77);
 						var imgThumb = strImg + '?width=90&height=90&crop=auto';
-
-						var row = Ti.UI.createTableViewRow({
-							height : 92,
-							rightImage : 'img/detail.png',
-							backgroundImage : 'img/bg.png',
-							layout : 'vertical',
-							selectedBackgroundColor : '#B8DAE8'
+						
+						var rowHeight = mergeObjects(commonStyle.tableViewRow, {
+							height : 92
 						});
+						var row = Titanium.UI.createTableViewRow(rowHeight);
 
-						if(concertImg!== '') {
-							var img = imgThumb;
-						}else{
-							img='img/no_thumb.jpg';
-						};
+						if(cdbImg=== '') {
+							imgThumb = 'img/no_thumb.jpg';
+						}
 						
 						var image = Titanium.UI.createImageView({
-							image : img,
+							image : imgThumb,
 							backgroundColor : '#000',
 							width : 90,
 							height : 90,
@@ -98,7 +88,7 @@
 						});
 
 						var name = Ti.UI.createLabel({
-							text : concertNaam,
+							text : cdbNaam,
 							left : 100,
 							top : -95,
 							width : 'auto',
@@ -107,7 +97,7 @@
 							font : FontTitleSmall
 						});
 						var descr = Ti.UI.createLabel({
-							text : concertDescription,
+							text : cdbDescription,
 							bottom : 5,
 							left : 100,
 							width : 205,
@@ -123,7 +113,7 @@
 						data.push(row);
 					};
 					
-					var listLinks = Titanium.UI.createTableView({
+					var tableViewData = Titanium.UI.createTableView({
 						top : 0,
 						left : 0,
 						right : 0,
@@ -131,24 +121,20 @@
 						data:data,
 						backgroundImage : '/img/bg.png'
 					});
-					lijstWin.add(listLinks);
-					Titanium.App.tableView = listLinks;
+					mainWin.add(tableViewData);
 
 					//Open detail window
-					listLinks.addEventListener('click', function(e) {
+					tableViewData.addEventListener('click', function(e) {
 						Titanium.App.selectedIndex = list[e.index].cdbid;
 						Titanium.App.rowIndex = e.index;
-						Titanium.App.concertNaam = list[e.index].title.toUpperCase();
 
 						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(),{
 							animated:false
 						});
-
 					});
+					
 					Uit.ui.activityIndicator.hideModal();
-					Titanium.App.tableView = listLinks;
-					
-					
+						
 				} catch(e) {
 					alert(e);
 				}
@@ -163,6 +149,6 @@
 			getReq.send();
 		};
 		
-		return lijstWin;
+		return mainWin;
 	};
 })();
