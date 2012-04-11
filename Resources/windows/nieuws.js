@@ -6,16 +6,13 @@
 	Uit.ui.createNieuwsWindow = function() {
 
 		Titanium.App.tabgroup.setActiveTab(Titanium.App.navTab2);
-
-		var titlebarImg = mergeObjects(commonStyle.window, {
+		var nieuwsWindow = Titanium.UI.createWindow(Uit.combine(style.Window, {
 			barImage : 'img/header.png'
-		});
-		var nieuwsWindow = Titanium.UI.createWindow(titlebarImg);
+		}));
 		
-		var lblTitle = mergeObjects(commonStyle.titleBarLabel, {
+		var lblTitle = Titanium.UI.createLabel(Uit.combine(style.titleBar, {
 			text : Uit.tab2_name
-		});
-		var lblTitle = Titanium.UI.createLabel(lblTitle);
+		}));
 		nieuwsWindow.setTitleControl(lblTitle);
 
 		// load the feed
@@ -24,7 +21,7 @@
 		});
 		
 		// RIGHT NAVBAR REFRESH BUTTON
-		var refreshButton = Titanium.UI.createButton(commonStyle.refreshButton);
+		var refreshButton = Titanium.UI.createButton(style.refreshButton);
 		refreshButton.addEventListener('click', function() {
 			Uit.ui.activityIndicator.showModal('Loading...', 10000, Uit.app_name+' timed out. All streams may not have updated.');
 			loadRSSFeed(url);
@@ -68,46 +65,21 @@
 				desc = desc.replace(/&euml;/gi, "ë");
 
 				// Create a table row for this item
-				var rowHeight = mergeObjects(commonStyle.tableViewRow, {
-					height : 'auto'
-				});
-				var row = Titanium.UI.createTableViewRow(rowHeight);
+				var row = Ti.UI.createTableViewRow(style.tableViewRow);
 
-				var post_title = Ti.UI.createLabel({
-					text : title,
-					color : '#000',
-					textAlign : 'left',
-					font : FontTitleLittle,
-					height : 50,
-					width : 270,
-					left : 20,
-					top : 5
-				});
+				var post_title = Ti.UI.createLabel(Uit.combine(style.titleFeeds,{
+					text : title
+				}));
 				row.add(post_title);
 
-				var post_desc = Ti.UI.createLabel({
-					text : desc,
-					color : '#000',
-					textAlign : 'left',
-					font : FontSmall,
-					top : 5,
-					left : 20,
-					height : 50,
-					width : 270
-				});
+				var post_desc = Ti.UI.createLabel(Uit.combine(style.textFeed,{
+					text : desc
+				}));
 				row.add(post_desc);
 
-				var post_date = Ti.UI.createLabel({
-					text : date,
-					color : '#000',
-					textAlign : 'left',
-					font : FontSmallBold,
-					height : 'auto',
-					width : 270,
-					top : 5,
-					left : 20,
-					bottom : 8
-				});
+				var post_date = Ti.UI.createLabel(Uit.combine(style.feedDate,{
+					text : date
+				}));
 				row.add(post_date);
 
 				// Add some rowData for when it is clicked
@@ -122,12 +94,9 @@
 			};
 
 			// create the table
-			var feedTableView = Titanium.UI.createTableView({
-				data : data,
-				width : 320,
-				top : 0,
-				bottom : 40,
-			});
+			var feedTableView = Titanium.UI.createTableView(Uit.combine(style.TableView,{
+				data : data
+			}));
 			nieuwsWindow.add(feedTableView);
 
 			//WEBVIEW OPENEN VAN NIEUWSITEM

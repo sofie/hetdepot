@@ -1,28 +1,30 @@
-/**
- * @author Bart Verbruggen
- */
-
-var mergeObjects = function(destination, source) {
-	for(var property in source)
-	destination[property] = source[property];
-	return destination;
-}
-var createListThumb = function(url, width, height) {
-	var items = ['maxwidth', 'maxheight'];
-
-	for(var i in items) {
-		var regex = new RegExp("[\\?&]" + items[i] + "=([^&#]*)");
-		var qs = regex.exec(url);
-		if(qs) {
-			if(items[i] == 'maxwidth') {
-				url = url.replace('maxwidth', 'width');
-				url = url.replace(qs[1], width);
-			} else if(items[i] == 'maxheight') {
-				url = url.replace('maxheight', 'height');
-				url = url.replace(qs[1], height);
-			}
+var empty = {};
+function mixin(/*Object*/target, /*Object*/source) {
+	var name, s, i;
+	for(name in source) {
+		s = source[name];
+		if(!( name in target) || (target[name] !== s && (!( name in empty) || empty[name] !== s))) {
+			target[name] = s;
 		}
 	}
-	url = url + '&crop=auto';
-	return url;
-}
+	return target;
+	// Object
+};
+
+Uit.mixin = function(/*Object*/obj, /*Object...*/props) {
+	if(!obj) {
+		obj = {};
+	}
+	for(var i = 1, l = arguments.length; i < l; i++) {
+		mixin(obj, arguments[i]);
+	}
+	return obj;
+	// Object
+};
+Uit.combine = function(/*Object*/obj, /*Object...*/props) {
+	var newObj = {};
+	for(var i = 0, l = arguments.length; i < l; i++) {
+		mixin(newObj, arguments[i]);
+	}
+	return newObj;
+};

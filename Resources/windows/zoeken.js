@@ -4,14 +4,12 @@
 
 (function() {
 	Uit.ui.createSearchWindow = function() {
-
-		var titlebarImg = mergeObjects(commonStyle.window, {
+		var searchWin = Titanium.UI.createWindow(Uit.combine(style.Window, {
 			barImage : 'img/header_zoeken.png'
-		});
-		var searchWin = Titanium.UI.createWindow(titlebarImg);
-
+		}));
+		
 		//LEFT NAVBAR BACK BUTTON
-		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		var backButton = Titanium.UI.createButton(style.backButton);
 		backButton.addEventListener('click', function() {
 			Titanium.App.navTab1.close(searchWin, {
 				animated : false
@@ -19,44 +17,22 @@
 		});
 		searchWin.leftNavButton = backButton;
 		
-		var searchBg = Titanium.UI.createView({
-			backgroundImage : 'img/bg_search.png',
-			width : 320,
-			height : 43,
-			top : 0,
-			left : 0
-		});
+		
+		var searchBg = Titanium.UI.createView(style.searchBar);
 		searchWin.add(searchBg);
-
-		var searchBar = Titanium.UI.createTextField({
-			hintText : 'Zoek op naam...',
-			color : '#b3b3b3',
-			font : {
-				fontFamily : 'Tahoma',
-				fontSize : 14
-			},
-			returnKeyType : Titanium.UI.RETURNKEY_SEARCH,
-			width : 265,
-			height : 30,
-			top : 7,
-			left : 40,
-		});
+		
+		var searchBar = Titanium.UI.createTextField(Uit.combine(style.SearchField,{
+			hintText : 'Zoek op naam...'
+		}));
 		searchWin.add(searchBar);
 
 		searchBar.addEventListener('change', function() {
 			getConcertsByName();
 			lblInstruction.hide();
 		});
-		var lblInstruction = Titanium.UI.createLabel({
+		var lblInstruction = Titanium.UI.createLabel(Uit.combine(style.textInstruction,{
 			text : 'Tik in het zoekveld om te zoeken.',
-			width : 'auto',
-			font : FontNormal,
-			color : '#555',
-			left : 20,
-			right : 20,
-			height : 40,
-			top : 60
-		});
+		}));
 		searchWin.add(lblInstruction);
 
 		Titanium.App.addEventListener('app:reloadSearch', function(e) {
@@ -90,10 +66,7 @@
 						var strImg = cdbImg.substr(0, 77);
 						var imgThumb = strImg + '?width=90&height=90&crop=auto';
 						
-						var rowHeight = mergeObjects(commonStyle.tableViewRow, {
-							height : 'auto'
-						});
-						var row = Titanium.UI.createTableViewRow(rowHeight);
+						var row = Ti.UI.createTableViewRow(style.tableViewRow);
 
 						row.filter = list[i].evNaam;
 
@@ -101,34 +74,18 @@
 							imgThumb = 'img/no_thumb.jpg';
 						}
 
-						var thumb = Titanium.UI.createImageView({
-							image : imgThumb,
-							backgroundColor : '#000',
-							width : 90,
-							height : 90,
-							left : 0,
-							top : 0
-						});
+						var thumb = Titanium.UI.createImageView(Uit.combine(style.Img90,{
+							image : imgThumb
+						}));
 
-						var name = Ti.UI.createLabel({
-							text : cdbNaam,
-							textAlign : 'left',
-							font : FontTitleSmall,
-							left : 100,
-							top : 0,
-							width : 'auto',
-							height : 50
-						});
+						var name = Ti.UI.createLabel(Uit.combine(style.titleSmall,{
+							text : cdbNaam
+						}));
 						
-						var descr = Ti.UI.createLabel({
-							text : cdbDescription,
-							textAlign : 'left',
-							font : FontSmall,
-							bottom : 5,
-							left : 100,
-							width : 205,
-							height : 36
-						});
+						var descr = Ti.UI.createLabel(Uit.combine(style.textSmall,{
+							text : cdbDescription
+						}));
+						
 						row.add(thumb);
 						row.add(name);
 						row.add(descr);
@@ -136,22 +93,17 @@
 						data.push(row);
 					};
 					
-					var tableViewData = Titanium.UI.createTableView({
-						backgroundImage : '/img/bg.png',
-						scrollable : true,
-						top : 44,
-						left : 0,
-						right : 0,
-						bottom : 373,
-					});
-					searchWin.add(tableViewData);
+					var tableView = Titanium.UI.createTableView(Uit.combine(style.TableView,{
+						data : data
+					}));
+					searchWin.add(tableView);
 					
 					searchBar.addEventListener('return', function(e) {
-						tableViewData.setData(data);
-						tableViewData.setBottom(0);
+						tableView.setData(data);
+						tableView.setBottom(0);
 					});
 					//Open detail van window
-					tableViewData.addEventListener('click', function(e) {
+					tableView.addEventListener('click', function(e) {
 						Titanium.App.searchValue = searchBar.value;
 
 						Titanium.App.selectedIndex = list[e.index].cdbid;

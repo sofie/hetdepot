@@ -4,6 +4,9 @@
  */
 
 Uit.ui.activityIndicator = (function() {
+	
+	Titanium.include('/styles/styles.js');
+	
 	var activityIndicator;
 	var isShowing = false;
 	var myTimeout = undefined;
@@ -14,20 +17,10 @@ Uit.ui.activityIndicator = (function() {
 		touchEnabled : true
 	});
 	activityIndicator.orientationModes = [Ti.UI.PORTRAIT];
-	var view = Ti.UI.createView({
-		backgroundColor : '#000',
-		height : '100%',
-		width : '100%',
-		opacity : 0.6
-	});
-	var ai = Ti.UI.createActivityIndicator({
-		style : Titanium.UI.iPhone.ActivityIndicatorStyle.PLAIN,
-		color : '#fff',
-		font: {
-			fontSize : 14, 
-			fontFamily : 'Verdana'
-		}
-	});
+	
+	var view = Ti.UI.createView(style.backgroundView);
+	var ai = Ti.UI.createActivityIndicator(style.activityIndicator);
+	
 	activityIndicator.ai = ai;
 	activityIndicator.add(view);
 	activityIndicator.add(ai);
