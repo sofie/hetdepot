@@ -6,7 +6,7 @@
 
 	Uit.ui.createApplicationMainWin = function() {
 
-		var tabGroup = Titanium.UI.createTabGroup();
+		var tabGroup = Titanium.UI.createTabGroup(style.tabGroup);
 		Titanium.App.tabgroup = tabGroup;
 
 		// EERSTE TAB
@@ -52,11 +52,11 @@
 		//CUSTOM TAB
 		//Tutorial: Custom iPhone tabbar using Appcelerator Titanium
 		//http://www.samjordan.co.uk/2011/02/tutorial-custom-iphone-tabbar-using-appcelerator-titanium/
-		Ti.include("customTabBar/customTabBar.js");
+		Ti.include("config/customTabBar.js");
 
 		var myCustomTabBar = new CustomTabBar({
 			tabBar : tabGroup,
-			imagePath : '/images/',
+			imagePath : '/img/customTabBar/',
 			width : 160,
 			height : 40,
 			items : [{

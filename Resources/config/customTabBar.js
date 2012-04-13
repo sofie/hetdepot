@@ -12,7 +12,7 @@ CustomTabBar = function(settings) {
 	var resetTabs = function() {
 		for(var i = 0; i < tabBarItems.length; i++) {
 			// Clear all the images to make sure only one is shown as selected
-			tabBarItems[i].image = "images/clear.png";
+			tabBarItems[i].image = settings.imagePath+"clear.png";
 		}
 	};
 	

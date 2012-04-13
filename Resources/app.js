@@ -15,6 +15,8 @@ var Uit = {
 	customTab1_selected : 'btn_concerten_selected.png',
 	customTab2 : 'btn_nieuws.png',
 	customTab2_selected : 'btn_nieuws_selected.png',
+	
+	basic_font:'Verdana'
 };
 
 Ti.include(

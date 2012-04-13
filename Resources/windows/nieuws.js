@@ -50,7 +50,7 @@
 
 				//Clean up characters
 				title = title.replace(/\n/gi, " ");
-				title = title.replace(/br/gi, "");
+				title = title.replace(/<br/gi, "");
 				title = title.replace(/>/gi, "");
 				title = title.replace(/&eacute;/gi, "é");
 				title = title.replace(/&amp;/gi, "&");

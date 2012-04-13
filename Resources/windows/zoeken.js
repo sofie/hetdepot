@@ -8,15 +8,6 @@
 			barImage : 'img/header_zoeken.png'
 		}));
 
-		searchWin.addEventListener('open', function() {
-			Titanium.API.info('Search window opened');
-		});
-		searchWin.addEventListener('blur', function() {
-			Titanium.API.info('Search window blured');
-		});
-		searchWin.addEventListener('close', function() {
-			Titanium.API.info('Search window closed');
-		});
 		//LEFT NAVBAR BACK BUTTON
 		var backButton = Titanium.UI.createButton(style.backButton);
 		backButton.addEventListener('click', function() {
@@ -88,11 +79,11 @@
 							image : imgThumb
 						}));
 
-						var name = Ti.UI.createLabel(Uit.combine(style.titleDetail,{
+						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam,{
 							text : cdbNaam
 						}));
 						
-						var descr = Ti.UI.createLabel(Uit.combine(style.textSmall,{
+						var descr = Ti.UI.createLabel(Uit.combine(style.textDescription,{
 							text : cdbDescription
 						}));
 

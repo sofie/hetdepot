@@ -25,6 +25,9 @@
 			top : 0,
 			bottom : 10,
 		},
+		tabGroup:{
+			backgroundColor : '#fff'
+		},
 		
 		//
 		// BUTTONS
@@ -126,7 +129,7 @@
 			width:Ti.Platform.displayCaps.platformWidth,
 			height:25,
 			top:0,
-			backgroundImage:'img/toolbar_gradient.png'
+			backgroundImage:'img/toolbar.png'
 		},
 		viewBlue :{
 			width : '100%',
@@ -193,7 +196,7 @@
 		},
 		
 		//TAB1
-		titleDetail: {
+		titleNaam: {
 			left : 100,
 			top : -95,
 			width : 'auto',
@@ -203,7 +206,7 @@
 				fontFamily : 'Impact', fontSize:18
 			}
 		},
-		titleWhite:{
+		titleNaamWhite:{
 			textAlign : 'left',
 			font :{ fontFamily : 'Impact', fontSize: 21},
 			color : '#fff',
@@ -221,7 +224,7 @@
 			left : 30,
 			right:'auto'
 		},
-		textLubalinBrown: {
+		textTickets: {
 			textAlign : 'left',
 			font : { fontSize : 14, fontFamily : 'LubalinGraph LT' },
 			color:'#602210',
@@ -231,7 +234,7 @@
 			width : 'auto',
 			height : 'auto'
 		},
-		textSmall:{
+		textDescription:{
 			bottom : 5,
 			left : 100,
 			width : 205,
@@ -239,9 +242,17 @@
 			textAlign : 'left',
 			font : {fontSize : 11, fontFamily : 'Verdana'}
 		},
+		textDescriptionDetail:{
+			top : 10,
+			left : 30,
+			right : 30,
+			bottom : 10,
+			textAlign : 'left',
+			font : {fontSize : 11, fontFamily : 'Verdana'}
+		},
 		textFooter:{
 			textAlign : 'left',
-			font : {fontSize : 11, fontFamily : 'Verdana'},
+			font : {fontSize : 10, fontFamily : 'Verdana'},
 			color:'#fff'
 		},
 		textInstruction:{

@@ -10,7 +10,7 @@
 		var mainWin = Titanium.UI.createWindow(Uit.combine(style.Window, {
 			barImage : 'img/header.png'
 		}));
-
+		
 		var lblTitle = Titanium.UI.createLabel(Uit.combine(style.titleBar, {
 			text : Uit.tab1_name
 		}));
@@ -39,9 +39,9 @@
 			if(!Titanium.Network.online) {
 				alert("You must be connected to the internet to retrieve " + Uit.app_name + " information");
 			};
-
-			getData();
 		});
+		
+		getData();
 		//
 		// HTTP CLIENT GETCONCERTS
 		//
@@ -77,11 +77,11 @@
 							image : imgThumb
 						}));
 
-						var name = Ti.UI.createLabel(Uit.combine(style.titleDetail,{
+						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam,{
 							text : cdbNaam
 						}));
 						
-						var descr = Ti.UI.createLabel(Uit.combine(style.textSmall,{
+						var descr = Ti.UI.createLabel(Uit.combine(style.textDescription,{
 							text : cdbDescription
 						}));
 
@@ -100,12 +100,14 @@
 					//Open detail window
 					tableView.addEventListener('click', function(e) {
 						Titanium.App.selectedIndex = list[e.index].cdbid;
+						Ti.API.info(Titanium.App.selectedIndex);
 						Titanium.App.rowIndex = e.index;
 
 						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(), {
 							animated : false
 						});
 					});
+					
 
 					Uit.ui.activityIndicator.hideModal();
 
