@@ -37,6 +37,11 @@
 			width : 50,
 			height : 44
 		},
+		downButton: {
+			backgroundImage : "img/btn_down.png",
+			width : 50,
+			height : 44
+		},
 		searchButton: {
 			backgroundImage : "img/btn_search.png",
 			width : 50,
@@ -264,7 +269,15 @@
 			height : 40,
 			top : 60
 		},
-		
+		textNoList:{
+			textAlign : 'left',
+			font : { fontSize : 14, fontFamily : 'LubalinGraph LT' },
+			color:'#602210',
+			top :55,
+			left : 30,
+			width : 'auto',
+			height : 'auto'
+		},
 		//TAB2
 		titleFeeds:{
 			height : 50,

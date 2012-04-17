@@ -34,6 +34,15 @@
 		}));
 		searchWin.add(lblTap);
 		
+		searchBar.addEventListener('return',function(){
+			if(Titanium.App.datalist===0){
+				var lblNo = Titanium.UI.createLabel(Uit.combine(style.textNoList,{
+					text : 'Geen optredens gevonden.',
+				}));
+				searchWin.add(lblNo);
+			}
+		});
+		
 
 		Titanium.App.addEventListener('app:reloadSearch', function(e) {
 			searchBar.setValue(Titanium.App.searchValue);
@@ -57,6 +66,7 @@
 			getReq.onload = function() {
 				try {
 					var list = JSON.parse(this.responseText);
+					Titanium.App.datalist = list.length;
 
 					for(var i = 0, j = list.length; i < j; i++) {
 						Titanium.App.evNaam1 = list[i].title;

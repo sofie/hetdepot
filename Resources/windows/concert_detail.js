@@ -155,7 +155,7 @@
 						barImage : 'img/header_tickets.png'
 					}));
 
-					var backBtnLinkWindow = Titanium.UI.createButton(style.backButton);
+					var backBtnLinkWindow = Titanium.UI.createButton(style.downButton);
 					backBtnLinkWindow.addEventListener('click', function() {
 						windowLink.close({
 							animated : false
