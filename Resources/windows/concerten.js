@@ -37,7 +37,7 @@ Ti.include(
 		var refreshButton = Titanium.UI.createButton(style.refreshButton);
 		refreshButton.addEventListener('click', function() {
 			url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
-			Uit.ui.activityIndicator.showModal('Loading...', 10000, 'Kan concerten niet ophalen. Controleer uw internetverbinding.');
+			Uit.ui.activityIndicator.showModal('Loading...', 6000, 'Kan concerten niet ophalen. Controleer uw internetverbinding.');
 			getData();
 		});
 		mainWin.rightNavButton = refreshButton;
@@ -54,7 +54,6 @@ Ti.include(
 					animated : false
 				});
 			});
-			mainWin.leftNavButton = searchButton;
 
 			var data = [];
 
@@ -62,6 +61,7 @@ Ti.include(
 	
 			getReq.onload = function() {
 				try {
+					mainWin.leftNavButton = searchButton;
 					var list = JSON.parse(this.responseText);
 
 					for(var i = 0, j = list.length; i < j; i++) {

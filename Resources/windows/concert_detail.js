@@ -71,7 +71,8 @@
 					}
 
 					var image = Ti.UI.createImageView(Uit.combine(style.Img320, {
-						image : cdbImg
+						image : cdbImg,
+						defaultImage:'img/default_img.png'
 					}));
 					scrollView.add(image);
 

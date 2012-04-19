@@ -25,7 +25,7 @@ Ti.include('/windows/nieuws_detail.js');
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(style.refreshButton);
 		refreshButton.addEventListener('click', function() {
-			Uit.ui.activityIndicator.showModal('Loading...', 10000, 'Kan nieuws items niet ophalen. Controleer uw internetverbinding.');
+			Uit.ui.activityIndicator.showModal('Loading...', 6000, 'Kan nieuws items niet ophalen. Controleer uw internetverbinding.');
 			i = 0;
 			url = Uit.url_news_feed;
 			loadRSSFeed(url);
