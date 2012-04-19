@@ -47,6 +47,11 @@
 		Titanium.App.addEventListener('app:reloadSearch', function(e) {
 			searchBar.setValue(Titanium.App.searchValue);
 		});
+		searchWin.addEventListener('close', function() {
+		    Ti.App.removeEventListener('app:reloadSearch',function(e) {
+				searchBar.setValue(Titanium.App.searchValue);
+			});
+		});
 		//
 		// HTTP CLIENT GETCONCERTBYNAME
 		//

@@ -1,6 +1,13 @@
 /*
  * Main window met tabgroup en navgroup
  */
+Ti.include(
+	'/windows/concerten.js', 
+	'/windows/nieuws.js',
+	
+	'/config/config.js', 
+	'/config/activityIndicator.js', 
+	'/styles/styles.js');
 
 (function() {
 

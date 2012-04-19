@@ -120,7 +120,7 @@
 			layout : 'vertical',
 			selectedBackgroundColor : '#B8DAE8',
 			backgroundSelectedColor: '#B8DAE8',
-			height:'auto'
+			height:90
 		},
 		
 		searchBar:{

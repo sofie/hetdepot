@@ -19,17 +19,6 @@ var Uit = {
 	basic_font:'Verdana'
 };
 
-Ti.include(
-	'windows/concerten.js', 
-	'windows/nieuws.js', 
-	'windows/concert_detail.js', 
-	'windows/nieuws_detail.js', 
-	'windows/zoeken.js', 
-	'windows/main.js', 
-	
-	'config/config.js', 
-	'config/activityIndicator.js', 
-	 
-	'styles/styles.js');
+Ti.include('windows/main.js');
 	
 Uit.ui.createApplicationMainWin();

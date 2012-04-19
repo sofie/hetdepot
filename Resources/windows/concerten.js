@@ -2,6 +2,11 @@
  * Eerste tab, alle concerten in tableview
  */
 
+Ti.include(
+	'/windows/concert_detail.js',
+	'/windows/zoeken.js'
+);
+
 (function() {
 	Uit.ui.createConcertenWindow = function() {
 

@@ -2,6 +2,8 @@
  * Tweede tab, rss/nieuws
  */
 
+Ti.include('/windows/nieuws_detail.js');
+
 (function() {
 	Uit.ui.createNieuwsWindow = function() {
 
