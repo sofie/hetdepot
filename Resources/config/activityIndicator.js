@@ -42,7 +42,7 @@ Uit.ui.activityIndicator = (function() {
 				activityIndicator.hideModal();
 				if(timeoutMessage) {
 					var alertDialog = Ti.UI.createAlertDialog({
-						title : 'Update Timeout',
+						title : 'Alert',
 						message : timeoutMessage,
 						buttonNames : ['OK']
 					});

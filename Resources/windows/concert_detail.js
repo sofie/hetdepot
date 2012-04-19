@@ -39,7 +39,6 @@
 		function getData() {
 			var getReq = Titanium.Network.createHTTPClient();
 			var url = 'http://build.uitdatabank.be/api/event/' + Titanium.App.selectedIndex + '?format=json&key=' + Uit.api_key;
-			getReq.open("GET", url);
 
 			getReq.timeout = 5000;
 			getReq.onload = function() {
@@ -201,28 +200,6 @@
 					scrollView.add(ticketsLink);
 					scrollView.add(footer);
 
-					//Kleine windows toch laten scrollen
-					setTimeout(function() {
-						if(web.size.height < 110) {
-							if(web.size.height === 80) {
-								//4 lijnen description
-								ticketsLink.setBottom(59);
-
-							}else if(web.size.height === 64) {
-								//3 lijnen description
-								ticketsLink.setBottom(43);
-
-							}  else if(web.size.height === 48) {
-								//2 lijnen description
-								ticketsLink.setBottom(37);
-							} else {
-								//1 lijn description
-								ticketsLink.setBottom(21);
-							}
-							scrollView.scrollTo(0,0);
-						}
-					}, 500);
-
 					detailWin.add(scrollView);
 					navActInd.hide();
 
@@ -234,6 +211,7 @@
 				Ti.API.info("TEXT onerror:   " + this.responseText);
 				alert('Er is iets mis met de databank.');
 			}
+			getReq.open("GET", url);
 			getReq.send();
 		}
 

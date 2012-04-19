@@ -20,44 +20,46 @@ Ti.include(
 			text : Uit.tab1_name
 		}));
 		mainWin.setTitleControl(lblTitle);
-
-		// LEFT NAVBAR: SEARCH BUTTON
-		var searchButton = Titanium.UI.createButton(style.searchButton);
-		searchButton.addEventListener('click', function() {
-			var searchWin = Uit.ui.createSearchWindow();
-			Titanium.App.navTab1.open(searchWin, {
-				animated : false
-			});
-		});
-		mainWin.leftNavButton = searchButton;
+		
+		if(!Titanium.Network.online) {
+			var lblNoInternet = Ti.UI.createLabel(Uit.combine(style.textNoList, {
+				text : 'Kan geen connectie maken met internet. Refresh of controleer uw verbinding.',
+				left:20,
+				right:20
+			}));
+			mainWin.add(lblNoInternet);
+		} else {
+			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
+			getData();	
+		}
 
 		// RIGHT NAVBAR: REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(style.refreshButton);
 		refreshButton.addEventListener('click', function() {
-			Uit.ui.activityIndicator.showModal('Loading...', 10000, Uit.app_name + ' timed out. All streams may not have updated.');
+			url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
+			Uit.ui.activityIndicator.showModal('Loading...', 10000, 'Kan concerten niet ophalen. Controleer uw internetverbinding.');
 			getData();
 		});
 		mainWin.rightNavButton = refreshButton;
 
-		//GEGEVENS OPHALEN
-		mainWin.addEventListener('open', function(e) {
-			if(!Titanium.Network.online) {
-				alert("You must be connected to the internet to retrieve " + Uit.app_name + " information");
-			};
-		});
-		
-		getData();
 		//
 		// HTTP CLIENT GETCONCERTS
 		//
 		function getData() {
+			// LEFT NAVBAR: SEARCH BUTTON
+			var searchButton = Titanium.UI.createButton(style.searchButton);
+			searchButton.addEventListener('click', function() {
+				var searchWin = Uit.ui.createSearchWindow();
+				Titanium.App.navTab1.open(searchWin, {
+					animated : false
+				});
+			});
+			mainWin.leftNavButton = searchButton;
+
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
-			var url = 'http://build.uitdatabank.be/api/events/search?format=json&key=' + Uit.api_key + '&organiser=' + Uit.organizer;
-
-			getReq.open("GET", url);
-			getReq.timeout = 5000;
+	
 			getReq.onload = function() {
 				try {
 					var list = JSON.parse(this.responseText);
@@ -121,12 +123,7 @@ Ti.include(
 				}
 			};
 
-			getReq.onerror = function(e) {
-				Ti.API.info("TEXT onerror:   " + this.responseText);
-				alert('Kan gegevens niet ophalen.');
-				Uit.ui.activityIndicator.hideModal();
-			};
-
+			getReq.open("GET", url);
 			getReq.send();
 		};
 

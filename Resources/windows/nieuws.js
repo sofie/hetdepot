@@ -19,22 +19,36 @@ Ti.include('/windows/nieuws_detail.js');
 
 		// load the feed
 		nieuwsWindow.addEventListener('open', function(e) {
-			loadRSSFeed(url);
+			//loadRSSFeed(url);
 		});
 		
 		// RIGHT NAVBAR REFRESH BUTTON
 		var refreshButton = Titanium.UI.createButton(style.refreshButton);
 		refreshButton.addEventListener('click', function() {
-			Uit.ui.activityIndicator.showModal('Loading...', 10000, Uit.app_name+' timed out. All streams may not have updated.');
+			Uit.ui.activityIndicator.showModal('Loading...', 10000, 'Kan nieuws items niet ophalen. Controleer uw internetverbinding.');
+			i = 0;
+			url = Uit.url_news_feed;
 			loadRSSFeed(url);
 		});
 		nieuwsWindow.rightNavButton = refreshButton;
 
-		Titanium.include('/config/strip_tags.js');
-		var url = Uit.url_news_feed;
+		if(!Titanium.Network.online) {
+			var lblNoInternet = Ti.UI.createLabel(Uit.combine(style.textNoList, {
+				text : 'Kan geen connectie maken met internet. Refresh of controleer uw verbinding.',
+				left:20,
+				right:20
+			}));
+			nieuwsWindow.add(lblNoInternet);
+		} else {
 
-		var data;
-		var i = 0;
+			Titanium.include('/config/strip_tags.js');
+			var url = Uit.url_news_feed;
+
+			var data;
+			var i = 0;
+
+			loadRSSFeed(url);
+		};
 
 		function displayNieuws(itemList) {
 
@@ -67,7 +81,9 @@ Ti.include('/windows/nieuws_detail.js');
 				desc = desc.replace(/&euml;/gi, "ë");
 
 				// Create a table row for this item
-				var row = Ti.UI.createTableViewRow(style.tableViewRow);
+				var row = Ti.UI.createTableViewRow(Uit.combine(style.tableViewRow,{
+					height:'auto'
+				}));
 
 				var post_title = Ti.UI.createLabel(Uit.combine(style.titleFeeds,{
 					text : title

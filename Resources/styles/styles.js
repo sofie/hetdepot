@@ -24,6 +24,7 @@
 			layout : 'vertical',
 			top : 0,
 			bottom : 10,
+			verticalBounce:true
 		},
 		tabGroup:{
 			backgroundColor : '#fff'
