@@ -161,7 +161,7 @@
 			height:40,
 			left:10,
 			right:10,
-			top:-15,
+			top:10,
 			bottom:40
 		},
 		webViewDescription:{
@@ -177,10 +177,10 @@
 			top : 0,
 			bottom : 40
 		},
-		orangeArrow:{
-			backgroundImage:'/img/bg-red-circle.png',
-			width:12,
-			height:12,
+		ticketsLink:{
+			backgroundImage:'/img/bg_ticket.png',
+			width:70,
+			height:25,
 			top:5,
 			left:30
 		},
@@ -229,7 +229,7 @@
 			height : 'auto',
 			left : 30
 		},
-		textTickets: {
+		/*textTickets: {
 			textAlign : 'left',
 			font : { fontSize : 14, fontFamily : 'LubalinGraph LT' },
 			color:'#602210',
@@ -238,7 +238,7 @@
 			bottom:40,
 			width : 'auto',
 			height : 'auto'
-		},
+		},*/
 		textDescription:{
 			bottom : 5,
 			left : 100,

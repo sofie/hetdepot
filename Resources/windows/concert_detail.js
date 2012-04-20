@@ -122,12 +122,8 @@
 						text : cdbDescription
 					}));
 					
-					var ticketsPijl = Titanium.UI.createView(style.orangeArrow);
-
-					var ticketsLink = Ti.UI.createLabel(Uit.combine(style.textTickets, {
-						text : 'tickets'
-					}));
-
+					var ticketsLink = Titanium.UI.createView(style.ticketsLink);
+					
 					ticketsLink.addEventListener('click', function(e) {
 						windowLink.open({
 							modal : true,
@@ -159,7 +155,7 @@
 
 					windowLink.add(webview);
 
-					//Donker rode balk
+					//Footer
 					var footer = Titanium.UI.createView(style.footerView);
 
 					var organiser = Titanium.UI.createLabel(Uit.combine(style.textFooter, {
@@ -187,9 +183,7 @@
 					scrollView.add(viewBlue);
 					scrollView.add(name);
 					scrollView.add(viewHorizontal);
-					//scrollView.add(web);
 					scrollView.add(description);
-					scrollView.add(ticketsPijl);
 					scrollView.add(ticketsLink);
 					scrollView.add(footer);
 
