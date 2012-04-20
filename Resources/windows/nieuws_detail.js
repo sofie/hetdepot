@@ -35,7 +35,7 @@
 			navActInd.show();
 		});
 		
-		var prev = Titanium.UI.createButton(style.prevButton);
+		/*var prev = Titanium.UI.createButton(style.prevButton);
 		
 		var flexSpace = Titanium.UI.createButton({
 			systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
@@ -48,7 +48,7 @@
 		toolbarView.add(prev);
 		toolbarView.add(next);
 		detailWin.add(toolbarView);
-		
+		*/
 		
 		/*
 		flexSpace = Titanium.UI.createButton({

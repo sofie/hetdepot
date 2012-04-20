@@ -83,6 +83,7 @@ Ti.include(
 						var image = Titanium.UI.createImageView(Uit.combine(style.Img90,{
 							image : imgThumb
 						}));
+						
 
 						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam,{
 							text : cdbNaam

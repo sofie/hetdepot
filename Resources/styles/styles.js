@@ -174,7 +174,7 @@
 		webViewFeed:{
 			width : 440,
 			left : 0,
-			top : 25,
+			top : 0,
 			bottom : 40
 		},
 		orangeArrow:{
