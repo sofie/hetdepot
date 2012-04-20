@@ -103,7 +103,7 @@
 						cdbPrijs = cdbPrijs.pricevalue;
 						var price = Ti.UI.createLabel(Uit.combine(style.textLubalin, {
 							text : '€' + cdbPrijs,
-							right : -185
+							left : 245
 						}));
 
 						var star2 = Titanium.UI.createView(style.starView2);
@@ -111,26 +111,17 @@
 						viewHorizontal.add(star2);
 						viewHorizontal.add(price);
 					};
-
+					
 					//Als er geen longdescription is, shortdescription laten zien
 					if(cdbDescription === undefined) {
 						cdbDescription = detail.event.eventdetails.eventdetail.shortdescription;
 					};
-					cdbDescription = cdbDescription.replace(/\n/gi, " ");
-
-					var HtmlParser = function(cdbDescription) {
-						var html = cdbDescription;
-						var urlRegex = /((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi;
-
-						this.getHTML = function() {
-							return html;
-						};
-					};
-					var parser = new HtmlParser(cdbDescription);
-					var web = Ti.UI.createWebView(Uit.combine(style.webViewDescription, {
-						html : "<div style=\"font-family: " + Uit.basic_font + "; font-size:11px; line-height:16px;\">" + parser.getHTML() + "</div>"
+					cdbDescription = cdbDescription.replace(/<br \/>/gi, " ");
+					
+					var description = Ti.UI.createLabel(Uit.combine(style.textDescriptionDetail, {
+						text : cdbDescription
 					}));
-
+					
 					var ticketsPijl = Titanium.UI.createView(style.orangeArrow);
 
 					var ticketsLink = Ti.UI.createLabel(Uit.combine(style.textTickets, {
@@ -196,7 +187,8 @@
 					scrollView.add(viewBlue);
 					scrollView.add(name);
 					scrollView.add(viewHorizontal);
-					scrollView.add(web);
+					//scrollView.add(web);
+					scrollView.add(description);
 					scrollView.add(ticketsPijl);
 					scrollView.add(ticketsLink);
 					scrollView.add(footer);

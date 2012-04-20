@@ -227,8 +227,7 @@
 			color : '#D63F27',
 			width : 'auto',
 			height : 'auto',
-			left : 30,
-			right:'auto'
+			left : 30
 		},
 		textTickets: {
 			textAlign : 'left',
@@ -254,6 +253,7 @@
 			right : 30,
 			bottom : 10,
 			textAlign : 'left',
+			height:'auto',
 			font : {fontSize : 11, fontFamily : 'Verdana'}
 		},
 		textFooter:{

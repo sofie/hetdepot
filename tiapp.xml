@@ -7,7 +7,7 @@
         <target device="android">false</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>1.8.2</sdk-version>
+    <sdk-version>2.0.1.GA2</sdk-version>
     <id>com.uitinvlaanderen</id>
     <name>UiTinVlaanderen</name>
     <version>1.0</version>
@@ -29,13 +29,13 @@
             <orientation>Ti.UI.PORTRAIT</orientation>
         </orientations>
         <orientations device="ipad">
-        	<!--
+            <!--
             <orientation>Ti.UI.PORTRAIT</orientation>
             <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
             <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
             -->
-        </orientations>  
+        </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <modules/>

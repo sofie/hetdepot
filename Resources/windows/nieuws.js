@@ -66,15 +66,13 @@ Ti.include('/windows/nieuws_detail.js');
 
 				//Clean up characters
 				title = title.replace(/\n/gi, " ");
-				title = title.replace(/<br/gi, "");
-				title = title.replace(/>/gi, "");
+				title = title.replace(/<br \/>/gi, "");
 				title = title.replace(/&eacute;/gi, "é");
 				title = title.replace(/&amp;/gi, "&");
 				title = title.replace(/&egrave;/gi, "è");
 				title = title.replace(/&euml;/gi, "ë");
 				desc = desc.replace(/\n/gi, " ");
-				desc = desc.replace(/<br /gi, "");
-				desc = desc.replace(/>/gi, "");
+				desc = desc.replace(/<br \/>/gi, "");
 				desc = desc.replace(/&amp;/gi, "&");
 				desc = desc.replace(/&eacute;/gi, "é");
 				desc = desc.replace(/&egrave;/gi, "è");
