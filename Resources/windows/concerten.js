@@ -72,19 +72,25 @@ Ti.include(
 
 						var cdbImg = list[i].thumbnail;
 						var strImg = cdbImg.substr(0, 77);
-						var imgThumb = strImg + '?width=180&height=180&crop=auto';
-						Ti.API.info(imgThumb);
-
+						
 						var row = Ti.UI.createTableViewRow(style.tableViewRow);
+						
+						//
+						//Als retina display grote thumbnails
+						//
+						if (Ti.Platform.displayCaps.density === 'high') {
+						     var imgThumb = strImg + '?width=180&height=180&crop=auto';
+						}else{
+							imgThumb = strImg + '?width=90&height=90&crop=auto';
+						};
 
 						if(cdbImg === '') {
 							imgThumb = 'img/no_thumb.jpg';
 						}
 
 						var image = Titanium.UI.createImageView(Uit.combine(style.Img90,{
-							image : imgThumb
+							backgroundImage : imgThumb
 						}));
-						
 
 						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam,{
 							text : cdbNaam

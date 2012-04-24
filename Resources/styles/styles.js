@@ -204,9 +204,9 @@
 		//TAB1
 		titleNaam: {
 			left : 100,
-			top : -95,
+			top : -90,
 			width : 'auto',
-			height : 50,
+			height : 'auto',
 			textAlign : 'left',
 			font : {
 				fontFamily : 'Impact', fontSize:18
@@ -240,9 +240,9 @@
 			height : 'auto'
 		},*/
 		textDescription:{
-			bottom : 5,
+			top : 0,
 			left : 100,
-			width : 205,
+			width : 200,
 			height : 36,
 			textAlign : 'left',
 			font : {fontSize : 11, fontFamily : 'Verdana'}
