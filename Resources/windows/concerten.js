@@ -72,7 +72,8 @@ Ti.include(
 
 						var cdbImg = list[i].thumbnail;
 						var strImg = cdbImg.substr(0, 77);
-						var imgThumb = strImg + '?width=90&height=90&crop=auto';
+						var imgThumb = strImg + '?width=180&height=180&crop=auto';
+						Ti.API.info(imgThumb);
 
 						var row = Ti.UI.createTableViewRow(style.tableViewRow);
 

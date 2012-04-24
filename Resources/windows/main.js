@@ -65,7 +65,7 @@ Ti.include(
 			tabBar : tabGroup,
 			imagePath : '/img/customTabBar/',
 			width : 160,
-			height : 40,
+			height : 50,
 			items : [{
 				image : Uit.customTab1,
 				selected : Uit.customTab1_selected

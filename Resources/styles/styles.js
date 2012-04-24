@@ -162,7 +162,7 @@
 			left:10,
 			right:10,
 			top:10,
-			bottom:40
+			bottom:50
 		},
 		webViewDescription:{
 			backgroundColor : 'transparent',
@@ -178,7 +178,7 @@
 			bottom : 40
 		},
 		ticketsLink:{
-			backgroundImage:'/img/bg_ticket.png',
+			backgroundImage:'/img/bg_tickets.png',
 			width:70,
 			height:25,
 			top:5,
