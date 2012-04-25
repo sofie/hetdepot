@@ -88,8 +88,10 @@ Ti.include(
 							imgThumb = 'img/no_thumb.jpg';
 						}
 
-						var image = Titanium.UI.createImageView(Uit.combine(style.Img90,{
-							backgroundImage : imgThumb
+						var image = Titanium.UI.createView(Uit.combine(style.Img90,{
+							backgroundImage : imgThumb,
+							image:imgThumb,
+							defaultImage:'img/default_img.png'
 						}));
 
 						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam,{
