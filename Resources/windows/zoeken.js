@@ -20,7 +20,7 @@
 		var searchBg = Titanium.UI.createView(style.searchBar);
 		searchWin.add(searchBg);
 
-		var searchBar = Titanium.UI.createTextField(Uit.combine(style.SearchField,{
+		var searchBar = Titanium.UI.createTextField(Uit.combine(style.SearchField, {
 			hintText : 'Zoek op naam...'
 		}));
 		searchWin.add(searchBar);
@@ -29,29 +29,37 @@
 			getConcertsByName();
 			lblTap.hide();
 		});
-		var lblTap = Titanium.UI.createLabel(Uit.combine(style.textInstruction,{
+		var lblTap = Titanium.UI.createLabel(Uit.combine(style.textInstruction, {
 			text : 'Tik in het zoekveld om te zoeken.',
 		}));
 		searchWin.add(lblTap);
-		
-		searchBar.addEventListener('return',function(){
-			if(Titanium.App.datalist===0){
-				var lblNo = Titanium.UI.createLabel(Uit.combine(style.textNoList,{
+
+		searchBar.addEventListener('return', function() {
+			if(Titanium.App.datalist === 0) {
+				var lblNo = Titanium.UI.createLabel(Uit.combine(style.textError, {
 					text : 'Geen optredens gevonden.',
 				}));
 				searchWin.add(lblNo);
 			}
+			if(!Titanium.Network.online) {
+				var lblNoInternet = Ti.UI.createLabel(Uit.combine(style.textError, {
+					text : 'Kan geen connectie maken met internet. Controleer uw verbinding.',
+					left : 20,
+					right : 20
+				}));
+				searchWin.add(lblNoInternet);
+			}
 		});
-		
 
 		Titanium.App.addEventListener('app:reloadSearch', function(e) {
 			searchBar.setValue(Titanium.App.searchValue);
 		});
 		searchWin.addEventListener('close', function() {
-		    Ti.App.removeEventListener('app:reloadSearch',function(e) {
+			Ti.App.removeEventListener('app:reloadSearch', function(e) {
 				searchBar.setValue(Titanium.App.searchValue);
 			});
 		});
+
 		//
 		// HTTP CLIENT GETCONCERTBYNAME
 		//
@@ -90,15 +98,15 @@
 							imgThumb = 'img/no_thumb.jpg';
 						}
 
-						var image = Titanium.UI.createImageView(Uit.combine(style.Img90,{
+						var image = Titanium.UI.createImageView(Uit.combine(style.Img90, {
 							image : imgThumb
 						}));
 
-						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam,{
+						var name = Ti.UI.createLabel(Uit.combine(style.titleNaam, {
 							text : cdbNaam
 						}));
-						
-						var descr = Ti.UI.createLabel(Uit.combine(style.textDescription,{
+
+						var descr = Ti.UI.createLabel(Uit.combine(style.textDescription, {
 							text : cdbDescription
 						}));
 
@@ -108,11 +116,11 @@
 
 						data.push(row);
 					};
-					var tableView = Titanium.UI.createTableView(Uit.combine(style.TableViewSearch,{
+					var tableView = Titanium.UI.createTableView(Uit.combine(style.TableViewSearch, {
 						data : data
 					}));
 					searchWin.add(tableView);
-					
+
 					searchBar.addEventListener('return', function(e) {
 						tableView.setData(data);
 						tableView.setBottom(0);
@@ -124,8 +132,8 @@
 						Titanium.App.selectedIndex = list[e.index].cdbid;
 						Titanium.API.info(Titanium.App.selectedIndex);
 
-						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(),{
-							animated:false
+						Titanium.App.navTab1.open(Uit.ui.createConcertDetailWindow(), {
+							animated : false
 						});
 
 					});
@@ -133,10 +141,10 @@
 					alert(e);
 				}
 			}
-			getReq.onerror = function(e) {
-				Ti.API.info("TEXT onerror:   " + this.responseText);
-				alert('Er is iets mis met de databank.');
-			}
+			/*getReq.onerror = function(e) {
+			 Ti.API.info("TEXT onerror:   " + this.responseText);
+			 alert('Er is iets mis met de databank.');
+			 }*/
 			getReq.open("GET", url);
 
 			getReq.send();

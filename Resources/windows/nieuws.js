@@ -33,7 +33,7 @@ Ti.include('/windows/nieuws_detail.js');
 		nieuwsWindow.rightNavButton = refreshButton;
 
 		if(!Titanium.Network.online) {
-			var lblNoInternet = Ti.UI.createLabel(Uit.combine(style.textNoList, {
+			var lblNoInternet = Ti.UI.createLabel(Uit.combine(style.textError, {
 				text : 'Kan geen connectie maken met internet. Refresh of controleer uw verbinding.',
 				left:20,
 				right:20

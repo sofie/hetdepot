@@ -164,13 +164,6 @@
 			top:10,
 			bottom:50
 		},
-		webViewDescription:{
-			backgroundColor : 'transparent',
-			touchEnabled:false,
-			width : 270,
-			height : 'auto',
-			top : 5
-		},
 		webViewFeed:{
 			width : 440,
 			left : 0,
@@ -225,8 +218,6 @@
 			textAlign : 'left',
 			font : { fontSize : 14, fontFamily : 'LubalinGraph LT' },
 			color : '#D63F27',
-			width : 'auto',
-			height : 'auto',
 			left : 30
 		},
 		/*textTickets: {
@@ -270,7 +261,7 @@
 			height : 40,
 			top : 60
 		},
-		textNoList:{
+		textError:{
 			textAlign : 'left',
 			font : { fontSize : 14, fontFamily : 'LubalinGraph LT' },
 			color:'#602210',
