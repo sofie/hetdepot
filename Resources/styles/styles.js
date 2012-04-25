@@ -161,7 +161,7 @@
 			height:40,
 			left:10,
 			right:10,
-			top:10,
+			top:15,
 			bottom:50
 		},
 		webViewFeed:{
@@ -172,8 +172,8 @@
 		},
 		ticketsLink:{
 			backgroundImage:'/img/bg_tickets.png',
-			width:70,
-			height:25,
+			width:80,
+			height:30,
 			top:5,
 			left:30
 		},
@@ -250,7 +250,8 @@
 		textFooter:{
 			textAlign : 'left',
 			font : {fontSize : 10, fontFamily : 'Verdana'},
-			color:'#fff'
+			color:'#fff',
+			height:40
 		},
 		textInstruction:{
 			width : 'auto',

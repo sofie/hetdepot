@@ -78,18 +78,18 @@ Ti.include(
 						//
 						//Als retina display grote thumbnails
 						//
-						if (Ti.Platform.displayCaps.density === 'high') {
+						/*if (Ti.Platform.displayCaps.density === 'high') {
 						     var imgThumb = strImg + '?width=180&height=180&crop=auto';
 						}else{
 							imgThumb = strImg + '?width=90&height=90&crop=auto';
-						};
-
+						};*/
+						 var imgThumb = strImg + '?width=90&height=90&crop=auto';
 						if(cdbImg === '') {
 							imgThumb = 'img/no_thumb.jpg';
 						}
 
-						var image = Titanium.UI.createView(Uit.combine(style.Img90,{
-							backgroundImage : imgThumb,
+						var image = Titanium.UI.createImageView(Uit.combine(style.Img90,{
+							//backgroundImage : imgThumb,
 							image:imgThumb,
 							defaultImage:'img/default_img.png'
 						}));

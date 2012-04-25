@@ -99,7 +99,7 @@
 						}
 
 						var image = Titanium.UI.createImageView(Uit.combine(style.Img90, {
-							backgroundImage : imgThumb,
+							//backgroundImage : imgThumb,
 							image:imgThumb,
 							defaultImage:'img/default_img.png'
 						}));

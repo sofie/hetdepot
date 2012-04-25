@@ -8,6 +8,15 @@
 		var detailWin = Titanium.UI.createWindow(Uit.combine(style.Window, {
 			barImage : 'img/header_detail.png'
 		}));
+		detailWin.addEventListener('open',function(){
+			Ti.API.info('Detail win open');
+		});
+		detailWin.addEventListener('close',function(){
+			Ti.API.info('Detail win close');
+		});
+		detailWin.addEventListener('blur',function(){
+			Ti.API.info('Detail win blur');
+		});
 
 		// LEFT NAVBAR BACK BUTTON
 		var backButton = Ti.UI.createButton(style.backButton);
@@ -58,8 +67,6 @@
 					var cdbImg = detail.event.eventdetails.eventdetail.media;
 					var cdbPrijs = detail.event.eventdetails.eventdetail.price;
 					var cdbDescription = detail.event.eventdetails.eventdetail.longdescription;
-					var cdbTel = detail.event.contactinfo.phone.value;
-					var cdbMail = detail.event.contactinfo.mail;
 
 					var scrollView = Titanium.UI.createScrollView(style.scrollView);
 
@@ -70,9 +77,9 @@
 						cdbImg = 'img/no_img.png'
 					}
 
-					var image = Ti.UI.createView(Uit.combine(style.Img320, {
+					var image = Ti.UI.createImageView(Uit.combine(style.Img320, {
 						image : cdbImg,
-						backgroundImage : cdbImg,
+						//backgroundImage : cdbImg,
 						defaultImage:'img/default_detail_img.png'
 					}));
 					scrollView.add(image);
@@ -163,18 +170,22 @@
 						text : '© ' + Uit.app_name,
 						left : 10
 					}));
+					
 					var tel = Titanium.UI.createLabel(Uit.combine(style.textFooter, {
-						text : 'T: ' + cdbTel,
-						left : 85
+						text : 'T: ' + Uit.app_tel,
+						left : 100
 					}));
+		
 					tel.addEventListener('click', function() {
+						Ti.API.info(tel.text);
 						Titanium.Platform.openURL('tel:' + Uit.app_tel)
 					});
 					var mail = Titanium.UI.createLabel(Uit.combine(style.textFooter, {
-						text : cdbMail,
+						text : Uit.app_mail,
 						left : 190
 					}));
 					mail.addEventListener('click', function() {
+						Ti.API.info(mail.text);
 						Titanium.Platform.openURL('mail:' + Uit.app_mail)
 					});
 					footer.add(organiser);

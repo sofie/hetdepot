@@ -6,6 +6,8 @@ var Uit = {
 	url_news_feed : 'http://www.demorgen.be/cache/rss_muziek.xml',
 	app_name : 'Het Depot',
 	app_site : 'http://www.hetdepot.be/',
+	app_tel:'016220603',
+	app_mail:'info@hetdepot.be',
 
 	tab1_name : 'Concerten',
 	tab2_name : 'Nieuws',
