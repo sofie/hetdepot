@@ -8,16 +8,7 @@
 		var detailWin = Titanium.UI.createWindow(Uit.combine(style.Window, {
 			barImage : 'img/header_detail.png'
 		}));
-		detailWin.addEventListener('open',function(){
-			Ti.API.info('Detail win open');
-		});
-		detailWin.addEventListener('close',function(){
-			Ti.API.info('Detail win close');
-		});
-		detailWin.addEventListener('blur',function(){
-			Ti.API.info('Detail win blur');
-		});
-
+		
 		// LEFT NAVBAR BACK BUTTON
 		var backButton = Ti.UI.createButton(style.backButton);
 		backButton.addEventListener('click', function() {
@@ -186,7 +177,10 @@
 					}));
 					mail.addEventListener('click', function() {
 						Ti.API.info(mail.text);
-						Titanium.Platform.openURL('mail:' + Uit.app_mail)
+						//Titanium.Platform.openURL('mailto:' + Uit.app_mail);
+						var emailDialog = Ti.UI.createEmailDialog();
+			            emailDialog.toRecipients = [Uit.app_mail];
+			            emailDialog.open();
 					});
 					footer.add(organiser);
 					footer.add(tel);
