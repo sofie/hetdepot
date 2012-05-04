@@ -47,13 +47,19 @@
 
 					var cdbNaam = detail.event.eventdetails.eventdetail.title.toUpperCase();
 
-					var cdbDatum = detail.event.calendar.timestamps.timestamp.date;
+					var cdbDatum = detail.event.calendar.timestamps.timestamp[0];
+					if(cdbDatum === undefined) {
+						cdbDatum = detail.event.calendar.timestamps.timestamp.date;
+						cdbStart = detail.event.calendar.timestamps.timestamp.timestart;
+					}else{
+						cdbDatum = detail.event.calendar.timestamps.timestamp[0].date;
+						cdbStart = detail.event.calendar.timestamps.timestamp[0].timestart;
+					}
 					var jaar = cdbDatum.substr(2, 2);
 					var maand = cdbDatum.substr(5, 2);
 					var dag = cdbDatum.substr(8, 2);
 					var prettyDate = dag + '.' + maand + '.' + jaar;
 
-					var cdbStart = detail.event.calendar.timestamps.timestamp.timestart;
 					cdbStart = cdbStart.substr(0, 5);
 					var cdbImg = detail.event.eventdetails.eventdetail.media;
 					var cdbPrijs = detail.event.eventdetails.eventdetail.price;
@@ -82,7 +88,8 @@
 					}));
 
 					var viewHorizontal = Titanium.UI.createView(style.horizontalView);
-
+					
+					
 					var date = Ti.UI.createLabel(Uit.combine(style.textLubalin, {
 						text : prettyDate
 					}));
